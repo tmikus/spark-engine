@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="jasmine" type="javaScript">
+    <CLASSES />
+    <JAVADOC />
+    <SOURCES>
+      <root url="file://$PROJECT_DIR$/tests/libs/jasmine/lib/jasmine-2.0.3/jasmine.js" />
+    </SOURCES>
+  </library>
+</component>

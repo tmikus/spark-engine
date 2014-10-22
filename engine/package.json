@@ -1,0 +1,20 @@
+{
+  "name": "spark-engine",
+  "version": "0.1.0",
+  "description": "JavaScript game engine",
+  "main": "src/dist/spark-engine.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "karma": "^0.12.24",
+    "karma-coverage": "^0.2.6",
+    "karma-jasmine": "^0.2.2",
+    "karma-phantomjs-launcher": "^0.1.4"
+  }
+}
