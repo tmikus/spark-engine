@@ -8,5 +8,6 @@ module.exports =
     'src/polyfills/Function.bind.js',
     'src/polyfills/Performance.now.js',
     'src/utils/Class.js',
-    'src/utils/GameTime.js'
+    'src/utils/GameTime.js',
+    'src/debugging/Log.js'
 ];
