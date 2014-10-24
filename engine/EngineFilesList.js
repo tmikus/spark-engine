@@ -7,7 +7,9 @@ module.exports =
 [
     'src/polyfills/Function.bind.js',
     'src/polyfills/Performance.now.js',
+    'libs/es6-promise/es6-promise.js',
+    'bower_components/three.js/build/three.js',
     'src/utils/Class.js',
-    'src/utils/GameTime.js',
-    'src/debugging/Log.js'
+    'src/**.js',
+    'src/Engine.js'
 ];

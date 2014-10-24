@@ -16,6 +16,7 @@
     "tests"
   ],
   "dependencies": {
+    "es6-promise": "https://github.com/jakearchibald/es6-promise.git#master",
     "three.js": "https://github.com/mrdoob/three.js.git"
   }
 }
