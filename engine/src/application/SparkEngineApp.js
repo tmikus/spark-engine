@@ -14,6 +14,11 @@ function SparkEngineApp()
 SparkEngineApp.prototype =
 {
     /**
+     * Instance of the resource manager.
+     * @type {ResourceManager}
+     */
+    m_resourceManager: null,
+    /**
      * Initialises the game audio.
      *
      * @returns {Promise} Promise of initialisation of audio system.
@@ -69,7 +74,17 @@ SparkEngineApp.prototype =
      */
     _initialiseResourceManager: function _initialiseResourceManager()
     {
-        // TODO: Implement
+        try
+        {
+            SE_INFO("Initialising Game Resource Manager.");
+            this.m_resourceManager = new ResourceManager(this._vGetResourceURL());
+            return this.m_resourceManager.initialise();
+        }
+        catch (ex)
+        {
+            SE_FATAL("Initialisation of resource manager has failed!", ex);
+            throw ex;
+        }
     },
     /**
      * Loads the game options from the server and overwrites them with client settings from local storage.
@@ -90,13 +105,32 @@ SparkEngineApp.prototype =
         // TODO: Implement
     },
     /**
+     * Gets the resource file URL.
+     *
+     * @returns {string} URL of the resource file.
+     * @protected
+     */
+    _vGetResourceURL: function _vGetResourceURL()
+    {
+        return "json/resources.json";
+    },
+    /**
+     * Called after the initialisation is done.
+     * @protected
+     * @virtual
+     */
+    _vPostInitialise: function _vPostInitialise()
+    {
+        // TODO: Implement
+    },
+    /**
      * Registers the events which are serializable and can be shared between instances of the game.
      * @protected
      * @virtual
      */
     _vRegisterEvents: function _vRegisterEvents()
     {
-
+        // TODO: Implement
     },
     /**
      * Initialises the spark engine application.

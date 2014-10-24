@@ -1,4 +1,4 @@
-module.export =
+module.exports =
 [
     'src/polyfills/Function.bind.js',
     'src/polyfills/Performance.now.js',

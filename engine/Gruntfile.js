@@ -1,8 +1,33 @@
+var engineFiles = require("./EngineFilesList");
+var engineLogicFiles = require("./EngineLogicFileList");
+
 module.exports = function (grunt)
 {
     grunt.initConfig(
     {
-        pkg: grunt.file.readJSON("package.json")
+        pkg: grunt.file.readJSON("package.json"),
+
+        concat:
+        {
+            engine:
+            {
+                options:
+                {
+                    separator: ';\n'
+                },
+                src: engineFiles,
+                dest: 'dist/spark-engine.js'
+            },
+            "engine-logic":
+            {
+                options:
+                {
+                    separator: ';\n'
+                },
+                src: engineLogicFiles,
+                dest: 'dist/spark-engine-logic.js'
+            }
+        }
     });
 
     grunt.loadNpmTasks('grunt-contrib-clean');
@@ -12,4 +37,5 @@ module.exports = function (grunt)
     grunt.loadNpmTasks('grunt-contrib-uglify');
 
 
+    grunt.registerTask('build', ['concat:engine', 'concat:engine-logic'])
 };
