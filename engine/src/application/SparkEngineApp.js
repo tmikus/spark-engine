@@ -8,11 +8,21 @@
  */
 function SparkEngineApp()
 {
-
+    this.m_renderBinding = this._render.bind(this);
 }
 
 SparkEngineApp.prototype =
 {
+    /**
+     * Worker used for running game logic.
+     * @type {Worker}
+     */
+    m_gameLogicWorker: null,
+    /**
+     * Binding to the 'render' method.
+     * @type {Function}
+     */
+    m_renderBinding: null,
     /**
      * Instance of the resource manager.
      * @type {ResourceManager}
@@ -37,16 +47,6 @@ SparkEngineApp.prototype =
         // TODO: Implement
     },
     /**
-     * Initialises the event service.
-     *
-     * @returns {Promise} Promise of initialisation of event service.
-     * @protected
-     */
-    _initialiseEventService: function _initialiseEventService()
-    {
-        // TODO: Implement
-    },
-    /**
      * Initialises the game logic worker.
      *
      * @returns {Promise} Promise of initialisation of game logic.
@@ -54,7 +54,25 @@ SparkEngineApp.prototype =
      */
     _initialiseGameLogic: function _initialiseGameLogic()
     {
-        // TODO: Implement
+        SE_INFO("Initialising Game Logic.");
+
+        return new Promise(function (resolve, reject)
+        {
+            this.m_gameLogicWorker = new Worker("dist/spark-engine-logic.js");
+            this.m_gameLogicWorker.onmessage = function (message)
+            {
+                if (message.data == WorkerInitialisationStatus.Success)
+                {
+                    this.m_gameLogicWorker.onmessage = this._processGameLogicMessage.bind(this);
+                    resolve();
+                }
+                else
+                {
+                    SE_ERROR("Initialisation of Game Logic has failed.");
+                    reject();
+                }
+            }.bind(this);
+        }.bind(this));
     },
     /**
      * Initialises the renderer.
@@ -97,12 +115,24 @@ SparkEngineApp.prototype =
         // TODO: Implement
     },
     /**
+     * Processes the game logic message.
+     *
+     * @param {*} message A message returned from the game logic process.
+     * @private
+     */
+    _processGameLogicMessage: function _processGameLogicMessage(message)
+    {
+
+    },
+    /**
      * Renders the current frame and schedules new frame to be rendered.
      * @protected
      */
     _render: function _render()
     {
         // TODO: Implement
+
+        requestAnimationFrame(this.m_renderBinding);
     },
     /**
      * Gets the resource file URL.
@@ -113,15 +143,6 @@ SparkEngineApp.prototype =
     _vGetResourceURL: function _vGetResourceURL()
     {
         return "json/resources.json";
-    },
-    /**
-     * Called after the initialisation is done.
-     * @protected
-     * @virtual
-     */
-    _vPostInitialise: function _vPostInitialise()
-    {
-        // TODO: Implement
     },
     /**
      * Registers the events which are serializable and can be shared between instances of the game.
@@ -140,16 +161,15 @@ SparkEngineApp.prototype =
     initialise: function initialise()
     {
         return this._initialiseResourceManager()
-            .then(this._initialiseEventService.bind(this))
             .then(this._vRegisterEvents.bind(this))
             .then(this._loadGameOptions.bind(this))
-            .then(this._initialiseRenderer())
-            .then(this._initialiseAudio())
-            .then(this._initialiseBrowserHandlers())
-            .then(this._initialiseGameLogic())
+            .then(this._initialiseRenderer.bind(this))
+            .then(this._initialiseAudio.bind(this))
+            .then(this._initialiseBrowserHandlers.bind(this))
+            .then(this._initialiseGameLogic.bind(this))
             .then(function ()
             {
-                SE_INFO("All initialised.");
+                SE_INFO("Game initialised.");
             })
             ["catch"](function()
             {
@@ -161,7 +181,7 @@ SparkEngineApp.prototype =
      */
     startGameLoop: function startGameLoop()
     {
-        // TODO: Implement
+        this._render();
     },
     /**
      * Loads the game using configuration from game options.
@@ -170,6 +190,14 @@ SparkEngineApp.prototype =
      * @virtual
      */
     vLoadGame: function vLoadGame()
+    {
+        // TODO: Implement
+    },
+    /**
+     * Called after the initialisation is done.
+     * @virtual
+     */
+    vPostInitialise: function vPostInitialise()
     {
         // TODO: Implement
     }

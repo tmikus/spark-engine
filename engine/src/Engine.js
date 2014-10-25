@@ -6,6 +6,6 @@
 function RunGame(application)
 {
     application.initialise()
-        .then(application._vPostInitialise.bind(application))
+        .then(application.vPostInitialise.bind(application))
         .then(application.startGameLoop.bind(application));
 }

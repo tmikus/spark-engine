@@ -30,27 +30,22 @@ var Logger = {
         switch (tag)
         {
             case LoggerLevels.Fatal:
-                window.g_console && g_console.addLog("fatal", message);
                 console.error("[!] FATAL: " + message);
                 break;
 
             case LoggerLevels.Error:
-                window.g_console && g_console.addLog("error", message);
                 console.error(message);
                 break;
 
             case LoggerLevels.Warning:
-                window.g_console && g_console.addLog("warning", message);
                 console.warn(message);
                 break;
 
             case LoggerLevels.Info:
-                window.g_console && g_console.addLog("info", message);
                 console.info(message);
                 break;
 
             default:
-                window.g_console && g_console.addLog(tag, message);
                 console.log(tag, message);
                 break;
         }

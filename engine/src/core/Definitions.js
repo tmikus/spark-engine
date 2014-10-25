@@ -13,3 +13,18 @@ function notImplemented()
     SE_FATAL("Called not implemented method!");
     throw "Not implemented!";
 }
+
+/**
+ * Number of the event queues to create.
+ * Should be greater than 1 to avoid constant looping of events.
+ *
+ * @type {number} Number of event queues to create.
+ */
+const EVENT_QUEUES_NUMBER = 2;
+
+/**
+ * Constant defining infinite time of the event update loop.
+ *
+ * @type {number}
+ */
+const EVENT_INFINITE_UPDATE = 0xFFFFFFF;

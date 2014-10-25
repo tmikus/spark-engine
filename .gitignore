@@ -1,0 +1,7 @@
+engine/.idea/uiDesigner.xml
+engine/.idea/workspace.xml
+engine/bower_components/
+engine/dist/
+engine/examples/test/dist/
+engine/node_modules/
+engine/coverage/

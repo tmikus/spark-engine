@@ -4,6 +4,7 @@
  * @param {string} resourceIndexUrl URL to the resource index file.
  * @constructor
  * @class
+ * @implements IResourceManager
  */
 function ResourceManager(resourceIndexUrl)
 {

@@ -6,13 +6,18 @@
  * @class
  * @abstract
  */
-function SparkEngineApp()
+function SparkEngineWorker()
 {
 
 }
 
-SparkEngineApp.prototype =
+SparkEngineWorker.prototype =
 {
+    /**
+     * Instance of the resource manager.
+     * @type {WorkerResourceManager}
+     */
+    m_resourceManager: null,
     /**
      * Initialises the event service.
      *
@@ -41,7 +46,17 @@ SparkEngineApp.prototype =
      */
     _initialiseResourceManager: function _initialiseResourceManager()
     {
-        // TODO: Implement
+        try
+        {
+            SE_INFO("Initialising Worker Resource Manager.");
+            this.m_resourceManager = new WorkerResourceManager();
+            return this.m_resourceManager.initialise();
+        }
+        catch (ex)
+        {
+            SE_FATAL("Initialisation of resource manager has failed!", ex);
+            throw ex;
+        }
     },
     /**
      * Loads the game options from the server and overwrites them with client settings from local storage.
@@ -50,14 +65,6 @@ SparkEngineApp.prototype =
      * @protected
      */
     _loadGameOptions: function _loadGameOptions()
-    {
-        // TODO: Implement
-    },
-    /**
-     * Renders the current frame and schedules new frame to be rendered.
-     * @protected
-     */
-    _render: function _render()
     {
         // TODO: Implement
     },
@@ -84,7 +91,7 @@ SparkEngineApp.prototype =
             .then(this._initialiseGameLogic())
             .then(function ()
             {
-                SE_INFO("All initialised.");
+                SE_INFO("Game worker initialised.");
             })
             ["catch"](function()
             {
@@ -105,6 +112,14 @@ SparkEngineApp.prototype =
      * @virtual
      */
     vLoadGame: function vLoadGame()
+    {
+        // TODO: Implement
+    },
+    /**
+     * Called after the initialisation is done.
+     * @virtual
+     */
+    vPostInitialise: function vPostInitialise()
     {
         // TODO: Implement
     }

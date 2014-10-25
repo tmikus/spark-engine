@@ -1,4 +1,4 @@
-window.performance = window.performance || {};
+this.performance = this.performance || {};
 performance.now = (function() {
     return performance.now
         || performance.mozNow

@@ -27,6 +27,18 @@ module.exports = function (grunt)
                 src: engineLogicFiles,
                 dest: 'dist/spark-engine-logic.js'
             }
+        },
+
+        copy:
+        {
+            "example-test":
+            {
+                src:
+                [
+                    "dist/*"
+                ],
+                dest: 'examples/test/'
+            }
         }
     });
 
@@ -36,6 +48,6 @@ module.exports = function (grunt)
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-contrib-uglify');
 
-
-    grunt.registerTask('build', ['concat:engine', 'concat:engine-logic'])
+    grunt.registerTask('build', ['concat:engine', 'concat:engine-logic']);
+    grunt.registerTask('build-example-test', ['build', 'copy:example-test']);
 };

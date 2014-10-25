@@ -1,5 +1,3 @@
-var engineFiles = require('../../EngineFilesList');
-
 module.exports = function (config)
 {
     config.set({
@@ -13,14 +11,22 @@ module.exports = function (config)
             dir: 'coverage/'
         },
 
+        // List of files to exclude from loading.
+        exclude:
+        [
+            'src/Worker.js'
+        ],
+
         // frameworks to use
         frameworks: ['jasmine'],
 
         // list of files / patterns to load in the browser
-        files: engineFiles.concat(
+        files:
         [
+            'src/utils/Class.js',
+            'src/**/*.js',
             { pattern: "tests/unit-tests/specs/**/*.js" }
-        ]),
+        ],
 
         // list of source code preprocessors
         preprocessors:

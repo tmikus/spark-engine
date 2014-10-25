@@ -1,10 +1,12 @@
 module.exports =
 [
-    'src/polyfills/Function.bind.js',
-    'src/polyfills/Performance.now.js',
+    'src/polyfills/*.js',
     'libs/es6-promise/es6-promise.js',
-    'src/utils/Class.js',
-    'src/utils/GameTime.js',
-    'src/debugging/Log.js',
-    'src/application/SparkEngineWorker.js'
+    'src/utils/*.js',
+    'src/core/*.js',
+    'src/debugging/*.js',
+    'src/events/*.js',
+    'src/resources/WorkerResourceManager.js',
+    'src/worker/*.js',
+    'src/Worker.js'
 ];
