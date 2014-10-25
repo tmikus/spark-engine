@@ -14,7 +14,7 @@ function EventService(name, setAsGlobal)
 
     // Initializing queues
     var queues = this.m_eventQueues;
-    for (var queueIndex = 0; queueIndex < EVENT_QUEUES_NUMBER; ++queueIndex)
+    for (var queueIndex = 0; queueIndex < EVENT_QUEUES_NUMBER; queueIndex++)
     {
         queues[queueIndex] = []
     }
@@ -79,18 +79,16 @@ EventService.prototype =
         var activeQueueLength = activeQueue.length;
         var success = false;
 
-        for (var eventIndex = 0; eventIndex < activeQueueLength; ++eventIndex)
+        for (var eventIndex = 0; eventIndex < activeQueueLength; eventIndex++)
         {
-            if (activeQueue[eventIndex].getType() == eventType)
+            if (activeQueue[eventIndex].m_type == eventType)
             {
                 activeQueue.splice(eventIndex--, 1);
-                --activeQueueLength;
+                activeQueueLength--;
                 success = true;
 
                 if (!allOfType)
-                {
                     break;
-                }
             }
         }
 
@@ -168,7 +166,7 @@ EventService.prototype =
     queueEvent: function queueEvent(eventData)
     {
         // Find listeners for the name of event.
-        var listeners = this.m_eventListenersMap[eventData.getType()];
+        var listeners = this.m_eventListenersMap[eventData.m_type];
 
         // First - check if anyone is listening for this type of the event.
         if (listeners === undefined || listeners.length == 0)
@@ -232,8 +230,8 @@ EventService.prototype =
     serializeEvent: function serializeEvent(event)
     {
         return {
-            data: event.serialize(),
-            type: event.getType()
+            data: event.vSerialize(),
+            type: event.m_type
         };
     },
     /**
@@ -245,14 +243,14 @@ EventService.prototype =
     triggerEvent: function triggerEvent(eventData)
     {
         // Getting event listeners for that type...
-        var eventListeners = this.m_eventListenersMap[eventData.getType()];
+        var eventListeners = this.m_eventListenersMap[eventData.m_type];
 
         // Is there any listener waiting for that event?
         if (eventListeners !== undefined)
         {
             var eventListenersLength = eventListeners.length;
 
-            for (var index = 0; index < eventListenersLength; ++index)
+            for (var index = 0; index < eventListenersLength; index++)
             {
                 eventListeners[index](eventData);
             }
@@ -297,7 +295,7 @@ EventService.prototype =
             var eventData = currentQueue.shift();
 
             // Get event listeners for the type
-            var eventListeners = this.m_eventListenersMap[eventData.getType()];
+            var eventListeners = this.m_eventListenersMap[eventData.m_type];
 
             // Is there any listener?
             if (eventListeners !== undefined && eventListeners.length > 0)
@@ -305,7 +303,7 @@ EventService.prototype =
                 var eventListenersLength = eventListeners.length;
 
                 // Iterate over those listeners and call them.
-                for (var index = 0; index < eventListenersLength; ++index)
+                for (var index = 0; index < eventListenersLength; index++)
                 {
                     eventListeners[index](eventData);
                 }
@@ -325,7 +323,7 @@ EventService.prototype =
         if (!queueFlushed)
         {
             var nextQueue = this.m_eventQueues[this.m_activeQueueNumber];
-            for (var eventIndex = 0; eventIndex < currentQueueLength; ++eventIndex)
+            for (var eventIndex = 0; eventIndex < currentQueueLength; eventIndex++)
             {
                 nextQueue.unshift(currentQueue.pop());
             }

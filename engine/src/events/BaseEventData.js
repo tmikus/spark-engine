@@ -15,46 +15,38 @@ function BaseEventData(timeStamp)
 BaseEventData.prototype =
 {
     /**
+     * Name of the event.
+     * @type {string}
+     */
+    m_name: null,
+    /**
      * Time stamp of the event data.
      * @type {number}
      */
     m_timeStamp: null,
     /**
+     * Type of the event.
+     * @type {number}
+     */
+    m_type: null,
+    /**
      * Copies thee event data object onto a new object.
      * @returns {BaseEventData} New event data object.
+     * @virtual
      */
-    copy: notImplemented,
+    vCopy: notImplemented,
     /**
      * Deserializes the event data from the data object.
      *
      * @param data Data of the event object.
+     * @virtual
      */
-    deserialize: empty,
-    /**
-     * Gets the type of the event.
-     *
-     * @returns {number} Type of the event.
-     */
-    getType: notImplemented,
-    /**
-     * Gets the name of the event.
-     *
-     * @returns {string} Name of the event.
-     */
-    getName: notImplemented,
-    /**
-     * Gets the time stamp of the creation of event.
-     *
-     * @return {number} Time stamp of the creation of event.
-     */
-    getTimeStamp: function getTimeStamp()
-    {
-        return this.m_timeStamp;
-    },
+    vDeserialize: empty,
     /**
      * Serializes the event data.
      *
      * @returns {*} Serialized event data.
+     * @virtual
      */
-    serialize: empty
+    vSerialize: empty
 };
