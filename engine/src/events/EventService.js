@@ -1,22 +1,21 @@
 /**
  * Creates instance of the event manager.
- * Stores its name and if the 'setAsGlobal' is true - it sets it as a global event manager.
+ * If the 'setAsGlobal' is true - it sets it as a global event manager.
  *
- * @param {string} name Name of the event manager.
- * @param {boolean} setAsGlobal Should the event manager be set as global?
+ * @param {boolean} [setAsGlobal] Should the event manager be set as global?
  * @constructor
  */
-function EventService(name, setAsGlobal)
+function EventService(setAsGlobal)
 {
+    this.m_eventConstructors = {};
     this.m_eventListenersMap = {};
     this.m_eventQueues = new Array(EVENT_QUEUES_NUMBER);
-    this.m_name = name;
 
     // Initializing queues
     var queues = this.m_eventQueues;
     for (var queueIndex = 0; queueIndex < EVENT_QUEUES_NUMBER; queueIndex++)
     {
-        queues[queueIndex] = []
+        queues[queueIndex] = [];
     }
 
     //if (setAsGlobal)
@@ -50,7 +49,7 @@ EventService.prototype =
      * Map of event types and event constructors.
      * @type {*}
      */
-    m_eventConstructors: {},
+    m_eventConstructors: null,
     /**
      * Map of the event listeners.
      * @type {*}
@@ -61,11 +60,6 @@ EventService.prototype =
      * @type {Array}
      */
     m_eventQueues: null,
-    /**
-     * Name of the event manager.
-     * @type {string}
-     */
-    m_name: null,
     /**
      * Aborts the event with specified name.
      *
@@ -170,9 +164,7 @@ EventService.prototype =
 
         // First - check if anyone is listening for this type of the event.
         if (listeners === undefined || listeners.length == 0)
-        {
             return false;
-        }
 
         // Push the event data.
         this.m_eventQueues[this.m_activeQueueNumber].push(eventData);

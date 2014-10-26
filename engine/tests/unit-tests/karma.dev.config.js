@@ -25,6 +25,8 @@ module.exports = function (config)
         [
             'src/utils/Class.js',
             'src/**/*.js',
+            'tests/unit-tests/helpers/*.js',
+            'tests/unit-tests/helpers/**/*.js',
             { pattern: "tests/unit-tests/specs/**/*.js" }
         ],
 
