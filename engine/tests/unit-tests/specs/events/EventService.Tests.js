@@ -220,6 +220,68 @@ describe("Events.EventService class tests.", function ()
         });
     });
 
+    describe("EventService.deserializeEvent method tests.", function ()
+    {
+        var eventService;
+        var vDeserialize = EventData_Test.prototype.vDeserialize;
+
+        beforeEach(function ()
+        {
+            eventService = new EventService();
+            eventService.registerEvent(EventData_Test.s_type, EventData_Test);
+
+            EventData_Test.prototype.vDeserialize = jasmine.createSpy("vDeserialize");
+        });
+
+        afterEach(function ()
+        {
+            EventData_Test.prototype.vDeserialize = vDeserialize;
+        });
+
+        it("Should not throw when calling for unknown event.", function ()
+        {
+            function callMethod()
+            {
+                eventService.deserializeEvent({ type: 0x00000001, data: {}});
+            }
+
+            expect(callMethod).not.toThrow();
+        });
+
+        it("Should not throw when calling for known event.", function ()
+        {
+            function callMethod()
+            {
+                eventService.deserializeEvent({ type: EventData_Test.s_type, data: {}});
+            }
+
+            expect(callMethod).not.toThrow();
+        });
+
+        it("Should return null when calling for unknown event.", function ()
+        {
+            var result = eventService.deserializeEvent({ type: 0x00000001, data: {}});
+
+            expect(result).toBeNull();
+        });
+
+        it("Should return event object when calling for known event.", function ()
+        {
+            var result = eventService.deserializeEvent({ type: EventData_Test.s_type, data: {}});
+
+            expect(result).not.toBeNull();
+            expect(result instanceof EventData_Test).toBeTruthy();
+        });
+
+        it("Should call vDeserialize when calling for known event.", function ()
+        {
+            var dataObject = {};
+            eventService.deserializeEvent({ type: EventData_Test.s_type, data: dataObject});
+
+            expect(EventData_Test.prototype.vDeserialize).toHaveBeenCalledWith(dataObject);
+        });
+    });
+
     describe("EventService.registerEvent method tests.", function ()
     {
         var eventService;

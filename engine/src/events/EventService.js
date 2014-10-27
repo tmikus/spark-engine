@@ -149,7 +149,7 @@ EventService.prototype =
             return null;
         }
 
-        event.deserialize(eventData.data);
+        event.vDeserialize(eventData.data);
 
         return event;
     },
