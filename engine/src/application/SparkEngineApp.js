@@ -66,7 +66,7 @@ SparkEngineApp.prototype =
                     this.m_gameLogicWorker.onmessage = this._processGameLogicMessage.bind(this);
                     resolve();
                 }
-                else
+                else if (!this._processGameLogicMessage(message))
                 {
                     SE_ERROR("Initialisation of Game Logic has failed.");
                     reject();
@@ -118,11 +118,22 @@ SparkEngineApp.prototype =
      * Processes the game logic message.
      *
      * @param {*} message A message returned from the game logic process.
+     * @returns {boolean} Has the message been processed?
      * @private
      */
     _processGameLogicMessage: function _processGameLogicMessage(message)
     {
+        switch (message.data.m_type)
+        {
+            case WorkerMessage_ResourceRequest.s_type:
 
+                break;
+
+            default:
+                return false;
+        }
+
+        return true;
     },
     /**
      * Renders the current frame and schedules new frame to be rendered.

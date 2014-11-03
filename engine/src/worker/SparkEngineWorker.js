@@ -19,6 +19,19 @@ SparkEngineWorker.prototype =
      */
     m_resourceManager: null,
     /**
+     * Initialises the communication with main thread.
+     * @returns {Promise} Promise of initialisation.
+     * @protected
+     */
+    _initialiseCommunication: function _initialiseCommunication()
+    {
+        return new Promise(function (resolve)
+        {
+            self.onmessage = this._vProcessApplicationMessage.bind(this);
+            resolve();
+        }.bind(this));
+    },
+    /**
      * Initialises the event service.
      *
      * @returns {Promise} Promise of initialisation of event service.
@@ -66,7 +79,30 @@ SparkEngineWorker.prototype =
      */
     _loadGameOptions: function _loadGameOptions()
     {
+        self.postMessage(new WorkerMessage_ResourceRequest("test.json"));
         // TODO: Implement
+    },
+    /**
+     * Processes the message received from the game.
+     *
+     * @param message Message received from the game.
+     * @returns {boolean} Has the message been processed?
+     * @protected
+     * @virtual
+     */
+    _vProcessApplicationMessage: function _vProcessApplicationMessage(message)
+    {
+        switch (message.data.m_type)
+        {
+            case WorkerMessage_ResourceResponse.s_type:
+
+                break;
+
+            default:
+                return false;
+        }
+
+        return true;
     },
     /**
      * Registers the events which are serializable and can be shared between instances of the game.

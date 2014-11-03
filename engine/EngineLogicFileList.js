@@ -8,5 +8,6 @@ module.exports =
     'src/events/*.js',
     'src/resources/WorkerResourceManager.js',
     'src/worker/*.js',
+    'src/worker-messages/*.js',
     'src/Worker.js'
 ];

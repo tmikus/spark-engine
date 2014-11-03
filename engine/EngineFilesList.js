@@ -15,5 +15,6 @@ module.exports =
     'src/network/*.js',
     'src/resources/ResourceManager.js',
     'src/worker/WorkerInitialisationStatus.js',
+    'src/worker-messages/*.js',
     'src/Engine.js'
 ];

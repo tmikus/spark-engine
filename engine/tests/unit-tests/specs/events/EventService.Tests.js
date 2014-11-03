@@ -318,4 +318,9 @@ describe("Events.EventService class tests.", function ()
             expect(eventService.m_eventConstructors[EventData_Test.s_type]).toBe(EventData_Test);
         });
     });
+
+    describe("EventService.queueEvent method tests.", function ()
+    {
+
+    });
 });
