@@ -1,3 +1,7 @@
 {
-
+    "test.json":
+    {
+        "path": "json/test.json",
+        "type": "JSON"
+    }
 }

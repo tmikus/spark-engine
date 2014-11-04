@@ -95,7 +95,7 @@ SparkEngineApp.prototype =
         try
         {
             SE_INFO("Initialising Game Resource Manager.");
-            this.m_resourceManager = new ResourceManager(this._vGetResourceURL());
+            this.m_resourceManager = new ResourceManager(this, this._vGetResourceURL());
             return this.m_resourceManager.initialise();
         }
         catch (ex)
@@ -126,7 +126,7 @@ SparkEngineApp.prototype =
         switch (message.data.m_type)
         {
             case WorkerMessage_ResourceRequest.s_type:
-
+                this.m_resourceManager.resourceRequested(message.data);
                 break;
 
             default:
@@ -186,6 +186,15 @@ SparkEngineApp.prototype =
             {
                 SE_FATAL("Game could not be initialised.");
             });
+    },
+    /**
+     * Sends a message to the game logic.
+     *
+     * @param {IWorkerMessage} message Message to send to game logic.
+     */
+    sendMessageToGameLogic: function sendMessageToGameLogic(message)
+    {
+        this.m_gameLogicWorker.postMessage(message);
     },
     /**
      * Starts the game loop.

@@ -62,7 +62,7 @@ SparkEngineWorker.prototype =
         try
         {
             SE_INFO("Initialising Worker Resource Manager.");
-            this.m_resourceManager = new WorkerResourceManager();
+            this.m_resourceManager = new WorkerResourceManager(this);
             return this.m_resourceManager.initialise();
         }
         catch (ex)
@@ -79,7 +79,11 @@ SparkEngineWorker.prototype =
      */
     _loadGameOptions: function _loadGameOptions()
     {
-        self.postMessage(new WorkerMessage_ResourceRequest("test.json"));
+        this.m_resourceManager.getResource("test.json")
+            .then(function (data)
+            {
+                SE_INFO(data);
+            });
         // TODO: Implement
     },
     /**
@@ -95,7 +99,7 @@ SparkEngineWorker.prototype =
         switch (message.data.m_type)
         {
             case WorkerMessage_ResourceResponse.s_type:
-
+                this.m_resourceManager.requestedResourceLoaded(message.data);
                 break;
 
             default:
@@ -120,7 +124,8 @@ SparkEngineWorker.prototype =
      */
     initialise: function initialise()
     {
-        return this._initialiseResourceManager()
+        return this._initialiseCommunication()
+            .then(this._initialiseResourceManager.bind(this))
             .then(this._initialiseEventService.bind(this))
             .then(this._vRegisterEvents.bind(this))
             .then(this._loadGameOptions.bind(this))
@@ -133,6 +138,15 @@ SparkEngineWorker.prototype =
             {
                 SE_FATAL("Game worker could not be initialised.");
             });
+    },
+    /**
+     * Sends a message to the game.
+     *
+     * @param {IWorkerMessage} message Message to send to game.
+     */
+    sendMessageToGame: function sendMessageToGame(message)
+    {
+        self.postMessage(message);
     },
     /**
      * Starts the game loop.

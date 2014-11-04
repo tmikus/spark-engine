@@ -6,8 +6,9 @@
  * @class
  * @implements IResourceManager
  */
-function ResourceManager(resourceIndexUrl)
+function ResourceManager(game, resourceIndexUrl)
 {
+    this.m_game = game;
     this.m_resourceCache = {};
     this.m_resourcesMap = {};
     this.m_resourceIndexUrl = resourceIndexUrl;
@@ -15,6 +16,11 @@ function ResourceManager(resourceIndexUrl)
 
 ResourceManager.prototype =
 {
+    /**
+     * Instance of the game to which this resource manager belongs.
+     * @type {SparkEngineApp}
+     */
+    m_game: null,
     /**
      * Cache object of the resources.
      * @type {*}
@@ -30,6 +36,17 @@ ResourceManager.prototype =
      * @type {string}
      */
     m_resourceIndexUrl: null,
+    /**
+     * Called when the requested resource has been loaded.
+     *
+     * @param {string} resourceName Name of the requested resource.
+     * @param {*} data Data of the resource.
+     * @private
+     */
+    _onRequestedResourceLoaded: function _onRequestedResourceLoaded(resourceName, data)
+    {
+        this.m_game.sendMessageToGameLogic(new WorkerMessage_ResourceResponse(resourceName, data));
+    },
     /**
      * Called when the descriptor of the resources has been loaded.
      *
@@ -153,7 +170,7 @@ ResourceManager.prototype =
             if (!resourceDescriptor)
             {
                 SE_ERROR("Could not find resource with that name: " + name);
-                return null;
+                return new Promise(function (resolve, reject) { reject(); });
             }
 
             // Find the response type (if suitable)
@@ -195,6 +212,20 @@ ResourceManager.prototype =
         {
             resolve(resource)
         });
+    },
+    /**
+     * Called when the worker requested a resource to be loaded.
+     *
+     * @param {WorkerMessage_ResourceRequest} request Request of getting a resource.
+     */
+    resourceRequested: function resourceRequested(request)
+    {
+        this.getResource(request.m_resourceName)
+            .then(this._onRequestedResourceLoaded.bind(this, request.m_resourceName))
+            .catch(function ()
+            {
+                SE_ERROR("Could not get resource requested by game logic: " + request.m_resourceName);
+            });
     },
     /**
      * Initialises the resource manager.

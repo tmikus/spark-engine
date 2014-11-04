@@ -3,6 +3,7 @@
  * @param {string} resourceName Name of the requested resource.
  * @constructor
  * @class
+ * @implements IWorkerMessage
  */
 function WorkerMessage_ResourceRequest(resourceName)
 {

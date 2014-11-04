@@ -4,6 +4,7 @@
  * @param {*} data Resource data.
  * @constructor
  * @class
+ * @implements IWorkerMessage
  */
 function WorkerMessage_ResourceResponse(resourceName, data)
 {
