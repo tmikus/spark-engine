@@ -19,10 +19,21 @@ SparkEngineWorker.prototype =
      */
     m_eventService: null,
     /**
+     * Instance of the game time.
+     * Used for tracking the game time from one update to another.
+     * @type {GameTime}
+     */
+    m_gameTime: null,
+    /**
      * Instance of the resource manager.
      * @type {WorkerResourceManager}
      */
     m_resourceManager: null,
+    /**
+     * ID of interval used for updating game logic.
+     * @type {number}
+     */
+    m_updateLoopInterval: null,
     /**
      * Initialises the communication with main thread.
      * @returns {Promise} Promise of initialisation.
@@ -60,6 +71,26 @@ SparkEngineWorker.prototype =
 
         SE_FATAL(exceptionMessage, exception);
         throw exception || exceptionMessage;
+    },
+    /**
+     * Initialises the game time class.
+     * The class is being used for tracking the time.
+     * @returns {boolean} True if initialisation was successful; otherwise false.
+     * @protected
+     */
+    _initialiseGameTime: function _initialiseGameTime()
+    {
+        try
+        {
+            SE_INFO("Initialising Game Time.");
+            this.m_gameTime = new GameTime();
+            return true;
+        }
+        catch (ex)
+        {
+            SE_ERROR("Could not initialise Game Time!");
+            throw ex;
+        }
     },
     /**
      * Initialises the game logic worker.
@@ -105,6 +136,17 @@ SparkEngineWorker.prototype =
                 SE_INFO(data);
             });
         // TODO: Implement
+    },
+    /**
+     * Called when the game requested the logic to be updated.
+     * @protected
+     */
+    _vOnUpdate: function _vOnUpdate()
+    {
+        // Updating game time.
+        this.m_gameTime.update();
+
+
     },
     /**
      * Processes the message received from the game.
@@ -161,6 +203,7 @@ SparkEngineWorker.prototype =
     initialise: function initialise()
     {
         return this._initialiseCommunication()
+            .then(this._initialiseGameTime.bind(this))
             .then(this._initialiseResourceManager.bind(this))
             .then(this._initialiseEventService.bind(this))
             .then(this._vRegisterEvents.bind(this))
@@ -189,7 +232,10 @@ SparkEngineWorker.prototype =
      */
     startGameLoop: function startGameLoop()
     {
-        // TODO: Implement
+        SE_INFO("Starting game logic loop.");
+
+        this._vOnUpdate();
+        this.m_updateLoopInterval = setInterval(this._vOnUpdate.bind(this), 0);
     },
     /**
      * Loads the game using configuration from game options.

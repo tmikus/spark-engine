@@ -257,6 +257,7 @@ SparkEngineApp.prototype =
      */
     startGameLoop: function startGameLoop()
     {
+        SE_INFO("Starting game rendering loop.");
         this._render();
     },
     /**
