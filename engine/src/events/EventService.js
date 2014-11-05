@@ -1,11 +1,9 @@
 /**
  * Creates instance of the event manager.
- * If the 'setAsGlobal' is true - it sets it as a global event manager.
- *
- * @param {boolean} [setAsGlobal] Should the event manager be set as global?
  * @constructor
+ * @class
  */
-function EventService(setAsGlobal)
+function EventService()
 {
     this.m_eventConstructors = {};
     this.m_eventListenersMap = {};
@@ -17,26 +15,7 @@ function EventService(setAsGlobal)
     {
         queues[queueIndex] = [];
     }
-
-    //if (setAsGlobal)
-    //{
-    //    if (g_eventManager)
-    //    {
-    //        SE_ERROR("Global instance of the event manager already exists!");
-    //    }
-    //    g_eventManager = this;
-    //}
 }
-
-///**
-// * Gets the global event manager.
-// *
-// * @returns {EventService} Global instance of the event manager.
-// */
-//EventService.get = function EventService_get()
-//{
-//    return g_eventManager;
-//};
 
 EventService.prototype =
 {
@@ -152,6 +131,33 @@ EventService.prototype =
         event.vDeserialize(eventData.data);
 
         return event;
+    },
+    /**
+     * Processes the trigger event game message.
+     *
+     * @param {WorkerMessage_TriggerEvent} message Message which requested the event to be triggered.
+     */
+    processTriggerEventMessage: function processTriggerEventMessage(message)
+    {
+        var event = this.createEvent(message.m_eventType);
+
+        if (!event)
+        {
+            SE_ERROR("Could not process trigger event message.");
+            return;
+        }
+
+        try
+        {
+            event.vDeserialize(message.m_data);
+        }
+        catch (ex)
+        {
+            SE_ERROR("Could not deserialize event: " + event.m_name);
+            return;
+        }
+
+        this.triggerEvent(event);
     },
     /**
      * Queues the event on the next queue.

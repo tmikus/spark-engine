@@ -14,6 +14,11 @@ function SparkEngineWorker()
 SparkEngineWorker.prototype =
 {
     /**
+     * Instance of the event service.
+     * @type {EventService}
+     */
+    m_eventService: null,
+    /**
      * Instance of the resource manager.
      * @type {WorkerResourceManager}
      */
@@ -34,12 +39,27 @@ SparkEngineWorker.prototype =
     /**
      * Initialises the event service.
      *
-     * @returns {Promise} Promise of initialisation of event service.
+     * @returns {boolean} Promise of initialisation of event service.
      * @protected
      */
     _initialiseEventService: function _initialiseEventService()
     {
-        // TODO: Implement
+        const exceptionMessage = "Initialisation of the Event Service has failed!";
+        var exception = null;
+
+        try
+        {
+            SE_INFO("Initialising Event Service.");
+            this.m_eventService = new EventService();
+            return true;
+        }
+        catch (ex)
+        {
+            exception = ex;
+        }
+
+        SE_FATAL(exceptionMessage, exception);
+        throw exception || exceptionMessage;
     },
     /**
      * Initialises the game logic worker.
@@ -102,6 +122,10 @@ SparkEngineWorker.prototype =
                 this.m_resourceManager.requestedResourceLoaded(message.data);
                 break;
 
+            case WorkerMessage_TriggerEvent.s_type:
+                this.m_eventService.processTriggerEventMessage(message.data);
+                break;
+
             default:
                 return false;
         }
@@ -115,7 +139,19 @@ SparkEngineWorker.prototype =
      */
     _vRegisterEvents: function _vRegisterEvents()
     {
+        try
+        {
+            SE_INFO("Registering events.");
 
+            var eventService = this.m_eventService;
+            eventService.registerEvent(EventData_DeviceLost.s_type, EventData_DeviceLost);
+            eventService.registerEvent(EventData_DeviceRestored.s_type, EventData_DeviceRestored);
+        }
+        catch (ex)
+        {
+            SE_ERROR("Could not register events!", ex);
+            throw ex;
+        }
     },
     /**
      * Initialises the spark engine application.
