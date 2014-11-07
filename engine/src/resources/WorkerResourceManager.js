@@ -1,13 +1,13 @@
 /**
  * Interface for a resource manager.
- * @param {SparkEngineWorker} gameLogic Instance of the game logic.
+ * @param {SparkEngineWorker} gameWorker Instance of the game logic.
  * @constructor
  * @class
  * @implements IResourceManager
  */
-function WorkerResourceManager(gameLogic)
+function WorkerResourceManager(gameWorker)
 {
-    this.m_gameLogic = gameLogic;
+    this.m_gameWorker = gameWorker;
     this.m_resourcePromises = {};
 }
 
@@ -17,7 +17,7 @@ WorkerResourceManager.prototype =
      * Instance of the game logic to which this resource manager belongs.
      * @type {SparkEngineWorker}
      */
-    m_gameLogic: null,
+    m_gameWorker: null,
     /**
      * Array of promises of loading resources.
      * @type {Object.<string, {resolve: Function, reject: Function}[]>}
@@ -44,7 +44,7 @@ WorkerResourceManager.prototype =
                 this.m_resourcePromises[name].push({ resolve: resolve, reject: reject });
             }
 
-            this.m_gameLogic.sendMessageToGame(new WorkerMessage_ResourceRequest(name));
+            this.m_gameWorker.sendMessageToGame(new WorkerMessage_ResourceRequest(name));
         }.bind(this));
     },
     /**

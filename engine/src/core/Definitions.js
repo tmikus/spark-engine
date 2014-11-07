@@ -28,3 +28,15 @@ const EVENT_QUEUES_NUMBER = 2;
  * @type {number}
  */
 const EVENT_INFINITE_UPDATE = 0xFFFFFFF;
+
+/**
+ * Variable defining invalid Actor ID.
+ * @type {number}
+ */
+const INVALID_ACTOR_ID = 0;
+
+/**
+ * Definition of the invalid game view ID.
+ * @type {number}
+ */
+const INVALID_GAME_VIEW_ID = 0;
