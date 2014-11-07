@@ -47,7 +47,7 @@ ActorComponent.GetIdFromName = function ActorComponent_GetIdFromName(name)
     {
         var piece = nameLength < NMAX ? nameLength : NMAX;
 
-        for (var index = 0; index < piece; ++index)
+        for (var index = 0; index < piece; index++)
         {
             s1 += name.charCodeAt(namePointer + index);
         }

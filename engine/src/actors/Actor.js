@@ -53,7 +53,7 @@ Actor.prototype =
     {
         var components = this.m_components;
         var componentsLength = components.length;
-        for (var componentIndex = 0; componentIndex < componentsLength; ++componentIndex)
+        for (var componentIndex = 0; componentIndex < componentsLength; componentIndex++)
         {
             var component = components[componentIndex];
             component.vDestroy();
@@ -108,7 +108,7 @@ Actor.prototype =
     {
         var components = this.m_components;
         var componentsLength = components.length;
-        for (var componentIndex = 0; componentIndex < componentsLength; ++componentIndex)
+        for (var componentIndex = 0; componentIndex < componentsLength; componentIndex++)
         {
             components[componentIndex].vOnUpdate(gameTime);
         }
@@ -121,7 +121,7 @@ Actor.prototype =
     {
         var components = this.m_components;
         var componentsLength = components.length;
-        for (var componentIndex = 0; componentIndex < componentsLength; ++componentIndex)
+        for (var componentIndex = 0; componentIndex < componentsLength; componentIndex++)
         {
             components[componentIndex].vPostInitialise();
         }

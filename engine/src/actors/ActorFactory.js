@@ -59,7 +59,7 @@ ActorFactory.prototype =
         {
             // Iterate over them and create components.
             var componentsLength = components.length;
-            for (var componentIndex = 0; componentIndex < componentsLength; ++componentIndex)
+            for (var componentIndex = 0; componentIndex < componentsLength; componentIndex++)
             {
                 // Create the component.
                 var componentPromise = this._createComponent(components[componentIndex]);
@@ -176,7 +176,7 @@ ActorFactory.prototype =
         var promises = [];
 
         // Iterating over list of components to override.
-        for (var overrideIndex = 0; overrideIndex < overrides.length; ++overrideIndex)
+        for (var overrideIndex = 0; overrideIndex < overrides.length; overrideIndex++)
         {
             var componentData = overrides[overrideIndex];
 
