@@ -36,7 +36,7 @@ IGameLogic.prototype =
      * @param {*} [overrides] Overrides for the actor.
      * @param {THREE.Matrix4} [initialTransform] Initial transform for the actor.
      * @param {number} [serverActorId] ID of the actor from the server.
-     * @returns {promise} Promise of creation of the actor.
+     * @returns {Promise} Promise of creation of the actor.
      */
     vCreateActor: notImplemented,
     /**
@@ -55,14 +55,14 @@ IGameLogic.prototype =
     /**
      * Initialises the game logic.
      *
-     * @returns {promise} Promise of initialising the game logic.
+     * @returns {Promise} Promise of initialising the game logic.
      */
     vInitialise: notImplemented,
     /**
      * Loads the game from specified resource and fills the scene with the actors from it.
      *
      * @param {string} levelResource Name of the level resource to load.
-     * @returns {promise} Promise of loading the level.
+     * @returns {Promise} Promise of loading the level.
      */
     vLoadGame: notImplemented,
     /**
@@ -70,7 +70,7 @@ IGameLogic.prototype =
      * Developers can perform additional loading here.
      *
      * @param {*} level Instance of the level.
-     * @returns {promise} Promise of loading of the game.
+     * @returns {Promise} Promise of loading of the game.
      */
     vLoadGameDelegate: notImplemented,
     /**
@@ -78,7 +78,7 @@ IGameLogic.prototype =
      *
      * @param {number} actorId ID of the actor to modify.
      * @param {*} overrides Changes to make to the actor.
-     * @returns {promise} Promise of modifying actor.
+     * @returns {Promise} Promise of modifying actor.
      */
     vModifyActor: notImplemented,
     /**

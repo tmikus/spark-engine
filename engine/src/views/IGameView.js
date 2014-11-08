@@ -33,7 +33,7 @@ IGameView.prototype =
     /**
      * Initialises the game view.
      *
-     * @returns {promise} Promise of view initialisation.
+     * @returns {Promise} Promise of view initialisation.
      */
     vInitialise: notImplemented,
     /**

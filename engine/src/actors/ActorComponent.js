@@ -93,7 +93,7 @@ ActorComponent.prototype =
      * Initialises the Actor Component.
      *
      * @param {*} data Data of the component.
-     * @returns {promise} Promise of initialisation of component
+     * @returns {Promise} Promise of initialisation of component
      */
     vInitialise: notImplemented,
     /**

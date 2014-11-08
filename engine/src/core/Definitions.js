@@ -1,4 +1,25 @@
 /**
+ * Promise function used for auto-rejecting itself.
+ *
+ * @param {Function} resolve Function resolving the promise.
+ * @param {Function} reject Function rejecting the promise.
+ */
+function autoRejectingPromise(resolve, reject)
+{
+    reject();
+}
+
+/**
+ * Promise used for auto-resolving itself.
+ *
+ * @param {Function} resolve Function resolving the promise.
+ */
+function autoResolvingPromise(resolve)
+{
+    resolve();
+}
+
+/**
  * Instance of the empty function - this function does nothing.
  */
 function empty()
