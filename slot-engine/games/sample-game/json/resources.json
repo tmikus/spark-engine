@@ -1,4 +1,9 @@
 {
+    "options.json":
+    {
+        "path": "json/options.json",
+        "type": "JSON"
+    },
     "test.json":
     {
         "path": "json/test.json",

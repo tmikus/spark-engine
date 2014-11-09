@@ -21,5 +21,16 @@ SlotApp.prototype = Class.extend(SparkEngineApp,
     _vGetGameLogicUrl: function _vGetGameLogicUrl()
     {
         return "../../dist/slot-engine-logic.js";
+    },
+    /**
+     * Gets the name of the resource file containing game options.
+     *
+     * @returns {string} Name of resource containing game options.
+     * @protected
+     * @virtual
+     */
+    _vGetGameOptionsResourceName: function _vGetGameOptionsResourceName()
+    {
+        return "options.json"
     }
 });

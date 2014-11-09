@@ -1,18 +1,17 @@
 /**
- * Interface for the game view.
- * Game view is responsible for interfacing with certain type of player:
- * - Human player: sitting in front of the computer, mobile
- * - AI player: artificial intelligence residing in memory
- * - Network player: remote player connecting to the game
+ * Class responsible for handling human interaction with the game.
  *
  * @param {IGameLogic} gameLogic Instance of the game logic.
- * @interface
+ * @class
+ * @implements IGameView
  */
-function IGameView(gameLogic)
+function HumanView(gameLogic)
 {
+    this.m_gameLogic = gameLogic;
+    this.m_type = GameViewType.Human;
 }
 
-IGameView.prototype =
+HumanView.prototype =
 {
     /**
      * ID of the actor to which this view is bound.
@@ -37,24 +36,38 @@ IGameView.prototype =
     /**
      * Destroys the game view and all its resources.
      */
-    vDestroy: notImplemented,
+    vDestroy: function vDestroy()
+    {
+
+    },
+
     /**
      * Initialises the game view.
      *
      * @returns {Promise} Promise of view initialisation.
      */
-    vInitialise: notImplemented,
+    vInitialise: function vInitialise()
+    {
+
+    },
     /**
      * Called when the view has been attached to the specified actor.
      *
      * @param {number} gameViewId ID of the game view (assigned by the logic).
      * @param {number} actorId ID of the assigned actor.
      */
-    vOnAttach: notImplemented,
+    vOnAttach: function vOnAttach(gameViewId, actorId)
+    {
+        this.m_actorId = actorId;
+        this.m_id = gameViewId;
+    },
     /**
      * Performs updating of the game view logic.
      *
      * @param {GameTime} gameTime Time of the game.
      */
-    vOnUpdate: notImplemented
+    vOnUpdate: function vOnUpdate(gameTime)
+    {
+
+    }
 };

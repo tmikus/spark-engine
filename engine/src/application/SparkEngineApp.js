@@ -10,6 +10,7 @@ function SparkEngineApp()
 {
     this.m_browserResizedBinding = Function.debounce(this._onBrowserResized.bind(this), 300);
     this.m_renderBinding = this._render.bind(this);
+    this.m_gameOptions = new GameOptions(this);
 }
 
 SparkEngineApp.prototype =
@@ -24,6 +25,11 @@ SparkEngineApp.prototype =
      * @type {Worker}
      */
     m_gameLogicWorker: null,
+    /**
+     * Instance of the game options.
+     * @type {GameOptions}
+     */
+    m_gameOptions: null,
     /**
      * Binding to the 'render' method.
      * @type {Function}
@@ -144,7 +150,12 @@ SparkEngineApp.prototype =
      */
     _loadGameOptions: function _loadGameOptions()
     {
-        // TODO: Implement
+        return this.m_gameOptions.loadFromServer(this._vGetGameOptionsResourceName())
+            .then(this.m_gameOptions.loadFromLocalStorage.bind(this.m_gameOptions))
+            .catch(function ()
+            {
+                SE_FATAL("Could not load game options!");
+            });
     },
     /**
      * Called when the browser was resized.
@@ -221,6 +232,14 @@ SparkEngineApp.prototype =
      * @virtual
      */
     _vGetGameLogicUrl: notImplemented,
+    /**
+     * Gets the name of the resource file containing game options.
+     *
+     * @returns {string} Name of resource containing game options.
+     * @protected
+     * @virtual
+     */
+    _vGetGameOptionsResourceName: notImplemented,
     /**
      * Gets the resource file URL.
      *

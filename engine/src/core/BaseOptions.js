@@ -1,7 +1,7 @@
 /**
  * Base options class.
  *
- * @param {*} options Options to assign to this class.
+ * @param {*} [options] Options to assign to this class.
  * @constructor
  * @class
  * @abstract

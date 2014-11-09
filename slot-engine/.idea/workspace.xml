@@ -2,11 +2,15 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="8cb96a22-6ddf-47e3-b83e-ab1c3abd1e07" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../engine/src/processes/Process.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../engine/src/processes/ProcessManager.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../engine/src/processes/ProcessState.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../engine/src/logic/BaseGameLogic.js" afterPath="$PROJECT_DIR$/../engine/src/logic/BaseGameLogic.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../engine/EngineLogicFileList.js" afterPath="$PROJECT_DIR$/../engine/EngineLogicFileList.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../engine/src/application/GameOptions.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../engine/src/views/HumanView.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/games/sample-game/json/options.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../engine/src/core/BaseOptions.js" afterPath="$PROJECT_DIR$/../engine/src/core/BaseOptions.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../engine/EngineFilesList.js" afterPath="$PROJECT_DIR$/../engine/EngineFilesList.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../engine/src/views/IGameView.js" afterPath="$PROJECT_DIR$/../engine/src/views/IGameView.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/application/SlotApp.js" afterPath="$PROJECT_DIR$/src/application/SlotApp.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../engine/src/application/SparkEngineApp.js" afterPath="$PROJECT_DIR$/../engine/src/application/SparkEngineApp.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/games/sample-game/json/resources.json" afterPath="$PROJECT_DIR$/games/sample-game/json/resources.json" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="slot-engine.iws" />
@@ -32,41 +36,91 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="EngineLogicFileList.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../engine/EngineLogicFileList.js">
+      <file leaf-file-name="HumanView.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../engine/src/views/HumanView.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="391">
-              <caret line="10" column="25" selection-start-line="10" selection-start-column="25" selection-end-line="10" selection-end-column="25" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1326">
+              <caret line="13" column="21" selection-start-line="13" selection-start-column="21" selection-end-line="13" selection-end-column="21" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ProcessManager.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../engine/src/processes/ProcessManager.js">
+      <file leaf-file-name="BaseOptions.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../engine/src/core/BaseOptions.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-2.2857144" vertical-offset="565" max-vertical-offset="2431">
-              <caret line="37" column="16" selection-start-line="37" selection-start-column="16" selection-end-line="37" selection-end-column="16" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="86" max-vertical-offset="748">
+              <caret line="6" column="12" selection-start-line="6" selection-start-column="12" selection-end-line="6" selection-end-column="12" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Process.js" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/../engine/src/processes/Process.js">
+      <file leaf-file-name="GameOptions.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../engine/src/application/GameOptions.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-0.3655914" vertical-offset="255" max-vertical-offset="3417">
-              <caret line="7" column="46" selection-start-line="7" selection-start-column="46" selection-end-line="7" selection-end-column="46" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1581">
+              <caret line="10" column="1" selection-start-line="10" selection-start-column="1" selection-end-line="10" selection-end-column="1" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ProcessState.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../engine/src/processes/ProcessState.js">
+      <file leaf-file-name="EngineFilesList.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../engine/EngineFilesList.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="323">
-              <caret line="13" column="2" selection-start-line="13" selection-start-column="2" selection-end-line="13" selection-end-column="2" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="510">
+              <caret line="12" column="18" selection-start-line="12" selection-start-column="18" selection-end-line="12" selection-end-column="18" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="options.json" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/games/sample-game/json/options.json">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="346">
+              <caret line="0" column="1" selection-start-line="0" selection-start-column="1" selection-end-line="0" selection-end-column="1" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="BaseGameLogic.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../engine/src/logic/BaseGameLogic.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="4328" max-vertical-offset="4947">
+              <caret line="253" column="56" selection-start-line="253" selection-start-column="56" selection-end-line="253" selection-end-column="56" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="SlotApp.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/application/SlotApp.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="697">
+              <caret line="33" column="28" selection-start-line="33" selection-start-column="28" selection-end-line="33" selection-end-column="28" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="resources.json" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/games/sample-game/json/resources.json">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-2.6153846" vertical-offset="0" max-vertical-offset="289">
+              <caret line="4" column="22" selection-start-line="4" selection-start-column="22" selection-end-line="4" selection-end-column="22" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="SparkEngineApp.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../engine/src/application/SparkEngineApp.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="2682" max-vertical-offset="5355">
+              <caret line="177" column="42" selection-start-line="177" selection-start-column="42" selection-end-line="177" selection-end-column="42" />
               <folding />
             </state>
           </provider>
@@ -89,16 +143,24 @@
         <option value="$PROJECT_DIR$/EngineLogicFileList.js" />
         <option value="$PROJECT_DIR$/src/StartWorker.js" />
         <option value="$PROJECT_DIR$/EngineFilesList.js" />
-        <option value="$PROJECT_DIR$/src/application/SlotApp.js" />
         <option value="$PROJECT_DIR$/src/logic/SlotLogic.js" />
         <option value="$PROJECT_DIR$/src/worker/SlotWorker.js" />
-        <option value="$PROJECT_DIR$/../engine/src/application/SparkEngineApp.js" />
         <option value="$PROJECT_DIR$/../engine/src/worker/SparkEngineWorker.js" />
         <option value="$PROJECT_DIR$/../engine/src/processes/ProcessState.js" />
         <option value="$PROJECT_DIR$/../engine/src/processes/ProcessManager.js" />
         <option value="$PROJECT_DIR$/../engine/src/logic/BaseGameLogic.js" />
         <option value="$PROJECT_DIR$/../engine/EngineLogicFileList.js" />
         <option value="$PROJECT_DIR$/../engine/src/processes/Process.js" />
+        <option value="$PROJECT_DIR$/../engine/src/views/IGameView.js" />
+        <option value="$PROJECT_DIR$/../engine/src/views/HumanView.js" />
+        <option value="$PROJECT_DIR$/../engine/src/core/GameOptions.js" />
+        <option value="$PROJECT_DIR$/../engine/src/core/BaseOptions.js" />
+        <option value="$PROJECT_DIR$/../engine/src/application/SparkEngineApp.js" />
+        <option value="$PROJECT_DIR$/games/sample-game/json/resources.json" />
+        <option value="$PROJECT_DIR$/src/application/SlotApp.js" />
+        <option value="$PROJECT_DIR$/../engine/src/application/GameOptions.js" />
+        <option value="$PROJECT_DIR$/../engine/EngineFilesList.js" />
+        <option value="$PROJECT_DIR$/games/sample-game/json/options.json" />
       </list>
     </option>
   </component>
@@ -295,6 +357,10 @@
               <option name="myItemId" value="games" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sample-game" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
           </PATH>
           <PATH>
             <PATH_ELEMENT>
@@ -302,7 +368,19 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="engine" />
+              <option name="myItemId" value="slot-engine" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="games" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sample-game" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="json" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -313,10 +391,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="engine" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="tests" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -402,7 +476,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="logic" />
+              <option name="myItemId" value="core" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -448,6 +522,9 @@
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Projects\SparkEngine2\slot-engine\games\sample-game" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Projects\SparkEngine2\engine\src\application" />
     </key>
   </component>
   <component name="RunManager">
@@ -710,12 +787,12 @@
       <option name="number" value="Default" />
       <updated>1415529049310</updated>
       <workItem from="1415529050294" duration="515000" />
-      <workItem from="1415529618128" duration="4828000" />
+      <workItem from="1415529618128" duration="7533000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="5343000" />
+    <option name="totallyTimeSpent" value="8048000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="754" extended-state="6" />
@@ -842,14 +919,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/games/sample-game/json/resources.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="568">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/../engine/coverage/PhantomJS 1.9.7 (Windows 8)/src/application/SparkEngineApp.js.html">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.53119093" vertical-offset="12146" max-vertical-offset="15929">
@@ -906,14 +975,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/application/SlotApp.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="510">
-          <caret line="7" column="1" selection-start-line="7" selection-start-column="1" selection-end-line="7" selection-end-column="1" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/../engine/src/graphics/Renderer.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-4.8702703" vertical-offset="2703" max-vertical-offset="3281">
@@ -962,38 +1023,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../engine/src/application/SparkEngineApp.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="1.209507" vertical-offset="435" max-vertical-offset="5032">
-          <caret line="66" column="25" selection-start-line="66" selection-start-column="25" selection-end-line="66" selection-end-column="25" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../engine/src/worker/SparkEngineWorker.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="2948" max-vertical-offset="4930">
-          <caret line="39" column="31" selection-start-line="39" selection-start-column="31" selection-end-line="39" selection-end-column="31" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../engine/src/views/IGameView.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="969">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../engine/src/logic/BaseGameLogic.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="1.4354838" vertical-offset="3767" max-vertical-offset="4947">
-          <caret line="253" column="56" selection-start-line="253" selection-start-column="56" selection-end-line="253" selection-end-column="56" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/../engine/src/processes/ProcessState.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="323">
@@ -1002,26 +1031,114 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../engine/EngineLogicFileList.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="391">
-          <caret line="10" column="25" selection-start-line="10" selection-start-column="25" selection-end-line="10" selection-end-column="25" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/../engine/src/processes/ProcessManager.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-2.2857144" vertical-offset="565" max-vertical-offset="2431">
-          <caret line="37" column="16" selection-start-line="37" selection-start-column="16" selection-end-line="37" selection-end-column="16" />
+        <state vertical-scroll-proportion="-25.5" vertical-offset="0" max-vertical-offset="2431">
+          <caret line="42" column="9" selection-start-line="42" selection-start-column="9" selection-end-line="42" selection-end-column="9" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/../engine/src/processes/Process.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-0.3655914" vertical-offset="255" max-vertical-offset="3417">
+        <state vertical-scroll-proportion="-0.23943663" vertical-offset="255" max-vertical-offset="3417">
           <caret line="7" column="46" selection-start-line="7" selection-start-column="46" selection-end-line="7" selection-end-column="46" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../engine/EngineLogicFileList.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.29929578" vertical-offset="0" max-vertical-offset="568">
+          <caret line="10" column="25" selection-start-line="10" selection-start-column="25" selection-end-line="10" selection-end-column="25" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../engine/src/views/IGameView.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.5510563" vertical-offset="282" max-vertical-offset="1105">
+          <caret line="35" column="17" selection-start-line="31" selection-start-column="4" selection-end-line="35" selection-end-column="17" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../engine/src/worker/SparkEngineWorker.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="1.5862676" vertical-offset="306" max-vertical-offset="4930">
+          <caret line="71" column="9" selection-start-line="71" selection-start-column="9" selection-end-line="71" selection-end-column="9" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../engine/src/logic/BaseGameLogic.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="3818" max-vertical-offset="4947">
+          <caret line="253" column="56" selection-start-line="253" selection-start-column="56" selection-end-line="253" selection-end-column="56" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/games/sample-game/json/resources.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-2.6153846" vertical-offset="0" max-vertical-offset="289">
+          <caret line="4" column="22" selection-start-line="4" selection-start-column="22" selection-end-line="4" selection-end-column="22" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/application/SlotApp.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="697">
+          <caret line="33" column="28" selection-start-line="33" selection-start-column="28" selection-end-line="33" selection-end-column="28" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../engine/src/application/SparkEngineApp.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="2682" max-vertical-offset="5355">
+          <caret line="177" column="42" selection-start-line="177" selection-start-column="42" selection-end-line="177" selection-end-column="42" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../engine/src/views/HumanView.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1326">
+          <caret line="13" column="21" selection-start-line="13" selection-start-column="21" selection-end-line="13" selection-end-column="21" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../engine/src/core/BaseOptions.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="86" max-vertical-offset="748">
+          <caret line="6" column="12" selection-start-line="6" selection-start-column="12" selection-end-line="6" selection-end-column="12" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../engine/src/application/GameOptions.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1581">
+          <caret line="10" column="1" selection-start-line="10" selection-start-column="1" selection-end-line="10" selection-end-column="1" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../engine/EngineFilesList.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="510">
+          <caret line="12" column="18" selection-start-line="12" selection-start-column="18" selection-end-line="12" selection-end-column="18" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/games/sample-game/json/options.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="346">
+          <caret line="0" column="1" selection-start-line="0" selection-start-column="1" selection-end-line="0" selection-end-column="1" />
           <folding />
         </state>
       </provider>
