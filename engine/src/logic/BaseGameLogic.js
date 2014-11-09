@@ -48,6 +48,45 @@ BaseGameLogic.prototype =
      */
     m_gameWorker: null,
     /**
+     * Manager of the processes.
+     * @type {ProcessManager}
+     */
+    m_processManager: null,
+    /**
+     * Initialises actor factory.
+     * @private
+     */
+    _initialiseActorFactory: function _initialiseActorFactory()
+    {
+        try
+        {
+            SE_INFO("Initialising Actor Factory for Game Logic.");
+            this.m_actorFactory = new ActorFactory(this.m_gameWorker);
+        }
+        catch (ex)
+        {
+            SE_ERROR("Initialisation of Actor Factory has failed.");
+            throw ex;
+        }
+    },
+    /**
+     * Initialises process manager.
+     * @private
+     */
+    _initialiseProcessManager: function _initialiseProcessManager()
+    {
+        try
+        {
+            SE_INFO("Initialising Process Manager for Game Logic.");
+            this.m_processManager = new ProcessManager();
+        }
+        catch (ex)
+        {
+            SE_ERROR("Initialisation of Process Manager has failed.");
+            throw ex;
+        }
+    },
+    /**
      * Called when the actor instance was created.
      *
      * @param {string} actorResource Name of the resource used for creating an actor.
@@ -165,19 +204,8 @@ BaseGameLogic.prototype =
     vInitialise: function vInitialise()
     {
         return new Promise(autoResolvingPromise)
-            .then(function ()
-            {
-                try
-                {
-                    SE_INFO("Initialising Actor Factory for Game Logic.");
-                    this.m_actorFactory = new ActorFactory(this.m_gameWorker);
-                }
-                catch (ex)
-                {
-                    SE_ERROR("Initialisation of Actor Factory has failed.");
-                    throw ex;
-                }
-            }.bind(this));
+            .then(this._initialiseActorFactory.bind(this))
+            .then(this._initialiseProcessManager.bind(this));
     },
     /**
      * Loads the game from specified resource and fills the scene with the actors from it.
@@ -223,7 +251,7 @@ BaseGameLogic.prototype =
     {
         // TODO: Updating game state
         
-        // TODO: Updating long running processes
+        this.m_processManager.updateProcesses(gameTime);
         
         // Updating all game views.
         var gameViews = this.m_gameViews;

@@ -8,6 +8,7 @@ module.exports =
     'src/actors/*.js',
     'src/events/*.js',
     'src/logic/*.js',
+    'src/processes/*.js',
     'src/resources/WorkerResourceManager.js',
     'src/scripting/*.js',
     'src/views/*.js',
