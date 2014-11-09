@@ -5,3 +5,10 @@ engine/dist/
 engine/examples/test/dist/
 engine/node_modules/
 engine/coverage/
+slot-engine/.idea/uiDesigner.xml
+slot-engine/.idea/workspace.xml
+slot-engine/bower_components/
+slot-engine/dist/
+slot-engine/examples/test/dist/
+slot-engine/node_modules/
+slot-engine/coverage/

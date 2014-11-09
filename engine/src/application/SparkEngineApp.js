@@ -70,7 +70,7 @@ SparkEngineApp.prototype =
 
         return new Promise(function (resolve, reject)
         {
-            this.m_gameLogicWorker = new Worker("dist/spark-engine-logic.js");
+            this.m_gameLogicWorker = new Worker(this._vGetGameLogicUrl());
             this.m_gameLogicWorker.onmessage = function (message)
             {
                 if (message.data == WorkerInitialisationStatus.Success)
@@ -127,7 +127,7 @@ SparkEngineApp.prototype =
         try
         {
             SE_INFO("Initialising Game Resource Manager.");
-            this.m_resourceManager = new ResourceManager(this, this._vGetResourceURL());
+            this.m_resourceManager = new ResourceManager(this, this._vGetResourceUrl());
             return this.m_resourceManager.initialise();
         }
         catch (ex)
@@ -212,12 +212,20 @@ SparkEngineApp.prototype =
         requestAnimationFrame(this.m_renderBinding);
     },
     /**
+     * Gets the game logic file URL
+     *
+     * @returns {string} URL to the game logic file.
+     * @protected
+     * @virtual
+     */
+    _vGetGameLogicUrl: notImplemented,
+    /**
      * Gets the resource file URL.
      *
      * @returns {string} URL of the resource file.
      * @protected
      */
-    _vGetResourceURL: function _vGetResourceURL()
+    _vGetResourceUrl: function _vGetResourceUrl()
     {
         return "json/resources.json";
     },

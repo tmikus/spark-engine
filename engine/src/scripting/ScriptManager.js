@@ -83,6 +83,7 @@ ScriptManager.prototype =
             .then(function (script)
             {
                 script.run();
+                return script;
             })
             .catch(function ()
             {

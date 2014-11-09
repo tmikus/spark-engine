@@ -16,7 +16,7 @@ module.exports = function (grunt)
                     separator: ';\n'
                 },
                 src: engineFiles,
-                dest: 'dist/spark-engine.js'
+                dest: 'dist/slot-engine.js'
             },
             "engine-logic":
             {
@@ -25,7 +25,7 @@ module.exports = function (grunt)
                     separator: ';\n'
                 },
                 src: engineLogicFiles,
-                dest: 'dist/spark-engine-logic.js'
+                dest: 'dist/slot-engine-logic.js'
             }
         }
     });

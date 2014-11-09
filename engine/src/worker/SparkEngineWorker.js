@@ -8,7 +8,6 @@
  */
 function SparkEngineWorker()
 {
-
 }
 
 SparkEngineWorker.prototype =
