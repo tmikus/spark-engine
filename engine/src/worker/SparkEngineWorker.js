@@ -265,6 +265,13 @@ SparkEngineWorker.prototype =
         this.m_updateLoopInterval = setInterval(this._vOnUpdate.bind(this), 0);
     },
     /**
+     * Gets name of the resource containing levels configuration
+     *
+     * @returns {string} Name of the configuration resource.
+     * @virtual
+     */
+    vGetLevelsConfigurationResourceName: notImplemented,
+    /**
      * Loads the game using configuration from game options.
      *
      * @returns  {Promise} Promise of loading a game.

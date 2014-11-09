@@ -48,6 +48,11 @@ BaseGameLogic.prototype =
      */
     m_gameWorker: null,
     /**
+     * Instance of the level manager.
+     * @type {LevelManager}
+     */
+    m_levelManager: null,
+    /**
      * Manager of the processes.
      * @type {ProcessManager}
      */
@@ -66,6 +71,26 @@ BaseGameLogic.prototype =
         catch (ex)
         {
             SE_ERROR("Initialisation of Actor Factory has failed.");
+            throw ex;
+        }
+    },
+    /**
+     * Initialises level manager.
+     *
+     * @returns {Promise} Promise of initialising level manager.
+     * @private
+     */
+    _initialiseLevelManager: function _initialiseLevelManager()
+    {
+        try
+        {
+            SE_INFO("Initialising Level Manager for Game Logic.");
+            this.m_levelManager = new LevelManager(this.m_gameWorker);
+            return this.m_levelManager.initialise();
+        }
+        catch (ex)
+        {
+            SE_ERROR("Initialisation of Level Manager has failed.");
             throw ex;
         }
     },
@@ -205,7 +230,8 @@ BaseGameLogic.prototype =
     {
         return new Promise(autoResolvingPromise)
             .then(this._initialiseActorFactory.bind(this))
-            .then(this._initialiseProcessManager.bind(this));
+            .then(this._initialiseProcessManager.bind(this))
+            .then(this._initialiseLevelManager.bind(this));
     },
     /**
      * Loads the game from specified resource and fills the scene with the actors from it.

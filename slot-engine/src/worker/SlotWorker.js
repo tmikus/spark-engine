@@ -20,12 +20,22 @@ SlotWorker.prototype = Class.extend(SparkEngineWorker,
      */
     _vCreateGameLogic: function _vCreateGameLogic()
     {
-        var gameLogic = new SlotLogic();
+        var gameLogic = new SlotLogic(this);
 
         return gameLogic.vInitialise()
             .then(function()
             {
                 return gameLogic;
             });
+    },
+    /**
+     * Gets name of the resource containing levels configuration
+     *
+     * @returns {string} Name of the configuration resource.
+     * @virtual
+     */
+    vGetLevelsConfigurationResourceName: function vGetLevelsConfigurationResourceName()
+    {
+        return "levels.json"
     }
 });
