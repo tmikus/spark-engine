@@ -18,6 +18,11 @@ SparkEngineWorker.prototype =
      */
     m_eventService: null,
     /**
+     * Instance of the game logic.
+     * @type {IGameLogic}
+     */
+    m_gameLogic: null,
+    /**
      * Instance of the game time.
      * Used for tracking the game time from one update to another.
      * @type {GameTime}
@@ -99,7 +104,17 @@ SparkEngineWorker.prototype =
      */
     _initialiseGameLogic: function _initialiseGameLogic()
     {
-        // TODO: Implement
+        SE_INFO("Initialising Game Logic.");
+
+        return this._vCreateGameLogic()
+            .then(function (gameLogic)
+            {
+                this.m_gameLogic = gameLogic;
+            }.bind(this))
+            .catch(function ()
+            {
+                SE_ERROR("Could not initialise Game Logic.");
+            });
     },
     /**
      * Initialises the resource manager.
@@ -129,7 +144,7 @@ SparkEngineWorker.prototype =
      */
     _loadGameOptions: function _loadGameOptions()
     {
-        this.m_resourceManager.getResource("test.json")
+        return this.m_resourceManager.getResource("test.json")
             .then(function (data)
             {
                 SE_INFO(data);
@@ -137,15 +152,28 @@ SparkEngineWorker.prototype =
         // TODO: Implement
     },
     /**
+     * Creates game logic used by the game.
+     *
+     * @returns {Promise} Promise of Game Logic creation.
+     * @protected
+     * @virtual
+     */
+    _vCreateGameLogic: notImplemented,
+    /**
      * Called when the game requested the logic to be updated.
      * @protected
+     * @virtual
      */
     _vOnUpdate: function _vOnUpdate()
     {
         // Updating game time.
         this.m_gameTime.update();
 
-
+        if (this.m_gameLogic)
+        {
+            this.m_eventService.update(this.m_gameTime.m_unscaledTimeSinceStartup, 20);
+            this.m_gameLogic.vOnUpdate(this.m_gameTime);
+        }
     },
     /**
      * Processes the message received from the game.

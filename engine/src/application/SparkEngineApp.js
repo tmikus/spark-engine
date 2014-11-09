@@ -64,9 +64,9 @@ SparkEngineApp.prototype =
      * @returns {Promise} Promise of initialisation of game logic.
      * @protected
      */
-    _initialiseGameLogic: function _initialiseGameLogic()
+    _initialiseGameLogicWorker: function _initialiseGameLogicWorker()
     {
-        SE_INFO("Initialising Game Logic.");
+        SE_INFO("Initialising Game Logic Worker.");
 
         return new Promise(function (resolve, reject)
         {
@@ -80,7 +80,7 @@ SparkEngineApp.prototype =
                 }
                 else if (!this._processGameLogicMessage(message))
                 {
-                    SE_ERROR("Initialisation of Game Logic has failed.");
+                    SE_ERROR("Initialisation of Game Logic Worker has failed.");
                     reject();
                 }
             }.bind(this);
@@ -207,7 +207,9 @@ SparkEngineApp.prototype =
      */
     _render: function _render()
     {
-        // TODO: Implement
+        this.m_renderer.preRender();
+        // TODO: Is anything going here?
+        this.m_renderer.postRender();
 
         requestAnimationFrame(this.m_renderBinding);
     },
@@ -241,7 +243,7 @@ SparkEngineApp.prototype =
             .then(this._initialiseRenderer.bind(this))
             .then(this._initialiseAudio.bind(this))
             .then(this._initialiseBrowserHandlers.bind(this))
-            .then(this._initialiseGameLogic.bind(this))
+            .then(this._initialiseGameLogicWorker.bind(this))
             .then(function ()
             {
                 SE_INFO("Game initialised.");

@@ -11,6 +11,7 @@ function BaseGameLogic(gameWorker)
     this.m_actors = [];
     this.m_actorsMap = {};
     this.m_gameWorker = gameWorker;
+    this.m_gameViews = [];
 }
 
 BaseGameLogic.prototype =
