@@ -54,7 +54,7 @@ ScriptManager.prototype =
      */
     initialise: function initialise()
     {
-        return new Promise(autoResolvingPromise);
+        return Promise.resolve();
     },
     /**
      * Loads the script from the resource and initialises it.

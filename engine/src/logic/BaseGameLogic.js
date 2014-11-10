@@ -131,15 +131,65 @@ BaseGameLogic.prototype =
         return actor;
     },
     /**
+     * Processes the human views.
+     *
+     * @param {Level} level Instance of the level.
+     * @private
+     */
+    _processHumanViews: function _processHumanViews(level)
+    {
+
+    },
+    /**
+     * Processes the post load scripts.
+     *
+     * @param {Level} level Instance of the level.
+     * @private
+     */
+    _processPostLoadScripts: function _processPostLoadScripts(level)
+    {
+
+    },
+    /**
+     * Processes the pre-load scripts.
+     *
+     * @param {Level} level Instance of the level.
+     * @private
+     */
+    _processPreLoadScripts: function _processPreLoadScripts(level)
+    {
+
+    },
+    /**
+     * Processes the static actors.
+     *
+     * @param {Level} level Instance of the level.
+     * @private
+     */
+    _processStaticActors: function _processStaticActors(level)
+    {
+
+    },
+    /**
      * Called when the level resource was loaded.
      *
-     * @param {*} level Instance of the level resource.
+     * @param {Level} level Instance of the level resource.
+     * @returns {Promise} Promise of initialising the level.
      * @protected
      * @virtual
      */
     _vOnLevelResourceLoaded: function _vOnLevelResourceLoaded(level)
     {
-        // TODO: Implement...
+        return Promise.resolve()
+            .then(this._processPreLoadScripts.bind(this, level))
+            .then(this._processStaticActors.bind(this, level))
+            .then(this._processHumanViews.bind(this, level))
+            .then(this.vLoadGameDelegate.bind(this, level))
+            .then(this._processPostLoadScripts.bind(this, level))
+            .then(function ()
+            {
+                this.m_gameWorker.m_eventService.triggerEvent(new EventData_EnvironmentLoaded());
+            }.bind(this));
     },
     /**
      * Adds a view to the game logic class.
@@ -228,7 +278,7 @@ BaseGameLogic.prototype =
      */
     vInitialise: function vInitialise()
     {
-        return new Promise(autoResolvingPromise)
+        return Promise.resolve()
             .then(this._initialiseActorFactory.bind(this))
             .then(this._initialiseProcessManager.bind(this))
             .then(this._initialiseLevelManager.bind(this));
@@ -241,7 +291,7 @@ BaseGameLogic.prototype =
      */
     vLoadGame: function vLoadGame(levelResource)
     {
-        this.m_gameWorker.m_resourceManager.getResource(levelResource)
+        this.m_levelManager.loadLevel(levelResource)
             .then(this._vOnLevelResourceLoaded.bind(this))
             .catch(function ()
             {
@@ -266,7 +316,7 @@ BaseGameLogic.prototype =
 
         SE_WARNING("Could not modify actor with id: " + actorId + ". Actor does not exists.");
 
-        return new Promise(autoRejectingPromise);
+        return Promise.reject();
     },
     /**
      * Performs updating of the game logic.
