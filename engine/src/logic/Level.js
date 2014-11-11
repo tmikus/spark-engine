@@ -27,7 +27,7 @@ Level.prototype =
     m_scripts: null,
     /**
      * Array of static actors to add to the level.
-     * @type {{ resourceName: string }[]}
+     * @type {{ overrides: *, resourceName: string }[]}
      */
     m_staticActors: null,
     /**
@@ -43,9 +43,11 @@ Level.prototype =
         this.m_staticActors = new Array(level.staticActors.length);
         for (var actorIndex = 0; actorIndex < level.staticActors.length; actorIndex++)
         {
+            var levelActor = level.staticActors[actorIndex];
             this.m_staticActors[actorIndex] =
             {
-                resourceName: level.staticActors[actorIndex].resourceName
+                overrides: levelActor.overrides,
+                resourceName: levelActor.resourceName
             };
         }
     }

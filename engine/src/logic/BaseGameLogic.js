@@ -190,11 +190,26 @@ BaseGameLogic.prototype =
      * Processes the static actors.
      *
      * @param {Level} level Instance of the level.
+     * @returns {Promise} Promise of creating static actors.
      * @private
      */
     _processStaticActors: function _processStaticActors(level)
     {
+        var staticActors = level.m_staticActors;
+        var staticActorsLength = staticActors.length;
+        var actorCreationPromises = new Array(staticActorsLength);
 
+        for (var actorIndex = 0; actorIndex < staticActorsLength; actorIndex++)
+        {
+            // TODO: What to do with initial transform?
+            var staticActor = staticActors[actorIndex];
+            actorCreationPromises[actorIndex] = this.vCreateActor(
+                staticActor.resourceName,
+                staticActor.overrides
+            );
+        }
+
+        return Promise.all(actorCreationPromises);
     },
     /**
      * Called when the level resource was loaded.
@@ -252,7 +267,7 @@ BaseGameLogic.prototype =
         switch (state)
         {
             case BaseGameState.LoadingGameEnvironment:
-                this.m_gameWorker.sendMessageToGame(new WorkerMessage_LoadGame());
+                this.m_gameWorker.vLoadGame();
                 break;
         }
     },

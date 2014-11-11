@@ -4,5 +4,8 @@
         "postLoad": "scripts/loadingLevelPostLoad",
         "preLoad": "scripts/loadingLevelPreLoad"
     },
-    "staticActors": []
+    "staticActors":
+    [
+        { "resourceName": "actors/simple-actor" }
+    ]
 }

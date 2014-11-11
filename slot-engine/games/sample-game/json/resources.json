@@ -1,4 +1,9 @@
 {
+    "actors/simple-actor":
+    {
+        "path": "json/actors/simple-actor.json",
+        "type": "JSON"
+    },
     "levels":
     {
         "path": "json/levels.json",

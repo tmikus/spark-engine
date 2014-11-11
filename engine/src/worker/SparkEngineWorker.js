@@ -231,12 +231,6 @@ SparkEngineWorker.prototype =
                 this.m_gameOptions.onOptionsLoadedFromGame(message.data);
                 break;
 
-            // This message is tricky because it works both ways
-            // First game logic requests this then game tells the logic that it can start loading
-            case WorkerMessage_LoadGame.s_type:
-                this.vLoadGame();
-                break;
-
             case WorkerMessage_ResourceResponse.s_type:
                 this.m_resourceManager.requestedResourceLoaded(message.data);
                 break;
@@ -331,7 +325,6 @@ SparkEngineWorker.prototype =
     vLoadGame: function vLoadGame()
     {
         SE_INFO("Starting loading the game in Game Worker.");
-        // Starts loading the current game level.
         this.m_gameLogic.vLoadGame(this.m_gameLogic.m_levelManager.getCurrentLevelName());
     },
     /**
