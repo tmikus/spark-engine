@@ -5,6 +5,7 @@ module.exports =
     'src/utils/*.js',
     'src/core/*.js',
     'src/debugging/*.js',
+    'src/application/GameOptions.js',
     'src/actors/*.js',
     'src/events/*.js',
     'src/logic/*.js',

@@ -14,6 +14,11 @@ function LevelManager(gameWorker)
 LevelManager.prototype =
 {
     /**
+     * Index of the current level.
+     * @type {number}
+     */
+    m_currentLevelIndex: -1,
+    /**
      * Game worker to which this level manager is added.
      * @type {SparkEngineWorker}
      */
@@ -31,6 +36,7 @@ LevelManager.prototype =
      */
     _onLevelsConfigurationLoaded: function _onLevelsConfigurationLoaded(configuration)
     {
+        this.m_currentLevelIndex = configuration.startLevelIndex;
         this.m_levelResourceNames = configuration.levels;
     },
     /**
@@ -42,9 +48,27 @@ LevelManager.prototype =
      */
     _onLevelLoaded: function _onLevelLoaded(levelConfiguration)
     {
-        var level = new Level();
-        level.deserialize(levelConfiguration);
-        return level;
+        try
+        {
+            SE_INFO("Trying to deserialize the level.");
+            var level = new Level();
+            level.deserialize(levelConfiguration);
+            return level;
+        }
+        catch (ex)
+        {
+            SE_ERROR("Could not deserialize level.");
+            throw ex;
+        }
+    },
+    /**
+     * Gets the name of current level.
+     *
+     * @returns {string}
+     */
+    getCurrentLevelName: function getCurrentLevelName()
+    {
+        return this.m_levelResourceNames[this.m_currentLevelIndex];
     },
     /**
      * Initialises the level manager.

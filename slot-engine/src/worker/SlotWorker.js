@@ -29,6 +29,17 @@ SlotWorker.prototype = Class.extend(SparkEngineWorker,
             });
     },
     /**
+     * Gets the name of the resource file containing game options.
+     *
+     * @returns {string} Name of resource containing game options.
+     * @protected
+     * @virtual
+     */
+    _vGetGameOptionsResourceName: function _vGetGameOptionsResourceName()
+    {
+        return "options"
+    },
+    /**
      * Gets name of the resource containing levels configuration
      *
      * @returns {string} Name of the configuration resource.
@@ -36,6 +47,6 @@ SlotWorker.prototype = Class.extend(SparkEngineWorker,
      */
     vGetLevelsConfigurationResourceName: function vGetLevelsConfigurationResourceName()
     {
-        return "levels.json"
+        return "levels"
     }
 });

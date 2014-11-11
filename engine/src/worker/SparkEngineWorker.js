@@ -8,6 +8,7 @@
  */
 function SparkEngineWorker()
 {
+    this.m_gameOptions = new GameOptions(this);
 }
 
 SparkEngineWorker.prototype =
@@ -23,6 +24,11 @@ SparkEngineWorker.prototype =
      */
     m_gameLogic: null,
     /**
+     * Game options.
+     * @type {GameOptions}
+     */
+    m_gameOptions: null,
+    /**
      * Instance of the game time.
      * Used for tracking the game time from one update to another.
      * @type {GameTime}
@@ -33,6 +39,12 @@ SparkEngineWorker.prototype =
      * @type {WorkerResourceManager}
      */
     m_resourceManager: null,
+    /**
+     * Instance of the script manager.
+     * Used for executing scripts in the game.
+     * @type {ScriptManager}
+     */
+    m_scriptManager: null,
     /**
      * ID of interval used for updating game logic.
      * @type {number}
@@ -137,6 +149,26 @@ SparkEngineWorker.prototype =
         }
     },
     /**
+     * Initialises the script manager
+     *
+     * @returns {Promise} Promise of initialisation of script manager.
+     * @protected
+     */
+    _initialiseScriptManager: function _initialiseScriptManager()
+    {
+        try
+        {
+            SE_INFO("Initialising Script Manager.");
+            this.m_scriptManager = new ScriptManager(this);
+            return this.m_scriptManager.initialise();
+        }
+        catch (ex)
+        {
+            SE_FATAL("Initialisation of script manager has failed!", ex);
+            throw ex;
+        }
+    },
+    /**
      * Loads the game options from the server and overwrites them with client settings from local storage.
      *
      * @returns {Promise} Promise of loading game options.
@@ -144,12 +176,12 @@ SparkEngineWorker.prototype =
      */
     _loadGameOptions: function _loadGameOptions()
     {
-        return this.m_resourceManager.getResource("test.json")
-            .then(function (data)
+        SE_INFO("Loading game options from main game.");
+        return this.m_gameOptions.loadFromGame()
+            .catch(function ()
             {
-                SE_INFO(data);
+                SE_FATAL("Could not load game options!");
             });
-        // TODO: Implement
     },
     /**
      * Creates game logic used by the game.
@@ -159,6 +191,14 @@ SparkEngineWorker.prototype =
      * @virtual
      */
     _vCreateGameLogic: notImplemented,
+    /**
+     * Gets the name of the resource file containing game options.
+     *
+     * @returns {string} Name of resource containing game options.
+     * @protected
+     * @virtual
+     */
+    _vGetGameOptionsResourceName: notImplemented,
     /**
      * Called when the game requested the logic to be updated.
      * @protected
@@ -187,6 +227,16 @@ SparkEngineWorker.prototype =
     {
         switch (message.data.m_type)
         {
+            case WorkerMessage_GameOptionsResponse.s_type:
+                this.m_gameOptions.onOptionsLoadedFromGame(message.data);
+                break;
+
+            // This message is tricky because it works both ways
+            // First game logic requests this then game tells the logic that it can start loading
+            case WorkerMessage_LoadGame.s_type:
+                this.vLoadGame();
+                break;
+
             case WorkerMessage_ResourceResponse.s_type:
                 this.m_resourceManager.requestedResourceLoaded(message.data);
                 break;
@@ -235,6 +285,7 @@ SparkEngineWorker.prototype =
             .then(this._initialiseEventService.bind(this))
             .then(this._vRegisterEvents.bind(this))
             .then(this._loadGameOptions.bind(this))
+            .then(this._initialiseScriptManager.bind(this))
             .then(this._initialiseGameLogic())
             .then(function ()
             {
@@ -279,7 +330,9 @@ SparkEngineWorker.prototype =
      */
     vLoadGame: function vLoadGame()
     {
-        // TODO: Implement
+        SE_INFO("Starting loading the game in Game Worker.");
+        // Starts loading the current game level.
+        this.m_gameLogic.vLoadGame(this.m_gameLogic.m_levelManager.getCurrentLevelName());
     },
     /**
      * Called after the initialisation is done.

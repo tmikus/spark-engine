@@ -69,7 +69,7 @@ IGameLogic.prototype =
      * Called when the game is being loaded.
      * Developers can perform additional loading here.
      *
-     * @param {*} level Instance of the level.
+     * @param {Level} level Instance of the level.
      * @returns {Promise} Promise of loading of the game.
      */
     vLoadGameDelegate: notImplemented,

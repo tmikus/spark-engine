@@ -10,8 +10,9 @@ function BaseGameLogic(gameWorker)
 {
     this.m_actors = [];
     this.m_actorsMap = {};
-    this.m_gameWorker = gameWorker;
+    this.m_gameState = BaseGameState.Initialising;
     this.m_gameViews = [];
+    this.m_gameWorker = gameWorker;
 }
 
 BaseGameLogic.prototype =
@@ -37,6 +38,11 @@ BaseGameLogic.prototype =
      * @type {number}
      */
     m_currentGameViewId: INVALID_GAME_VIEW_ID,
+    /**
+     * State of the game at this point.
+     * @type {BaseGameState|number}
+     */
+    m_gameState: 0,
     /**
      * Array of game views added to this game logic.
      * @type {IGameView[]}
@@ -131,6 +137,14 @@ BaseGameLogic.prototype =
         return actor;
     },
     /**
+     * Called when the level was loaded.
+     * @private
+     */
+    _onLevelLoaded: function _onLevelLoaded()
+    {
+        this.vChangeState(BaseGameState.WaitingForPlayersToLoadEnvironment);
+    },
+    /**
      * Processes the human views.
      *
      * @param {Level} level Instance of the level.
@@ -144,21 +158,33 @@ BaseGameLogic.prototype =
      * Processes the post load scripts.
      *
      * @param {Level} level Instance of the level.
+     * @returns {Promise} Promise of running post load scripts.
      * @private
      */
     _processPostLoadScripts: function _processPostLoadScripts(level)
     {
+        var postLoadScript = level.m_scripts.postLoad;
+        if (!postLoadScript)
+            return null;
 
+        SE_INFO("Level has post-load script. Running script: " + postLoadScript);
+        return this.m_gameWorker.m_scriptManager.runScript(postLoadScript);
     },
     /**
      * Processes the pre-load scripts.
      *
      * @param {Level} level Instance of the level.
+     * @returns {Promise} Promise of running pre load scripts.
      * @private
      */
     _processPreLoadScripts: function _processPreLoadScripts(level)
     {
+        var preLoadScript = level.m_scripts.preLoad;
+        if (!preLoadScript)
+            return null;
 
+        SE_INFO("Level has pre-load script. Running script: " + preLoadScript);
+        return this.m_gameWorker.m_scriptManager.runScript(preLoadScript);
     },
     /**
      * Processes the static actors.
@@ -189,7 +215,11 @@ BaseGameLogic.prototype =
             .then(function ()
             {
                 this.m_gameWorker.m_eventService.triggerEvent(new EventData_EnvironmentLoaded());
-            }.bind(this));
+            }.bind(this))
+            .catch(function ()
+            {
+                SE_ERROR("Initialisation of the level has failed.");
+            });
     },
     /**
      * Adds a view to the game logic class.
@@ -211,11 +241,20 @@ BaseGameLogic.prototype =
     /**
      * Changes the state of the game logic.
      *
-     * @param {number} state State to which switch.
+     * @param {BaseGameState|number} state State to which switch.
      */
     vChangeState: function vChangeState(state)
     {
+        SE_INFO("Changing game state to: " + state);
 
+        this.m_gameState = state;
+
+        switch (state)
+        {
+            case BaseGameState.LoadingGameEnvironment:
+                this.m_gameWorker.sendMessageToGame(new WorkerMessage_LoadGame());
+                break;
+        }
     },
     /**
      * Creates the actor from specified resource.
@@ -291,8 +330,13 @@ BaseGameLogic.prototype =
      */
     vLoadGame: function vLoadGame(levelResource)
     {
-        this.m_levelManager.loadLevel(levelResource)
+        SE_INFO("Loading game level: " + levelResource);
+
+        // TODO: Destroying previous level...
+
+        return this.m_levelManager.loadLevel(levelResource)
             .then(this._vOnLevelResourceLoaded.bind(this))
+            .then(this._onLevelLoaded.bind(this))
             .catch(function ()
             {
                 SE_ERROR("Could not load level: " + levelResource);
@@ -325,8 +369,22 @@ BaseGameLogic.prototype =
      */
     vOnUpdate: function vOnUpdate(gameTime)
     {
-        // TODO: Updating game state
-        
+        switch (this.m_gameState)
+        {
+            case BaseGameState.Initialising:
+                this.vChangeState(BaseGameState.LoadingGameEnvironment);
+                break;
+
+            case BaseGameState.WaitingForPlayersToLoadEnvironment:
+                // TODO: Implement handling of multiple players
+                this.vChangeState(BaseGameState.SpawningPlayerActors);
+                break;
+
+            case BaseGameState.SpawningPlayerActors:
+                this.vChangeState(BaseGameState.Running);
+                break;
+        }
+
         this.m_processManager.updateProcesses(gameTime);
         
         // Updating all game views.

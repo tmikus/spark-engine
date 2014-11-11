@@ -37,8 +37,8 @@ Level.prototype =
     deserialize: function deserialize(level)
     {
         this.m_name = level.name;
-        this.m_scripts.postLoad = level.postLoad;
-        this.m_scripts.preLoad = level.preLoad;
+        this.m_scripts.postLoad = level.scripts.postLoad;
+        this.m_scripts.preLoad = level.scripts.preLoad;
 
         this.m_staticActors = new Array(level.staticActors.length);
         for (var actorIndex = 0; actorIndex < level.staticActors.length; actorIndex++)

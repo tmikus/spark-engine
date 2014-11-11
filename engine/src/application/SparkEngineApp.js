@@ -202,6 +202,16 @@ SparkEngineApp.prototype =
     {
         switch (message.data.m_type)
         {
+            case WorkerMessage_GameOptionsRequest.s_type:
+                this.m_gameOptions.sendOptionsToWorker();
+                break;
+
+            // This message is tricky because it works both ways
+            // First game logic requests this then game tells the logic that it can start loading
+            case WorkerMessage_LoadGame.s_type:
+                this.vLoadGame();
+                break;
+
             case WorkerMessage_ResourceRequest.s_type:
                 this.m_resourceManager.resourceRequested(message.data);
                 break;
@@ -297,7 +307,8 @@ SparkEngineApp.prototype =
      */
     vLoadGame: function vLoadGame()
     {
-        // TODO: Implement
+        SE_INFO("Starting loading the game. Sending message to Game Worker.");
+        this.sendMessageToGameLogic(new WorkerMessage_LoadGame());
     },
     /**
      * Called after the initialisation is done.

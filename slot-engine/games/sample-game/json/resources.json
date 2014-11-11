@@ -1,15 +1,30 @@
 {
-    "levels.json":
+    "levels":
     {
         "path": "json/levels.json",
         "type": "JSON"
     },
-    "options.json":
+    "levels/loading":
+    {
+        "path": "json/levels/loading.json",
+        "type": "JSON"
+    },
+    "options":
     {
         "path": "json/options.json",
         "type": "JSON"
     },
-    "test.json":
+    "scripts/loadingLevelPostLoad":
+    {
+        "path": "scripts/loadingLevelPostLoad.js",
+        "type": "JavaScript"
+    },
+    "scripts/loadingLevelPreLoad":
+    {
+        "path": "scripts/loadingLevelPreLoad.js",
+        "type": "JavaScript"
+    },
+    "test":
     {
         "path": "json/test.json",
         "type": "JSON"

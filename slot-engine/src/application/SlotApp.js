@@ -31,6 +31,6 @@ SlotApp.prototype = Class.extend(SparkEngineApp,
      */
     _vGetGameOptionsResourceName: function _vGetGameOptionsResourceName()
     {
-        return "options.json"
+        return "options"
     }
 });

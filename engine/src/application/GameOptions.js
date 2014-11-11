@@ -1,7 +1,7 @@
 /**
  * Game options object.
  *
- * @param {SparkEngineApp} game Instance of the game to which those options are bound.
+ * @param {SparkEngineApp|SparkEngineWorker} game Instance of the game to which those options are bound.
  * @param {*} [options] Options defaults.
  * @constructor
  * @class
@@ -23,7 +23,7 @@ GameOptions.prototype = Class.extend(BaseOptions,
     m_forceCanvas2DContext: false,
     /**
      * Instance of the game to which those options are bound.
-     * @type {SparkEngineApp}
+     * @type {SparkEngineApp|SparkEngineWorker}
      */
     m_game: null,
     /**
@@ -32,21 +32,10 @@ GameOptions.prototype = Class.extend(BaseOptions,
      */
     m_language: null,
     /**
-     * Name of the level player is currently playing in.
-     * @type {string}
+     * Function for resolving promise of loading options from game.
+     * @type {Promise}
      */
-    m_levelName: null,
-    /**
-     * Called when the options have been loaded from the server.
-     *
-     * @param {*} options Options object.
-     * @private
-     */
-    _onOptionsLoaded: function _onOptionsLoaded(options)
-    {
-        this.m_forceCanvas2DContext = options.forceCanvas2DContext;
-        this.m_language = options.language;
-    },
+    m_loadOptionsFromGamePromiseResolve: null,
     /**
      * Tries to load option from the local storage.
      *
@@ -62,6 +51,16 @@ GameOptions.prototype = Class.extend(BaseOptions,
         }
     },
     /**
+     * Deserializes game options from data object.
+     *
+     * @param {*} options Options data object.
+     */
+    deserialize: function deserialize(options)
+    {
+        this.m_forceCanvas2DContext = options.forceCanvas2DContext;
+        this.m_language = options.language;
+    },
+    /**
      * Loads the game options from the browser's local storage.
      *
      * @return {boolean} True if loaded; otherwise false.
@@ -74,6 +73,20 @@ GameOptions.prototype = Class.extend(BaseOptions,
         return true;
     },
     /**
+     * Loads the game options from the main game.
+     * TO BE USED ONLY BY WORKER.
+     *
+     * @returns {Promise} Promise of loading game options from game.
+     */
+    loadFromGame: function loadFromGame()
+    {
+        return new Promise(function (resolve, reject)
+        {
+            this.m_loadOptionsFromGamePromiseResolve = resolve;
+            this.m_game.sendMessageToGame(new WorkerMessage_GameOptionsRequest());
+        }.bind(this));
+    },
+    /**
      * Loads the game options from the server.
      *
      * @param {string} resourceName Name of the game options resource file.
@@ -83,6 +96,37 @@ GameOptions.prototype = Class.extend(BaseOptions,
     {
         SE_INFO("Loading game options from the server.");
         return this.m_game.m_resourceManager.getResource(resourceName)
-            .then(this._onOptionsLoaded.bind(this));
+            .then(this.deserialize.bind(this));
+    },
+    /**
+     * Called when the options were loaded from the game.
+     *
+     * @param {WorkerMessage_GameOptionsResponse} message Message from game.
+     */
+    onOptionsLoadedFromGame: function onOptionsLoadedFromGame(message)
+    {
+        this.deserialize(message.m_options);
+        this.m_loadOptionsFromGamePromiseResolve();
+        this.m_loadOptionsFromGamePromiseResolve = null;
+    },
+    /**
+     * Sends the game options to the worker.
+     * TO BE USED ONLY FROM MAIN GAME.
+     */
+    sendOptionsToWorker: function sendOptionsToWorker()
+    {
+        this.m_game.sendMessageToGameLogic(new WorkerMessage_GameOptionsResponse(this.serialize()));
+    },
+    /**
+     * Serializes the game options to the transfer object.
+     *
+     * @returns {*} Game options.
+     */
+    serialize: function serialize()
+    {
+        return {
+            forceCanvas2DContext: this.m_forceCanvas2DContext,
+            language: this.m_language
+        };
     }
 });

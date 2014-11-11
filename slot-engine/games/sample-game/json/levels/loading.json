@@ -1,0 +1,8 @@
+{
+    "scripts":
+    {
+        "postLoad": "scripts/loadingLevelPostLoad",
+        "preLoad": "scripts/loadingLevelPreLoad"
+    },
+    "staticActors": []
+}
