@@ -13,6 +13,7 @@ function BaseGameLogic(gameWorker)
     this.m_gameState = BaseGameState.Initialising;
     this.m_gameViews = [];
     this.m_gameWorker = gameWorker;
+    this.m_humanViews = [];
 }
 
 BaseGameLogic.prototype =
@@ -53,6 +54,11 @@ BaseGameLogic.prototype =
      * @type {SparkEngineWorker}
      */
     m_gameWorker: null,
+    /**
+     * Array of human views added to this game logic.
+     * @type {IGameView[]}
+     */
+    m_humanViews: null,
     /**
      * Instance of the level manager.
      * @type {LevelManager}
@@ -148,11 +154,21 @@ BaseGameLogic.prototype =
      * Processes the human views.
      *
      * @param {Level} level Instance of the level.
+     * @returns {Promise} Promise of loading game on human views.
      * @private
      */
     _processHumanViews: function _processHumanViews(level)
     {
+        var humanViews = this.m_humanViews;
+        var humanViewsLength = humanViews.length;
+        var humanViewLoadGamePromises = new Array(humanViewsLength);
 
+        for (var humanViewIndex = 0; humanViewIndex < humanViewsLength; humanViewIndex++)
+        {
+            humanViewLoadGamePromises[humanViewIndex] = humanViews[humanViewIndex].vLoadGame(level);
+        }
+
+        return Promise.all(humanViewLoadGamePromises);
     },
     /**
      * Processes the post load scripts.
@@ -250,6 +266,12 @@ BaseGameLogic.prototype =
         }
 
         this.m_gameViews.push(gameView);
+
+        if (gameView.m_type == GameViewType.Human)
+        {
+            this.m_humanViews.push(gameView);
+        }
+
         gameView.vOnAttach(++this.m_currentGameViewId, actorId);
         gameView.vInitialise();
     },
@@ -429,6 +451,12 @@ BaseGameLogic.prototype =
         if (gameViewIndex != -1)
         {
             gameView.vDestroy();
+
+            if (gameView.m_type == GameViewType.Human)
+            {
+                this.m_humanViews.splice(this.m_humanViews.indexOf(gameView), 1);
+            }
+
             this.m_gameViews.splice(gameViewIndex, 1);
         }
     }

@@ -45,6 +45,12 @@ IGameView.prototype =
      */
     vInitialise: notImplemented,
     /**
+     * Loads the game.
+     *
+     * @return {Promise} Promise of loading a game.
+     */
+    vLoadGame: notImplemented,
+    /**
      * Called when the view has been attached to the specified actor.
      *
      * @param {number} gameViewId ID of the game view (assigned by the logic).

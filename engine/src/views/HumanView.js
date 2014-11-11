@@ -51,6 +51,15 @@ HumanView.prototype =
 
     },
     /**
+     * Loads the game.
+     *
+     * @return {Promise} Promise of loading a game.
+     */
+    vLoadGame: function vLoadGame()
+    {
+        return Promise.resolve();
+    },
+    /**
      * Called when the view has been attached to the specified actor.
      *
      * @param {number} gameViewId ID of the game view (assigned by the logic).
