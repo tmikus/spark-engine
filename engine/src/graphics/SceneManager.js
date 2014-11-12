@@ -33,9 +33,11 @@ SceneManager.prototype =
     },
     /**
      * Initialises the scene manager.
+     *
+     * @returns {Promise} promise of initialisation.
      */
     initialise: function initialise()
     {
-
+        return Promise.resolve();
     }
 };

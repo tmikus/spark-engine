@@ -12,6 +12,11 @@ function IGameLogic(gameWorker)
 IGameLogic.prototype =
 {
     /**
+     * Array of game views added to this game logic.
+     * @type {IGameView[]}
+     */
+    m_gameViews: null,
+    /**
      * Instance of the game worker to which this game logic belongs.
      * @type {SparkEngineWorker}
      */

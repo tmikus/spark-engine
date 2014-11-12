@@ -19,6 +19,8 @@ module.exports =
     'src/graphics/*.js',
     'src/network/*.js',
     'src/resources/ResourceManager.js',
+    'src/view-renderers/*.js',
+    'src/views/GameViewType.js',
     'src/worker/WorkerInitialisationStatus.js',
     'src/worker-messages/*.js',
     'src/Engine.js'

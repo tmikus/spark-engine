@@ -58,6 +58,10 @@ IGameView.prototype =
      */
     vOnAttach: notImplemented,
     /**
+     * Called when the renderer for the view was created.
+     */
+    vOnRendererCreated: notImplemented,
+    /**
      * Performs updating of the game view logic.
      *
      * @param {GameTime} gameTime Time of the game.

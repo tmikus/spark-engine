@@ -11,6 +11,7 @@ function SparkEngineApp()
     this.m_browserResizedBinding = Function.debounce(this._onBrowserResized.bind(this), 300);
     this.m_renderBinding = this._render.bind(this);
     this.m_gameOptions = new GameOptions(this);
+    this.m_gameViewRenderers = [];
 }
 
 SparkEngineApp.prototype =
@@ -31,6 +32,11 @@ SparkEngineApp.prototype =
      */
     m_gameOptions: null,
     /**
+     * Array of game view renderers.
+     * @type {IViewRenderer[]}
+     */
+    m_gameViewRenderers: null,
+    /**
      * Binding to the 'render' method.
      * @type {Function}
      */
@@ -45,6 +51,73 @@ SparkEngineApp.prototype =
      * @type {ResourceManager}
      */
     m_resourceManager: null,
+    /**
+     * Creates view renderer based on the creation request.
+     *
+     * @param {WorkerMessage_CreateViewRendererRequest} message Creation request.
+     * @private
+     */
+    _createViewRenderer: function _createViewRenderer(message)
+    {
+        SE_INFO("Creating view renderer for view: " + message.m_viewId);
+
+        var gameView = null;
+        switch (message.m_viewType)
+        {
+            case GameViewType.Human:
+                gameView = new HumanViewRenderer(this, this.m_renderer, message.m_viewId);
+                break;
+            default:
+                SE_ERROR("Could not create view renderer for type: " + message.m_viewType);
+                return;
+        }
+
+        this.m_gameViewRenderers.push(gameView);
+
+        gameView.vInitialise()
+            .then(function ()
+            {
+                this.sendMessageToGameLogic(new WorkerMessage_CreateViewRendererResponse(message.m_viewId));
+            }.bind(this))
+            .catch(function ()
+            {
+                SE_ERROR("Initialisation of view renderer has failed!");
+            });
+    },
+    /**
+     * Destroys the view renderer.
+     *
+     * @param {WorkerMessage_DestroyViewRendererRequest} message Message containing info about which view to destroy.
+     * @private
+     */
+    _destroyViewRenderer: function _destroyViewRenderer(message)
+    {
+        SE_INFO("Destroying game view renderer with ID: " + message.m_viewId);
+
+        var view = null;
+        var viewIndex = 0;
+        var gameViewRenderers = this.m_gameViewRenderers;
+        var gameViewRenderersLength = gameViewRenderers.length;
+
+        for (; viewIndex < gameViewRenderersLength; viewIndex++)
+        {
+            if (gameViewRenderers[viewIndex].m_id != message.m_viewId)
+                continue;
+
+            view = gameViewRenderers[viewIndex];
+            break;
+        }
+
+        if (view)
+        {
+            view.vDestroy();
+            gameViewRenderers.splice(viewIndex, 1);
+        }
+        else
+        {
+            SE_WARNING("Could not delete game view renderer. Could not find view with that ID.");
+        }
+    },
     /**
      * Initialises the game audio.
      *
@@ -175,7 +248,12 @@ SparkEngineApp.prototype =
     {
         this.sendMessageToGameLogic(new WorkerMessage_TriggerEvent(EventData_DeviceLost.s_type, null));
 
-        // TODO: Implement handing game views
+        var views = this.m_gameViewRenderers;
+        var viewsLength = views.length;
+        for (var viewIndex = 0; viewIndex < viewsLength; viewIndex++)
+        {
+            views[viewIndex].vOnDeviceLost();
+        }
 
         this.m_renderer.onDeviceLost();
     },
@@ -187,7 +265,12 @@ SparkEngineApp.prototype =
     {
         this.m_renderer.onDeviceRestored();
 
-        // TODO: Implement handling game views
+        var views = this.m_gameViewRenderers;
+        var viewsLength = views.length;
+        for (var viewIndex = 0; viewIndex < viewsLength; viewIndex++)
+        {
+            views[viewIndex].vOnDeviceRestored();
+        }
 
         this.sendMessageToGameLogic(new WorkerMessage_TriggerEvent(EventData_DeviceRestored.s_type, null));
     },
@@ -202,6 +285,14 @@ SparkEngineApp.prototype =
     {
         switch (message.data.m_type)
         {
+            case WorkerMessage_CreateViewRendererRequest.s_type:
+                this._createViewRenderer(message.data);
+                break;
+
+            case WorkerMessage_DestroyViewRendererRequest.s_type:
+                this._destroyViewRenderer(message.data);
+                break;
+
             case WorkerMessage_GameOptionsRequest.s_type:
                 this.m_gameOptions.sendOptionsToWorker();
                 break;
@@ -223,7 +314,15 @@ SparkEngineApp.prototype =
     _render: function _render()
     {
         this.m_renderer.preRender();
-        // TODO: Is anything going here?
+
+        // TODO: Is the below code needed?
+        var views = this.m_gameViewRenderers;
+        var viewsLength = views.length;
+        for (var viewIndex = 0; viewIndex < viewsLength; viewIndex++)
+        {
+            views[viewIndex].vRender();
+        }
+
         this.m_renderer.postRender();
 
         requestAnimationFrame(this.m_renderBinding);

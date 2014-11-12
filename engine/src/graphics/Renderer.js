@@ -176,7 +176,6 @@ Renderer.prototype =
      */
     preRender: function preRender()
     {
-
     },
     /**
      * Called after rendering was done.

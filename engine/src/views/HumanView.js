@@ -29,6 +29,16 @@ HumanView.prototype =
      */
     m_id: INVALID_GAME_VIEW_ID,
     /**
+     * Function used for resolving initialisation promise.
+     * @type {Function}
+     */
+    m_initialisePromiseResolve: null,
+    /**
+     * Function used for rejecting initialisation promise.
+     * @type {Function}
+     */
+    m_initialisePromiseReject: null,
+    /**
      * Type of the game view.
      * @type {GameViewType}
      */
@@ -38,9 +48,8 @@ HumanView.prototype =
      */
     vDestroy: function vDestroy()
     {
-
+        this.m_gameLogic.m_gameWorker.sendMessageToGame(new WorkerMessage_DestroyViewRendererRequest(this.m_id));
     },
-
     /**
      * Initialises the game view.
      *
@@ -48,7 +57,17 @@ HumanView.prototype =
      */
     vInitialise: function vInitialise()
     {
-
+        return new Promise(function (resolve, reject)
+            {
+                this.m_initialisePromiseReject = reject;
+                this.m_initialisePromiseResolve = resolve;
+                this.m_gameLogic.m_gameWorker.sendMessageToGame(new WorkerMessage_CreateViewRendererRequest(this.m_id, this.m_type));
+            }.bind(this))
+            .then(function ()
+            {
+                this.m_initialisePromiseReject = null;
+                this.m_initialisePromiseResolve = null;
+            }.bind(this));
     },
     /**
      * Loads the game.
@@ -69,6 +88,13 @@ HumanView.prototype =
     {
         this.m_actorId = actorId;
         this.m_id = gameViewId;
+    },
+    /**
+     * Called when the renderer for the view was created.
+     */
+    vOnRendererCreated: function vOnRendererCreated()
+    {
+        this.m_initialisePromiseResolve();
     },
     /**
      * Performs updating of the game view logic.

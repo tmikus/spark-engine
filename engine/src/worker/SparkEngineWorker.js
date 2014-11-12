@@ -184,6 +184,27 @@ SparkEngineWorker.prototype =
             });
     },
     /**
+     * Called when the game view renderer was created.
+     *
+     * @param {WorkerMessage_CreateViewRendererResponse} message Message sent back from the game.
+     * @private
+     */
+    _onGameViewRendererCreated: function _onGameViewRendererCreated(message)
+    {
+        var gameViews = this.m_gameLogic.m_gameViews;
+        var gameViewsLength = gameViews.length;
+        for (var gameViewIndex = 0; gameViewIndex < gameViewsLength; gameViewIndex++)
+        {
+            var gameView = gameViews[gameViewIndex];
+            if (gameView.m_id != message.m_viewId)
+                continue;
+
+            gameView.vOnRendererCreated();
+        }
+
+        SE_WARNING("Renderer created but could not find view with ID: " + message.m_viewId);
+    },
+    /**
      * Creates game logic used by the game.
      *
      * @returns {Promise} Promise of Game Logic creation.
@@ -227,6 +248,10 @@ SparkEngineWorker.prototype =
     {
         switch (message.data.m_type)
         {
+            case WorkerMessage_CreateViewRendererResponse.s_type:
+                this._onGameViewRendererCreated(message.data);
+                break;
+
             case WorkerMessage_GameOptionsResponse.s_type:
                 this.m_gameOptions.onOptionsLoadedFromGame(message.data);
                 break;
