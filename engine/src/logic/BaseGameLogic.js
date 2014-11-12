@@ -217,11 +217,11 @@ BaseGameLogic.prototype =
 
         for (var actorIndex = 0; actorIndex < staticActorsLength; actorIndex++)
         {
-            // TODO: What to do with initial transform?
             var staticActor = staticActors[actorIndex];
             actorCreationPromises[actorIndex] = this.vCreateActor(
                 staticActor.resourceName,
-                staticActor.overrides
+                staticActor.overrides,
+                staticActor.initialTransform
             );
         }
 
