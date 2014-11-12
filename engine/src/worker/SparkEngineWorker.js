@@ -200,6 +200,7 @@ SparkEngineWorker.prototype =
                 continue;
 
             gameView.vOnRendererCreated();
+            return;
         }
 
         SE_WARNING("Renderer created but could not find view with ID: " + message.m_viewId);
@@ -305,7 +306,7 @@ SparkEngineWorker.prototype =
             .then(this._vRegisterEvents.bind(this))
             .then(this._loadGameOptions.bind(this))
             .then(this._initialiseScriptManager.bind(this))
-            .then(this._initialiseGameLogic())
+            .then(this._initialiseGameLogic.bind(this))
             .then(function ()
             {
                 SE_INFO("Game worker initialised.");
@@ -350,7 +351,11 @@ SparkEngineWorker.prototype =
     vLoadGame: function vLoadGame()
     {
         SE_INFO("Starting loading the game in Game Worker.");
-        this.m_gameLogic.vLoadGame(this.m_gameLogic.m_levelManager.getCurrentLevelName());
+        this.m_gameLogic.vLoadGame(this.m_gameLogic.m_levelManager.getCurrentLevelName())
+            .then(function ()
+            {
+                this.vChangeState(BaseGameState.WaitingForPlayersToLoadEnvironment);
+            }.bind(this));
     },
     /**
      * Called after the initialisation is done.

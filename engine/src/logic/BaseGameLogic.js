@@ -14,6 +14,8 @@ function BaseGameLogic(gameWorker)
     this.m_gameViews = [];
     this.m_gameWorker = gameWorker;
     this.m_humanViews = [];
+
+    this.m_environmentLoadedBinding = this._vOnEnvironmentLoaded.bind(this);
 }
 
 BaseGameLogic.prototype =
@@ -34,11 +36,41 @@ BaseGameLogic.prototype =
      */
     m_actorsMap: null,
     /**
+     * Number of attached AI players.
+     * @type {number}
+     */
+    m_attachedAiPlayers: 0,
+    /**
+     * Number of attached local players.
+     * @type {number}
+     */
+    m_attachedLocalPlayers: 0,
+    /**
+     * Number of attached remote players.
+     * @type {number}
+     */
+    m_attachedRemotePlayers: 0,
+    /**
      * ID of the currently used game view ID.
      * New views will have ID higher than this.
      * @type {number}
      */
     m_currentGameViewId: INVALID_GAME_VIEW_ID,
+    /**
+     * Number of expected AI players.
+     * @type {number}
+     */
+    m_expectedAiPlayers: 0,
+    /**
+     * Number of expected local players.
+     * @type {number}
+     */
+    m_expectedLocalPlayers: 0,
+    /**
+     * Number of expected remote players.
+     * @type {number}
+     */
+    m_expectedRemotePlayers: 0,
     /**
      * State of the game at this point.
      * @type {BaseGameState|number}
@@ -64,6 +96,11 @@ BaseGameLogic.prototype =
      * @type {LevelManager}
      */
     m_levelManager: null,
+    /**
+     * Number of players who finished loading the level.
+     * @type {number}
+     */
+    m_loadedPlayers: 0,
     /**
      * Manager of the processes.
      * @type {ProcessManager}
@@ -228,6 +265,17 @@ BaseGameLogic.prototype =
         return Promise.all(actorCreationPromises);
     },
     /**
+     * Method called when the environment was loaded.
+     *
+     * @param {EventData_EnvironmentLoaded} data Event data.
+     * @protected
+     * @virtual
+     */
+    _vOnEnvironmentLoaded: function _vOnEnvironmentLoaded(data)
+    {
+        this.m_loadedPlayers++;
+    },
+    /**
      * Called when the level resource was loaded.
      *
      * @param {Level} level Instance of the level resource.
@@ -260,6 +308,9 @@ BaseGameLogic.prototype =
      */
     vAddView: function vAddView(gameView, actorId)
     {
+        var gameViewId = ++this.m_currentGameViewId;
+        SE_INFO("Adding game view with type: " + gameView.m_type + " and id: " + gameViewId);
+
         if (actorId == undefined)
         {
             actorId = INVALID_ACTOR_ID;
@@ -272,8 +323,22 @@ BaseGameLogic.prototype =
             this.m_humanViews.push(gameView);
         }
 
-        gameView.vOnAttach(++this.m_currentGameViewId, actorId);
+        gameView.vOnAttach(gameViewId, actorId);
         gameView.vInitialise();
+
+        // Increasing numbers of players for specific types of views
+        switch (gameView.m_type)
+        {
+            case GameViewType.AI:
+                this.m_attachedAiPlayers++;
+                break;
+            case GameViewType.Human:
+                this.m_attachedLocalPlayers++;
+                break;
+            case GameViewType.Remote:
+                this.m_attachedRemotePlayers++;
+                break;
+        }
     },
     /**
      * Changes the state of the game logic.
@@ -288,6 +353,17 @@ BaseGameLogic.prototype =
 
         switch (state)
         {
+            case BaseGameState.WaitingForPlayers:
+                // TODO: It must be changed in order to enable split screen
+                this.m_expectedLocalPlayers = 1;
+
+                // TODO: It must be changed in order to enable support for remote gaming
+                this.m_expectedRemotePlayers = 0;
+
+                // TODO: It must be changed in order to support AI.
+                this.m_expectedAiPlayers = 0;
+                break;
+
             case BaseGameState.LoadingGameEnvironment:
                 this.m_gameWorker.vLoadGame();
                 break;
@@ -354,6 +430,8 @@ BaseGameLogic.prototype =
      */
     vInitialise: function vInitialise()
     {
+        this.m_gameWorker.m_eventService.addEventListener(EventData_EnvironmentLoaded.s_type, this.m_environmentLoadedBinding);
+
         return Promise.resolve()
             .then(this._initialiseActorFactory.bind(this))
             .then(this._initialiseProcessManager.bind(this))
@@ -409,12 +487,21 @@ BaseGameLogic.prototype =
         switch (this.m_gameState)
         {
             case BaseGameState.Initialising:
-                this.vChangeState(BaseGameState.LoadingGameEnvironment);
+                this.vChangeState(BaseGameState.WaitingForPlayers);
+                break;
+
+            case BaseGameState.WaitingForPlayers:
+                if (this.m_expectedLocalPlayers + this.m_expectedRemotePlayers == this.m_attachedLocalPlayers + this.m_attachedRemotePlayers)
+                {
+                    this.vChangeState(BaseGameState.LoadingGameEnvironment);
+                }
                 break;
 
             case BaseGameState.WaitingForPlayersToLoadEnvironment:
-                // TODO: Implement handling of multiple players
-                this.vChangeState(BaseGameState.SpawningPlayerActors);
+                if (this.m_expectedLocalPlayers + this.m_expectedRemotePlayers <= this.m_loadedPlayers)
+                {
+                    this.vChangeState(BaseGameState.SpawningPlayerActors);
+                }
                 break;
 
             case BaseGameState.SpawningPlayerActors:
@@ -447,6 +534,8 @@ BaseGameLogic.prototype =
      */
     vRemoveView: function vRemoveView(gameView)
     {
+        SE_INFO("Removing game view with type: " + gameView.m_type + " and id: " + gameView.m_id);
+
         var gameViewIndex = this.m_gameViews.indexOf(gameView);
         if (gameViewIndex != -1)
         {
