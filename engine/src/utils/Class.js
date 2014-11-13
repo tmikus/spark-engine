@@ -16,11 +16,13 @@ var Class =
     {
         var intermediatePrototype = Object.create(baseClass.prototype);
         var childPrototypeKeys = Object.keys(childPrototype);
+        var childPrototypeKeysLength = childPrototypeKeys.length;
 
-        childPrototypeKeys.forEach(function (propertyName)
+        for (var keyIndex = 0; keyIndex < childPrototypeKeysLength; keyIndex++)
         {
+            var propertyName = childPrototypeKeys[keyIndex];
             intermediatePrototype[propertyName] = childPrototype[propertyName];
-        });
+        }
 
         return intermediatePrototype;
     }

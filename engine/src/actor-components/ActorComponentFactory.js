@@ -7,6 +7,8 @@
 function ActorComponentFactory()
 {
     this.m_componentsMap = {};
+
+    this.register(ActorComponent.GetIdFromName(TransformComponent.s_name), TransformComponent);
 }
 
 ActorComponentFactory.prototype =

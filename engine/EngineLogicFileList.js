@@ -6,6 +6,7 @@ module.exports =
     'src/core/*.js',
     'src/debugging/*.js',
     'src/application/GameOptions.js',
+    'src/actor-components/*.js',
     'src/actors/*.js',
     'src/events/*.js',
     'src/logic/*.js',

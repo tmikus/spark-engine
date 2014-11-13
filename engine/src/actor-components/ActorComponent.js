@@ -6,6 +6,7 @@
  */
 function ActorComponent()
 {
+    this._generateId();
 }
 
 /**
@@ -63,10 +64,23 @@ ActorComponent.GetIdFromName = function ActorComponent_GetIdFromName(name)
 ActorComponent.prototype =
 {
     /**
+     * ID of the actor component.
+     * JUST FOR INTERNAL USE!
+     * @type {number}
+     */
+    m_id: null,
+    /**
      * Actor to which this component belongs.
      * @type {Actor}
      */
     m_owner: null,
+    /**
+     * Generates ID of the component.
+     */
+    _generateId: function _generateId()
+    {
+        this.m_id = ActorComponent.GetIdFromName(this.vGetName());
+    },
     /**
      * Destroys the actor component.
      */
@@ -75,17 +89,7 @@ ActorComponent.prototype =
         this.m_owner = null;
     },
     /**
-     * Gets the ID of the component.
-     *
-     * @returns {number} ID of the component.
-     */
-    vGetId: function vGetId()
-    {
-        return ActorComponent.GetIdFromName(this.vGetName());
-    },
-    /**
      * Gets the name of the component.
-     *
      * @returns {string} Name of the component.
      */
     vGetName: notImplemented,

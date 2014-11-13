@@ -42,7 +42,7 @@ Actor.prototype =
     addComponent: function addComponent(component)
     {
         this.m_components.push(component);
-        this.m_componentsMap[component.vGetId()] = component;
+        this.m_componentsMap[component.m_id] = component;
 
         component.m_owner = this;
     },
