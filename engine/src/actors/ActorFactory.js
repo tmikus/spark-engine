@@ -71,7 +71,7 @@ ActorFactory.prototype =
                         // Add the component to the actor.
                         actor.addComponent(component);
                     })
-                    .catch(function ()
+                    ["catch"](function ()
                     {
                         SE_ERROR("Initialisation of the actor component has failed. Actor resource: " + actorResourceName);
                     });
@@ -82,7 +82,7 @@ ActorFactory.prototype =
 
         // Create initialization promise
         var actorPromise = Promise.all(componentPromises)
-            .catch(function ()
+            ["catch"](function ()
             {
                 SE_ERROR("Initialization of actor has failed.");
                 actor.destroy();
@@ -197,7 +197,7 @@ ActorFactory.prototype =
                 // Initializing the component.
                 promises.push(component.vInitialise(componentData)
                         .then(component.vOnChanged.bind(component))
-                        .catch(function ()
+                        ["catch"](function ()
                         {
                             SE_ERROR("Initialization of the component has failed.");
                         })
@@ -211,7 +211,7 @@ ActorFactory.prototype =
                         {
                             actor.addComponent(component);
                         })
-                        .catch(function ()
+                        ["catch"](function ()
                         {
                             SE_ERROR("Initialization of the component has failed.");
                         })

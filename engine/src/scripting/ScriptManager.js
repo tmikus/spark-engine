@@ -66,7 +66,7 @@ ScriptManager.prototype =
     {
         return this.m_gameWorker.m_resourceManager.getResource(scriptResource)
             .then(this._onScriptLoaded.bind(this, scriptResource))
-            .catch(function ()
+            ["catch"](function ()
             {
                 SE_ERROR("Could not load script: " + scriptResource);
             });
@@ -85,7 +85,7 @@ ScriptManager.prototype =
                 script.run();
                 return script;
             })
-            .catch(function ()
+            ["catch"](function ()
             {
                 SE_ERROR("Could not run script: " + scriptResource);
             });

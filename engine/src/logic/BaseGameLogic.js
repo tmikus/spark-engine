@@ -295,7 +295,7 @@ BaseGameLogic.prototype =
             {
                 this.m_gameWorker.m_eventService.triggerEvent(new EventData_EnvironmentLoaded());
             }.bind(this))
-            .catch(function ()
+            ["catch"](function ()
             {
                 SE_ERROR("Initialisation of the level has failed.");
             });
@@ -383,7 +383,7 @@ BaseGameLogic.prototype =
         SE_INFO("Creating actor from resource: " + actorResource);
         return this.m_actorFactory.createActor(actorResource, overrides, initialTransform, serverActorId)
             .then(this._onActorCreated.bind(this, actorResource))
-            .catch(function ()
+            ["catch"](function ()
             {
                 SE_ERROR("Could not create actor from resource: " + actorResource);
             });
@@ -452,7 +452,7 @@ BaseGameLogic.prototype =
         return this.m_levelManager.loadLevel(levelResource)
             .then(this._vOnLevelResourceLoaded.bind(this))
             .then(this._onLevelLoaded.bind(this))
-            .catch(function ()
+            ["catch"](function ()
             {
                 SE_ERROR("Could not load level: " + levelResource);
             });

@@ -123,7 +123,7 @@ SparkEngineWorker.prototype =
             {
                 this.m_gameLogic = gameLogic;
             }.bind(this))
-            .catch(function ()
+            ["catch"](function ()
             {
                 SE_ERROR("Could not initialise Game Logic.");
             });

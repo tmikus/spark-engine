@@ -79,7 +79,7 @@ SparkEngineApp.prototype =
             {
                 this.sendMessageToGameLogic(new WorkerMessage_CreateViewRendererResponse(message.m_viewId));
             }.bind(this))
-            .catch(function ()
+            ["catch"](function ()
             {
                 SE_ERROR("Initialisation of view renderer has failed!");
             });
@@ -225,7 +225,7 @@ SparkEngineApp.prototype =
     {
         return this.m_gameOptions.loadFromServer(this._vGetGameOptionsResourceName())
             .then(this.m_gameOptions.loadFromLocalStorage.bind(this.m_gameOptions))
-            .catch(function ()
+            ["catch"](function ()
             {
                 SE_FATAL("Could not load game options!");
             });

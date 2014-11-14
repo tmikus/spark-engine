@@ -11,7 +11,7 @@ function RunGameWorker(worker)
         {
             self.postMessage(WorkerInitialisationStatus.Success);
         })
-        .catch(function ()
+        ["catch"](function ()
         {
             self.postMessage(WorkerInitialisationStatus.Failure);
         });

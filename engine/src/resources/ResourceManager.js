@@ -201,7 +201,7 @@ ResourceManager.prototype =
             return Http.get(resourceDescriptor.path, null, responseType)
                 .then(this._preProcessResource.bind(this, name, resourceDescriptor))
                 .then(this._storeResourceInCache.bind(this, name, resourceDescriptor))
-                .catch(function ()
+                ["catch"](function ()
                 {
                     SE_ERROR("Could not process resource: ", name);
                 })
@@ -222,7 +222,7 @@ ResourceManager.prototype =
     {
         this.getResource(request.m_resourceName)
             .then(this._onRequestedResourceLoaded.bind(this, request.m_resourceName))
-            .catch(function ()
+            ["catch"](function ()
             {
                 SE_ERROR("Could not get resource requested by game logic: " + request.m_resourceName);
             });
