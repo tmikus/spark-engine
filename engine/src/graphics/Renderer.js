@@ -1,5 +1,5 @@
 const RendererCameraFarPlane = 1000;
-const RendererCameraFOV = 75;
+const RendererCameraFOV = 65;
 const RendererCameraNearPlane = 0.1;
 
 /**

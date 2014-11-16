@@ -62,7 +62,7 @@ ActorFactory.prototype =
             for (var componentIndex = 0; componentIndex < componentsLength; componentIndex++)
             {
                 // Create the component.
-                var componentPromise = this._createComponent(components[componentIndex]);
+                var componentPromise = this._createComponent(actor, components[componentIndex]);
 
                 // Setup integration with initialization and actor.
                 componentPromise
@@ -106,42 +106,44 @@ ActorFactory.prototype =
     /**
      * Creates a new component based on the specified component data.
      *
+     * @param {Actor} actor Actor to which this component will be added.
      * @param {*} componentData Component data.
      * @returns {Promise} Actor component creation promise
      */
-    _createComponent: function createComponent(componentData)
+    _createComponent: function _createComponent(actor, componentData)
     {
         var component = null;
 
         return new Promise(function (resolve, reject)
-        {
-            // Get and validate the type of the component
-            var componentName = componentData.type;
-            if (!componentName)
             {
-                SE_ERROR("Could not create component: type is missing.");
-                reject();
-            }
+                // Get and validate the type of the component
+                var componentName = componentData.type;
+                if (!componentName)
+                {
+                    SE_ERROR("Could not create component: type is missing.");
+                    reject();
+                }
 
-            SE_INFO("Creating component with type: " + componentName);
+                SE_INFO("Creating component with type: " + componentName);
 
-            // Getting ID of the component.
-            var componentId = ActorComponent.GetIdFromName(componentName);
+                // Getting ID of the component.
+                var componentId = ActorComponent.GetIdFromName(componentName);
 
-            // Creating instance of the component based on the ID.
-            component = this.m_componentFactory.createById(componentId);
+                // Creating instance of the component based on the ID.
+                component = this.m_componentFactory.createById(componentId);
 
-            // has the component been created?
-            if (component)
-            {
-                resolve(component);
-            }
-            else
-            {
-                SE_ERROR("Could not create instance of the component with name: " + componentName);
-                reject();
-            }
-        }.bind(this))
+                // has the component been created?
+                if (component)
+                {
+                    component.m_owner = actor;
+                    resolve(component);
+                }
+                else
+                {
+                    SE_ERROR("Could not create instance of the component with name: " + componentName);
+                    reject();
+                }
+            }.bind(this))
             .then(function ()
             {
                 return component.vInitialise(componentData);
@@ -208,7 +210,7 @@ ActorFactory.prototype =
             else
             {
                 promises.push(
-                    this._createComponent(componentData)
+                    this._createComponent(actor, componentData)
                         .then(function (component)
                         {
                             actor.addComponent(component);

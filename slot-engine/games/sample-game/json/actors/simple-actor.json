@@ -10,7 +10,11 @@
         },
         {
             "type": "SphereRenderComponent",
-            "radius": 60
+            "radius": 10
+        },
+        {
+            "type": "ScriptComponent",
+            "scriptName": "scripts/moveBallScript"
         }
     ]
 }

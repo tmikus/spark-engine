@@ -9,6 +9,8 @@
 function ScriptManager(game)
 {
     this.m_game = game;
+    this.m_scripts = [];
+    this.m_scriptsMap = {};
 }
 
 ScriptManager.prototype =
@@ -18,6 +20,17 @@ ScriptManager.prototype =
      * @type {SparkEngineApp}
      */
     m_game: null,
+    /**
+     * Array of scripts.
+     * For faster navigation.
+     * @type {Script[]}
+     */
+    m_scripts: null,
+    /**
+     * Map of scripts names and their executables.
+     * @type {Object.<string, Script>}
+     */
+    m_scriptsMap: null,
     /**
      * Called when the script resource was loaded.
      *
@@ -32,6 +45,10 @@ ScriptManager.prototype =
         {
             var script = new Script(scriptContent);
             script.initialise();
+
+            this.m_scripts.push(script);
+            this.m_scriptsMap[scriptResource] = script;
+
             return script;
         }
         catch (ex)
@@ -45,7 +62,12 @@ ScriptManager.prototype =
      */
     destroy: function destroy()
     {
-
+        var scripts = this.m_scripts;
+        var scriptsLength = scripts.length;
+        for (var scriptIndex = 0; scriptIndex < scriptsLength; scriptIndex++)
+        {
+            scripts[scriptIndex].destroy();
+        }
     },
     /**
      * Initialises the script manager.
@@ -64,6 +86,14 @@ ScriptManager.prototype =
      */
     loadScript: function loadScript(scriptResource)
     {
+        // Try to find the script in scripts map.
+        var script = this.m_scriptsMap[scriptResource];
+        if (script)
+        {
+            return Promise.resolve(script);
+        }
+
+        // Load it only if it doesn't exists.
         return this.m_game.m_resourceManager.getResource(scriptResource)
             .then(this._onScriptLoaded.bind(this, scriptResource))
             ["catch"](function ()

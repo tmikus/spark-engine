@@ -86,7 +86,6 @@ ActorComponent.prototype =
      */
     vDestroy: function vDestroy()
     {
-        this.m_owner = null;
     },
     /**
      * Gets the name of the component.

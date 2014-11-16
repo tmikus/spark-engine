@@ -29,6 +29,11 @@
         "path": "scripts/loadingLevelPreLoad.js",
         "type": "JavaScript"
     },
+    "scripts/moveBallScript":
+    {
+        "path": "scripts/moveBallScript.js",
+        "type": "JavaScript"
+    },
     "test":
     {
         "path": "json/test.json",
