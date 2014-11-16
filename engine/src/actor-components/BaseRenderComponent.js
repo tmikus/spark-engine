@@ -25,6 +25,11 @@ BaseRenderComponent.prototype = Class.extend(ActorComponent,
      */
     m_sceneObject: null,
     /**
+     * Transform component.
+     * @type {TransformComponent}
+     */
+    m_transformComponent: null,
+    /**
      * Creates the scene object for the render component.
      *
      * @returns {THREE.Object3D}
@@ -42,6 +47,7 @@ BaseRenderComponent.prototype = Class.extend(ActorComponent,
         if (!this.m_sceneObject)
         {
             this.m_sceneObject = this._vCreateSceneObject();
+            this.m_sceneObject.matrixAutoUpdate = false;
         }
 
         return this.m_sceneObject;
@@ -81,10 +87,38 @@ BaseRenderComponent.prototype = Class.extend(ActorComponent,
         this.m_owner.m_game.m_eventService.triggerEvent(eventData);
     },
     /**
+     * Called when the component is requested to update.
+     *
+     * @param {GameTime} gameTime Instance of the game time.
+     */
+    vOnUpdate: function vOnUpdate(gameTime)
+    {
+        var position = this.m_transformComponent.m_position;
+        var rotation = this.m_transformComponent.m_rotation;
+        var scale = this.m_transformComponent.m_scale;
+
+        var sceneObject = this._vGetSceneObject();
+        sceneObject.position.x = position.x;
+        sceneObject.position.y = position.y;
+        sceneObject.position.z = position.z;
+
+        sceneObject.rotation.x = rotation.x;
+        sceneObject.rotation.y = rotation.y;
+        sceneObject.rotation.z = rotation.z;
+
+        sceneObject.scale.x = scale.x;
+        sceneObject.scale.y = scale.y;
+        sceneObject.scale.z = scale.z;
+
+        sceneObject.updateMatrix();
+    },
+    /**
      * Called after the initialization has been completed.
      */
     vPostInitialise: function vPostInitialise()
     {
+        this.m_transformComponent = this.m_owner.getComponentByName("TransformComponent");
+
         var eventData = new EventData_NewRenderComponent(this.m_owner.m_id, this._vGetSceneObject());
         this.m_owner.m_game.m_eventService.triggerEvent(eventData);
     }
