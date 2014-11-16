@@ -2,25 +2,25 @@
  * Interface for the game logic.
  * Classes implementing it are responsible for controlling the logic of the game.
  *
- * @param {SparkEngineWorker} gameWorker Instance of the game worker.
+ * @param {SparkEngineApp} game Instance of the game.
  * @interface
  */
-function IGameLogic(gameWorker)
+function IGameLogic(game)
 {
 }
 
 IGameLogic.prototype =
 {
     /**
+     * Instance of the game to which this game logic belongs.
+     * @type {SparkEngineApp}
+     */
+    m_game: null,
+    /**
      * Array of game views added to this game logic.
      * @type {IGameView[]}
      */
     m_gameViews: null,
-    /**
-     * Instance of the game worker to which this game logic belongs.
-     * @type {SparkEngineWorker}
-     */
-    m_gameWorker: null,
     /**
      * Adds a view to the game logic class.
      *

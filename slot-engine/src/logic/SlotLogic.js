@@ -1,12 +1,12 @@
 /**
  * Game logic for slot game.
  *
- * @param {SlotWorker} gameWorker Instance of the game worker.
+ * @param {SlotApp} game Instance of the game.
  * @constructor
  * @class
  * @extends BaseGameLogic
  */
-function SlotLogic(gameWorker)
+function SlotLogic(game)
 {
     BaseGameLogic.apply(this, arguments);
 }

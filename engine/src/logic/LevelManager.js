@@ -1,13 +1,13 @@
 /**
  * Manager of the game levels.
  *
- * @param {SparkEngineWorker} gameWorker Instance of the game worker.
+ * @param {SparkEngineApp} game Instance of the game.
  * @constructor
  * @class
  */
-function LevelManager(gameWorker)
+function LevelManager(game)
 {
-    this.m_gameWorker = gameWorker;
+    this.m_game = game;
     this.m_levelResourceNames = [];
 }
 
@@ -19,10 +19,10 @@ LevelManager.prototype =
      */
     m_currentLevelIndex: -1,
     /**
-     * Game worker to which this level manager is added.
-     * @type {SparkEngineWorker}
+     * Game to which this level manager is added.
+     * @type {SparkEngineApp}
      */
-    m_gameWorker: null,
+    m_game: null,
     /**
      * Array of resource names for levels.
      * @type {string[]}
@@ -77,7 +77,7 @@ LevelManager.prototype =
      */
     initialise: function initialise()
     {
-        return this.m_gameWorker.m_resourceManager.getResource(this.m_gameWorker.vGetLevelsConfigurationResourceName())
+        return this.m_game.m_resourceManager.getResource(this.m_game.vGetLevelsConfigurationResourceName())
             .then(this._onLevelsConfigurationLoaded.bind(this));
     },
     /**
@@ -88,7 +88,7 @@ LevelManager.prototype =
      */
     loadLevel: function loadLevel(levelName)
     {
-        return this.m_gameWorker.m_resourceManager.getResource(levelName)
+        return this.m_game.m_resourceManager.getResource(levelName)
             .then(this._onLevelLoaded.bind(this));
     }
 };

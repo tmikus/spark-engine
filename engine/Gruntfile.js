@@ -1,5 +1,4 @@
 var engineFiles = require("./EngineFilesList");
-var engineLogicFiles = require("./EngineLogicFileList");
 
 module.exports = function (grunt)
 {
@@ -17,15 +16,6 @@ module.exports = function (grunt)
                 },
                 src: engineFiles,
                 dest: 'dist/spark-engine.js'
-            },
-            "engine-logic":
-            {
-                options:
-                {
-                    separator: ';\n'
-                },
-                src: engineLogicFiles,
-                dest: 'dist/spark-engine-logic.js'
             }
         }
     });
@@ -36,5 +26,5 @@ module.exports = function (grunt)
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-contrib-uglify');
 
-    grunt.registerTask('build', ['concat:engine', 'concat:engine-logic']);
+    grunt.registerTask('build', ['concat:engine']);
 };

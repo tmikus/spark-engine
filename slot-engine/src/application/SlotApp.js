@@ -12,15 +12,21 @@ function SlotApp()
 SlotApp.prototype = Class.extend(SparkEngineApp,
 {
     /**
-     * Gets the game logic file URL
+     * Creates game logic used by the game.
      *
-     * @returns {string} URL to the game logic file.
+     * @returns {Promise} Promise of Game Logic creation.
      * @protected
      * @virtual
      */
-    _vGetGameLogicUrl: function _vGetGameLogicUrl()
+    _vCreateGameLogic: function _vCreateGameLogic()
     {
-        return "../../dist/slot-engine-logic.js";
+        var gameLogic = new SlotLogic(this);
+
+        return gameLogic.vInitialise()
+            .then(function()
+            {
+                return gameLogic;
+            });
     },
     /**
      * Gets the name of the resource file containing game options.
@@ -32,5 +38,15 @@ SlotApp.prototype = Class.extend(SparkEngineApp,
     _vGetGameOptionsResourceName: function _vGetGameOptionsResourceName()
     {
         return "options"
+    },
+    /**
+     * Gets name of the resource containing levels configuration
+     *
+     * @returns {string} Name of the configuration resource.
+     * @virtual
+     */
+    vGetLevelsConfigurationResourceName: function vGetLevelsConfigurationResourceName()
+    {
+        return "levels"
     }
 });

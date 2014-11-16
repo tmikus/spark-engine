@@ -6,5 +6,7 @@
 module.exports =
 [
     '../engine/dist/spark-engine.js',
-    'src/application/*.js'
+    'src/application/*.js',
+    'src/logic/*.js',
+    'src/views/*.js'
 ];

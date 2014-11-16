@@ -11,7 +11,6 @@ function SparkEngineApp()
     this.m_browserResizedBinding = Function.debounce(this._onBrowserResized.bind(this), 300);
     this.m_renderBinding = this._render.bind(this);
     this.m_gameOptions = new GameOptions(this);
-    this.m_gameViewRenderers = [];
 }
 
 SparkEngineApp.prototype =
@@ -22,20 +21,26 @@ SparkEngineApp.prototype =
      */
     m_browserResizedBinding: null,
     /**
-     * Worker used for running game logic.
-     * @type {Worker}
+     * Instance of the event service.
+     * @type {EventService}
      */
-    m_gameLogicWorker: null,
+    m_eventService: null,
+    /**
+     * Instance of the game logic.
+     * @type {IGameLogic}
+     */
+    m_gameLogic: null,
     /**
      * Instance of the game options.
      * @type {GameOptions}
      */
     m_gameOptions: null,
     /**
-     * Array of game view renderers.
-     * @type {IViewRenderer[]}
+     * Instance of the game time.
+     * Used for tracking the game time from one update to another.
+     * @type {GameTime}
      */
-    m_gameViewRenderers: null,
+    m_gameTime: null,
     /**
      * Binding to the 'render' method.
      * @type {Function}
@@ -52,72 +57,16 @@ SparkEngineApp.prototype =
      */
     m_resourceManager: null,
     /**
-     * Creates view renderer based on the creation request.
-     *
-     * @param {WorkerMessage_CreateViewRendererRequest} message Creation request.
-     * @private
+     * Instance of the script manager.
+     * Used for executing scripts in the game.
+     * @type {ScriptManager}
      */
-    _createViewRenderer: function _createViewRenderer(message)
-    {
-        SE_INFO("Creating view renderer for view: " + message.m_viewId);
-
-        var gameView = null;
-        switch (message.m_viewType)
-        {
-            case GameViewType.Human:
-                gameView = new HumanViewRenderer(this, this.m_renderer, message.m_viewId);
-                break;
-            default:
-                SE_ERROR("Could not create view renderer for type: " + message.m_viewType);
-                return;
-        }
-
-        this.m_gameViewRenderers.push(gameView);
-
-        gameView.vInitialise()
-            .then(function ()
-            {
-                this.sendMessageToGameLogic(new WorkerMessage_CreateViewRendererResponse(message.m_viewId));
-            }.bind(this))
-            ["catch"](function ()
-            {
-                SE_ERROR("Initialisation of view renderer has failed!");
-            });
-    },
+    m_scriptManager: null,
     /**
-     * Destroys the view renderer.
-     *
-     * @param {WorkerMessage_DestroyViewRendererRequest} message Message containing info about which view to destroy.
-     * @private
+     * ID of interval used for updating game logic.
+     * @type {number}
      */
-    _destroyViewRenderer: function _destroyViewRenderer(message)
-    {
-        SE_INFO("Destroying game view renderer with ID: " + message.m_viewId);
-
-        var view = null;
-        var viewIndex = 0;
-        var gameViewRenderers = this.m_gameViewRenderers;
-        var gameViewRenderersLength = gameViewRenderers.length;
-
-        for (; viewIndex < gameViewRenderersLength; viewIndex++)
-        {
-            if (gameViewRenderers[viewIndex].m_id != message.m_viewId)
-                continue;
-
-            view = gameViewRenderers[viewIndex];
-            break;
-        }
-
-        if (view)
-        {
-            view.vDestroy();
-            gameViewRenderers.splice(viewIndex, 1);
-        }
-        else
-        {
-            SE_WARNING("Could not delete game view renderer. Could not find view with that ID.");
-        }
-    },
+    m_updateLoopInterval: null,
     /**
      * Initialises the game audio.
      *
@@ -138,32 +87,69 @@ SparkEngineApp.prototype =
         window.addEventListener("resize", this.m_browserResizedBinding);
     },
     /**
+     * Initialises the event service.
+     *
+     * @returns {boolean} Promise of initialisation of event service.
+     * @protected
+     */
+    _initialiseEventService: function _initialiseEventService()
+    {
+        const exceptionMessage = "Initialisation of the Event Service has failed!";
+        var exception = null;
+
+        try
+        {
+            SE_INFO("Initialising Event Service.");
+            this.m_eventService = new EventService();
+            return true;
+        }
+        catch (ex)
+        {
+            exception = ex;
+        }
+
+        SE_FATAL(exceptionMessage, exception);
+        throw exception || exceptionMessage;
+    },
+    /**
      * Initialises the game logic worker.
      *
      * @returns {Promise} Promise of initialisation of game logic.
      * @protected
      */
-    _initialiseGameLogicWorker: function _initialiseGameLogicWorker()
+    _initialiseGameLogic: function _initialiseGameLogic()
     {
-        SE_INFO("Initialising Game Logic Worker.");
+        SE_INFO("Initialising Game Logic.");
 
-        return new Promise(function (resolve, reject)
-        {
-            this.m_gameLogicWorker = new Worker(this._vGetGameLogicUrl());
-            this.m_gameLogicWorker.onmessage = function (message)
+        return this._vCreateGameLogic()
+            .then(function (gameLogic)
             {
-                if (message.data == WorkerInitialisationStatus.Success)
-                {
-                    this.m_gameLogicWorker.onmessage = this._processGameLogicMessage.bind(this);
-                    resolve();
-                }
-                else if (!this._processGameLogicMessage(message))
-                {
-                    SE_ERROR("Initialisation of Game Logic Worker has failed.");
-                    reject();
-                }
-            }.bind(this);
-        }.bind(this));
+                this.m_gameLogic = gameLogic;
+            }.bind(this))
+            ["catch"](function ()
+        {
+            SE_ERROR("Could not initialise Game Logic.");
+        });
+    },
+    /**
+     * Initialises the game time class.
+     * The class is being used for tracking the time.
+     * @returns {boolean} True if initialisation was successful; otherwise false.
+     * @protected
+     */
+    _initialiseGameTime: function _initialiseGameTime()
+    {
+        try
+        {
+            SE_INFO("Initialising Game Time.");
+            this.m_gameTime = new GameTime();
+            return true;
+        }
+        catch (ex)
+        {
+            SE_ERROR("Could not initialise Game Time!");
+            throw ex;
+        }
     },
     /**
      * Initialises the renderer.
@@ -216,6 +202,26 @@ SparkEngineApp.prototype =
         }
     },
     /**
+     * Initialises the script manager
+     *
+     * @returns {Promise} Promise of initialisation of script manager.
+     * @protected
+     */
+    _initialiseScriptManager: function _initialiseScriptManager()
+    {
+        try
+        {
+            SE_INFO("Initialising Script Manager.");
+            this.m_scriptManager = new ScriptManager(this);
+            return this.m_scriptManager.initialise();
+        }
+        catch (ex)
+        {
+            SE_FATAL("Initialisation of script manager has failed!", ex);
+            throw ex;
+        }
+    },
+    /**
      * Loads the game options from the server and overwrites them with client settings from local storage.
      *
      * @returns {Promise} Promise of loading game options.
@@ -246,14 +252,9 @@ SparkEngineApp.prototype =
      */
     _onDeviceLost: function _onDeviceLost()
     {
-        this.sendMessageToGameLogic(new WorkerMessage_TriggerEvent(EventData_DeviceLost.s_type, null));
+        this.m_eventService.triggerEvent(new EventData_DeviceLost());
 
-        var views = this.m_gameViewRenderers;
-        var viewsLength = views.length;
-        for (var viewIndex = 0; viewIndex < viewsLength; viewIndex++)
-        {
-            views[viewIndex].vOnDeviceLost();
-        }
+        // TODO: Informing game views about this event.
 
         this.m_renderer.onDeviceLost();
     },
@@ -265,47 +266,9 @@ SparkEngineApp.prototype =
     {
         this.m_renderer.onDeviceRestored();
 
-        var views = this.m_gameViewRenderers;
-        var viewsLength = views.length;
-        for (var viewIndex = 0; viewIndex < viewsLength; viewIndex++)
-        {
-            views[viewIndex].vOnDeviceRestored();
-        }
+        // TODO: Informing game views about this event.
 
-        this.sendMessageToGameLogic(new WorkerMessage_TriggerEvent(EventData_DeviceRestored.s_type, null));
-    },
-    /**
-     * Processes the game logic message.
-     *
-     * @param {*} message A message returned from the game logic process.
-     * @returns {boolean} Has the message been processed?
-     * @private
-     */
-    _processGameLogicMessage: function _processGameLogicMessage(message)
-    {
-        switch (message.data.m_type)
-        {
-            case WorkerMessage_CreateViewRendererRequest.s_type:
-                this._createViewRenderer(message.data);
-                break;
-
-            case WorkerMessage_DestroyViewRendererRequest.s_type:
-                this._destroyViewRenderer(message.data);
-                break;
-
-            case WorkerMessage_GameOptionsRequest.s_type:
-                this.m_gameOptions.sendOptionsToWorker();
-                break;
-
-            case WorkerMessage_ResourceRequest.s_type:
-                this.m_resourceManager.resourceRequested(message.data);
-                break;
-
-            default:
-                return false;
-        }
-
-        return true;
+        this.m_eventService.triggerEvent(new EventData_DeviceRestored());
     },
     /**
      * Renders the current frame and schedules new frame to be rendered.
@@ -315,26 +278,20 @@ SparkEngineApp.prototype =
     {
         this.m_renderer.preRender();
 
-        // TODO: Is the below code needed?
-        var views = this.m_gameViewRenderers;
-        var viewsLength = views.length;
-        for (var viewIndex = 0; viewIndex < viewsLength; viewIndex++)
-        {
-            views[viewIndex].vRender();
-        }
+        // TODO: Rendering game views
 
         this.m_renderer.postRender();
 
         requestAnimationFrame(this.m_renderBinding);
     },
     /**
-     * Gets the game logic file URL
+     * Creates game logic used by the game.
      *
-     * @returns {string} URL to the game logic file.
+     * @returns {Promise} Promise of Game Logic creation.
      * @protected
      * @virtual
      */
-    _vGetGameLogicUrl: notImplemented,
+    _vCreateGameLogic: notImplemented,
     /**
      * Gets the name of the resource file containing game options.
      *
@@ -354,6 +311,42 @@ SparkEngineApp.prototype =
         return "json/resources.json";
     },
     /**
+     * Called when the game requested the logic to be updated.
+     * @protected
+     * @virtual
+     */
+    _vOnUpdate: function _vOnUpdate()
+    {
+        // Updating game time.
+        this.m_gameTime.update();
+
+        if (this.m_gameLogic)
+        {
+            this.m_eventService.update(this.m_gameTime.m_unscaledTimeSinceStartup, 20);
+            this.m_gameLogic.vOnUpdate(this.m_gameTime);
+        }
+    },
+    /**
+     * Registers the events which are serializable and can be shared between instances of the game.
+     * @protected
+     * @virtual
+     */
+    _vRegisterEvents: function _vRegisterEvents()
+    {
+        try
+        {
+            SE_INFO("Registering events.");
+
+            var eventService = this.m_eventService;
+            // TODO: Registering events which are meant to be send over the network...
+        }
+        catch (ex)
+        {
+            SE_ERROR("Could not register events!", ex);
+            throw ex;
+        }
+    },
+    /**
      * Initialises the spark engine application.
      *
      * @returns {Promise} Promise of the application initialisation.
@@ -362,10 +355,14 @@ SparkEngineApp.prototype =
     {
         return this._initialiseResourceManager()
             .then(this._loadGameOptions.bind(this))
+            .then(this._initialiseGameTime.bind(this))
+            .then(this._initialiseEventService.bind(this))
+            .then(this._vRegisterEvents.bind(this))
             .then(this._initialiseRenderer.bind(this))
             .then(this._initialiseAudio.bind(this))
+            .then(this._initialiseScriptManager.bind(this))
+            .then(this._initialiseGameLogic.bind(this))
             .then(this._initialiseBrowserHandlers.bind(this))
-            .then(this._initialiseGameLogicWorker.bind(this))
             .then(function ()
             {
                 SE_INFO("Game initialised.");
@@ -376,21 +373,38 @@ SparkEngineApp.prototype =
             });
     },
     /**
-     * Sends a message to the game logic.
-     *
-     * @param {IWorkerMessage} message Message to send to game logic.
-     */
-    sendMessageToGameLogic: function sendMessageToGameLogic(message)
-    {
-        this.m_gameLogicWorker.postMessage(message);
-    },
-    /**
      * Starts the game loop.
      */
     startGameLoop: function startGameLoop()
     {
+        SE_INFO("Starting game logic loop.");
+        this._vOnUpdate();
+        this.m_updateLoopInterval = setInterval(this._vOnUpdate.bind(this), 0);
+
         SE_INFO("Starting game rendering loop.");
         this._render();
+    },
+    /**
+     * Gets name of the resource containing levels configuration
+     *
+     * @returns {string} Name of the configuration resource.
+     * @virtual
+     */
+    vGetLevelsConfigurationResourceName: notImplemented,
+    /**
+     * Loads the game using configuration from game options.
+     *
+     * @returns  {Promise} Promise of loading a game.
+     * @virtual
+     */
+    vLoadGame: function vLoadGame()
+    {
+        SE_INFO("Starting loading the game in Game Worker.");
+        this.m_gameLogic.vLoadGame(this.m_gameLogic.m_levelManager.getCurrentLevelName())
+            .then(function ()
+            {
+                this.vChangeState(BaseGameState.WaitingForPlayersToLoadEnvironment);
+            }.bind(this));
     },
     /**
      * Called after the initialisation is done.

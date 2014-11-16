@@ -2,14 +2,14 @@
  * Creates instance of the actors factory.
  * This factory can be used to create new actors and their components.
  *
- * @param {SparkEngineWorker} gameWorker Instance of the game worker.
+ * @param {SparkEngineApp} game Instance of the game.
  * @constructor
  * @class
  */
-function ActorFactory(gameWorker)
+function ActorFactory(game)
 {
     this.m_componentFactory = new ActorComponentFactory();
-    this.m_gameWorker = gameWorker;
+    this.m_game = game;
 }
 
 ActorFactory.prototype =
@@ -20,10 +20,10 @@ ActorFactory.prototype =
      */
     m_componentFactory: null,
     /**
-     * Instance of the game worker to which this factory belongs.
-     * @type {SparkEngineWorker}
+     * Instance of the game to which this factory belongs.
+     * @type {SparkEngineApp}
      */
-    m_gameWorker: null,
+    m_game: null,
     /**
      * ID of the last created actor.
      * @type {number}
@@ -161,7 +161,7 @@ ActorFactory.prototype =
      */
     createActor: function createActor(actorResourceName, overrides, initialTransform, serverActorId)
     {
-        return this.m_gameWorker.m_resourceManager.getResource(actorResourceName)
+        return this.m_game.m_resourceManager.getResource(actorResourceName)
             .then(this._createActorFromResource.bind(this, actorResourceName, overrides, initialTransform, serverActorId));
     },
     /**

@@ -1,18 +1,18 @@
 /**
  * Base class for the game logic.
  *
- * @param {SparkEngineWorker} gameWorker Instance of the game worker.
+ * @param {SparkEngineApp} game Instance of the game.
  * @constructor
  * @class
  * @abstract
  */
-function BaseGameLogic(gameWorker)
+function BaseGameLogic(game)
 {
     this.m_actors = [];
     this.m_actorsMap = {};
     this.m_gameState = BaseGameState.Initialising;
     this.m_gameViews = [];
-    this.m_gameWorker = gameWorker;
+    this.m_game = game;
     this.m_humanViews = [];
 
     this.m_environmentLoadedBinding = this._vOnEnvironmentLoaded.bind(this);
@@ -72,6 +72,11 @@ BaseGameLogic.prototype =
      */
     m_expectedRemotePlayers: 0,
     /**
+     * Instance of the game to which this game logic belongs.
+     * @type {SparkEngineApp}
+     */
+    m_game: null,
+    /**
      * State of the game at this point.
      * @type {BaseGameState|number}
      */
@@ -81,11 +86,6 @@ BaseGameLogic.prototype =
      * @type {IGameView[]}
      */
     m_gameViews: null,
-    /**
-     * Instance of the game worker to which this game logic belongs.
-     * @type {SparkEngineWorker}
-     */
-    m_gameWorker: null,
     /**
      * Array of human views added to this game logic.
      * @type {IGameView[]}
@@ -115,7 +115,7 @@ BaseGameLogic.prototype =
         try
         {
             SE_INFO("Initialising Actor Factory for Game Logic.");
-            this.m_actorFactory = new ActorFactory(this.m_gameWorker);
+            this.m_actorFactory = new ActorFactory(this.m_game);
         }
         catch (ex)
         {
@@ -134,7 +134,7 @@ BaseGameLogic.prototype =
         try
         {
             SE_INFO("Initialising Level Manager for Game Logic.");
-            this.m_levelManager = new LevelManager(this.m_gameWorker);
+            this.m_levelManager = new LevelManager(this.m_game);
             return this.m_levelManager.initialise();
         }
         catch (ex)
@@ -221,7 +221,7 @@ BaseGameLogic.prototype =
             return null;
 
         SE_INFO("Level has post-load script. Running script: " + postLoadScript);
-        return this.m_gameWorker.m_scriptManager.runScript(postLoadScript);
+        return this.m_game.m_scriptManager.runScript(postLoadScript);
     },
     /**
      * Processes the pre-load scripts.
@@ -237,7 +237,7 @@ BaseGameLogic.prototype =
             return null;
 
         SE_INFO("Level has pre-load script. Running script: " + preLoadScript);
-        return this.m_gameWorker.m_scriptManager.runScript(preLoadScript);
+        return this.m_game.m_scriptManager.runScript(preLoadScript);
     },
     /**
      * Processes the static actors.
@@ -293,7 +293,7 @@ BaseGameLogic.prototype =
             .then(this._processPostLoadScripts.bind(this, level))
             .then(function ()
             {
-                this.m_gameWorker.m_eventService.triggerEvent(new EventData_EnvironmentLoaded());
+                this.m_game.m_eventService.triggerEvent(new EventData_EnvironmentLoaded());
             }.bind(this))
             ["catch"](function ()
             {
@@ -365,7 +365,7 @@ BaseGameLogic.prototype =
                 break;
 
             case BaseGameState.LoadingGameEnvironment:
-                this.m_gameWorker.vLoadGame();
+                this.m_game.vLoadGame();
                 break;
         }
     },
@@ -396,7 +396,7 @@ BaseGameLogic.prototype =
     vDestroyActor: function vDestroyActor(actorId)
     {
         SE_INFO("Destroying actor: " + actorId);
-        this.m_gameWorker.m_eventService.triggerEvent(new EventData_DestroyActor(actorId));
+        this.m_game.m_eventService.triggerEvent(new EventData_DestroyActor(actorId));
 
         // Getting the actor
         var actor = this.m_actorsMap[actorId];
@@ -430,7 +430,7 @@ BaseGameLogic.prototype =
      */
     vInitialise: function vInitialise()
     {
-        this.m_gameWorker.m_eventService.addEventListener(EventData_EnvironmentLoaded.s_type, this.m_environmentLoadedBinding);
+        this.m_game.m_eventService.addEventListener(EventData_EnvironmentLoaded.s_type, this.m_environmentLoadedBinding);
 
         return Promise.resolve()
             .then(this._initialiseActorFactory.bind(this))

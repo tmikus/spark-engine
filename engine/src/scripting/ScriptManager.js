@@ -2,22 +2,22 @@
  * Manager used for running scripts.
  * Each script is running in sandboxed environment and should not affect other scripts running.
  *
- * @param {SparkEngineWorker} gameWorker Instance of the worker to which this script manager belongs.
+ * @param {SparkEngineApp} game Instance of the to which this script manager belongs.
  * @constructor
  * @class
  */
-function ScriptManager(gameWorker)
+function ScriptManager(game)
 {
-    this.m_gameWorker = gameWorker;
+    this.m_game = game;
 }
 
 ScriptManager.prototype =
 {
     /**
-     * Instance of the worker to which this script manager belongs.
-     * @type {SparkEngineWorker}
+     * Instance of the game to which this script manager belongs.
+     * @type {SparkEngineApp}
      */
-    m_gameWorker: null,
+    m_game: null,
     /**
      * Called when the script resource was loaded.
      *
@@ -64,7 +64,7 @@ ScriptManager.prototype =
      */
     loadScript: function loadScript(scriptResource)
     {
-        return this.m_gameWorker.m_resourceManager.getResource(scriptResource)
+        return this.m_game.m_resourceManager.getResource(scriptResource)
             .then(this._onScriptLoaded.bind(this, scriptResource))
             ["catch"](function ()
             {

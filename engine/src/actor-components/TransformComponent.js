@@ -48,7 +48,6 @@ TransformComponent.prototype = Class.extend(ActorComponent,
      */
     vInitialise: function vInitialise(data)
     {
-
         this.m_position = data.position;
         this.m_rotation = data.rotation;
         this.m_scale = data.scale;

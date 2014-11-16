@@ -37,17 +37,6 @@ ResourceManager.prototype =
      */
     m_resourceIndexUrl: null,
     /**
-     * Called when the requested resource has been loaded.
-     *
-     * @param {string} resourceName Name of the requested resource.
-     * @param {*} data Data of the resource.
-     * @private
-     */
-    _onRequestedResourceLoaded: function _onRequestedResourceLoaded(resourceName, data)
-    {
-        this.m_game.sendMessageToGameLogic(new WorkerMessage_ResourceResponse(resourceName, data));
-    },
-    /**
      * Called when the descriptor of the resources has been loaded.
      *
      * @param data Data loaded from the server.
@@ -214,26 +203,13 @@ ResourceManager.prototype =
         });
     },
     /**
-     * Called when the worker requested a resource to be loaded.
-     *
-     * @param {WorkerMessage_ResourceRequest} request Request of getting a resource.
-     */
-    resourceRequested: function resourceRequested(request)
-    {
-        this.getResource(request.m_resourceName)
-            .then(this._onRequestedResourceLoaded.bind(this, request.m_resourceName))
-            ["catch"](function ()
-            {
-                SE_ERROR("Could not get resource requested by game logic: " + request.m_resourceName);
-            });
-    },
-    /**
      * Initialises the resource manager.
      *
      * @returns {Promise} Promise of the initialisation.
      */
     initialise: function initialise()
     {
-        return Http.get(this.m_resourceIndexUrl).then(this._onResourcesDescriptorLoaded.bind(this));
+        return Http.get(this.m_resourceIndexUrl)
+            .then(this._onResourcesDescriptorLoaded.bind(this));
     }
 };

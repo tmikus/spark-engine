@@ -14,7 +14,6 @@ module.exports = function (config)
         // List of files to exclude from loading.
         exclude:
         [
-            'src/Worker.js'
         ],
 
         // frameworks to use

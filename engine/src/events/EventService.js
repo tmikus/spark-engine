@@ -133,33 +133,6 @@ EventService.prototype =
         return event;
     },
     /**
-     * Processes the trigger event game message.
-     *
-     * @param {WorkerMessage_TriggerEvent} message Message which requested the event to be triggered.
-     */
-    processTriggerEventMessage: function processTriggerEventMessage(message)
-    {
-        var event = this.createEvent(message.m_eventType);
-
-        if (!event)
-        {
-            SE_ERROR("Could not process trigger event message.");
-            return;
-        }
-
-        try
-        {
-            event.vDeserialize(message.m_data);
-        }
-        catch (ex)
-        {
-            SE_ERROR("Could not deserialize event: " + event.m_name);
-            return;
-        }
-
-        this.triggerEvent(event);
-    },
-    /**
      * Queues the event on the next queue.
      * @param {BaseEventData} eventData Event to queue
      */

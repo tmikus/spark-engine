@@ -13,5 +13,4 @@ function SlotHumanView(gameLogic)
 
 SlotHumanView.prototype = Class.extend(HumanView,
 {
-
 });
