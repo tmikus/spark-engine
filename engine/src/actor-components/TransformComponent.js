@@ -8,9 +8,9 @@ function TransformComponent()
 {
     ActorComponent.apply(this);
 
-    this.m_position = [0, 0, 0];
-    this.m_rotation = [0, 0, 0];
-    this.m_scale = [0, 0, 0];
+    this.m_position = new THREE.Vector3();
+    this.m_rotation = new THREE.Vector3();
+    this.m_scale = new THREE.Vector3();
 }
 
 TransformComponent.s_name = "TransformComponent";
@@ -19,17 +19,17 @@ TransformComponent.prototype = Class.extend(ActorComponent,
 {
     /**
      * Position vector of the actor.
-     * @type {number[]}
+     * @type {THREE.Vector3}
      */
     m_position: null,
     /**
      * Rotation vector of the actor.
-     * @type {number[]}
+     * @type {THREE.Vector3}
      */
     m_rotation: null,
     /**
      * Scale vector of the actor.
-     * @type {number[]}
+     * @type {THREE.Vector3}
      */
     m_scale: null,
     /**
@@ -48,9 +48,13 @@ TransformComponent.prototype = Class.extend(ActorComponent,
      */
     vInitialise: function vInitialise(data)
     {
-        this.m_position = data.position;
-        this.m_rotation = data.rotation;
-        this.m_scale = data.scale;
+        var position = data.position;
+        var rotation = data.rotation;
+        var scale = data.scale;
+
+        this.m_position = new THREE.Vector3(position[0], position[1], position[2]);
+        this.m_rotation = new THREE.Vector3(rotation[0], rotation[1], rotation[2]);
+        this.m_scale = new THREE.Vector3(scale[0], scale[1], scale[2]);
 
         return Promise.resolve();
     }

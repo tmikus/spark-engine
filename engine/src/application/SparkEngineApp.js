@@ -112,7 +112,7 @@ SparkEngineApp.prototype =
         throw exception || exceptionMessage;
     },
     /**
-     * Initialises the game logic worker.
+     * Initialises the game logic.
      *
      * @returns {Promise} Promise of initialisation of game logic.
      * @protected
@@ -254,7 +254,12 @@ SparkEngineApp.prototype =
     {
         this.m_eventService.triggerEvent(new EventData_DeviceLost());
 
-        // TODO: Informing game views about this event.
+        var gameViews = this.m_gameLogic.m_gameViews;
+        var gameViewsLength = gameViews.length;
+        for (var gameViewIndex = 0; gameViewIndex < gameViewsLength; gameViewIndex++)
+        {
+            gameViews[gameViewIndex].vOnDeviceLost();
+        }
 
         this.m_renderer.onDeviceLost();
     },
@@ -266,7 +271,12 @@ SparkEngineApp.prototype =
     {
         this.m_renderer.onDeviceRestored();
 
-        // TODO: Informing game views about this event.
+        var gameViews = this.m_gameLogic.m_gameViews;
+        var gameViewsLength = gameViews.length;
+        for (var gameViewIndex = 0; gameViewIndex < gameViewsLength; gameViewIndex++)
+        {
+            gameViews[gameViewIndex].vOnDeviceRestored();
+        }
 
         this.m_eventService.triggerEvent(new EventData_DeviceRestored());
     },
@@ -278,7 +288,12 @@ SparkEngineApp.prototype =
     {
         this.m_renderer.preRender();
 
-        // TODO: Rendering game views
+        var gameViews = this.m_gameLogic.m_gameViews;
+        var gameViewsLength = gameViews.length;
+        for (var gameViewIndex = 0; gameViewIndex < gameViewsLength; gameViewIndex++)
+        {
+            gameViews[gameViewIndex].vOnRender(this.m_gameTime);
+        }
 
         this.m_renderer.postRender();
 
@@ -399,7 +414,7 @@ SparkEngineApp.prototype =
      */
     vLoadGame: function vLoadGame()
     {
-        SE_INFO("Starting loading the game in Game Worker.");
+        SE_INFO("Starting loading the game.");
         this.m_gameLogic.vLoadGame(this.m_gameLogic.m_levelManager.getCurrentLevelName())
             .then(function ()
             {

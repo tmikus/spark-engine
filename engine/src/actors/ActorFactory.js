@@ -43,7 +43,7 @@ ActorFactory.prototype =
     _createActorFromResource: function _createActorFromResource(actorResourceName, overrides, initialTransform, serverActorId, data)
     {
         // Create the actor.
-        var actor = new Actor(serverActorId || ++this.m_lastActorId);
+        var actor = new Actor(this.m_game, serverActorId || ++this.m_lastActorId);
 
         // Initialise the actor.
         if (!actor.initialise(data))
@@ -122,6 +122,8 @@ ActorFactory.prototype =
                 SE_ERROR("Could not create component: type is missing.");
                 reject();
             }
+
+            SE_INFO("Creating component with type: " + componentName);
 
             // Getting ID of the component.
             var componentId = ActorComponent.GetIdFromName(componentName);

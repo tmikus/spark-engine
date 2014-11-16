@@ -1,14 +1,16 @@
 /**
  * Creates instance of the actor with specified ID.
  *
+ * @param {SparkEngineApp} game Game to which this actor belongs.
  * @param {number} id ID of the actor.
  * @constructor
  * @class
  */
-function Actor(id)
+function Actor(game, id)
 {
     this.m_components = [];
     this.m_componentsMap = {};
+    this.m_game = game;
     this.m_id = id;
 }
 
@@ -24,6 +26,11 @@ Actor.prototype =
      * @type {*}
      */
     m_componentsMap: null,
+    /**
+     * Game to which this actor belongs.
+     * @type {SparkEngineApp}
+     */
+    m_game: null,
     /**
      * ID of the actor.
      * @type {number}

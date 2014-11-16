@@ -69,6 +69,29 @@ HumanView.prototype =
         this.m_id = gameViewId;
     },
     /**
+     * Called when the rendering device was lost.
+     */
+    vOnDeviceLost: function vOnDeviceLost()
+    {
+        // TODO: Implement...
+    },
+    /**
+     * Called when the rendering device was restored.
+     */
+    vOnDeviceRestored: function vOnDeviceRestored()
+    {
+        // TODO: Implement...
+    },
+    /**
+     * Called when the game requested this view to be rendered.
+     *
+     * @param {GameTime} gameTime Time of the game at the time of rendering.
+     */
+    vOnRender: function vOnRender(gameTime)
+    {
+        // TODO: Implement...
+    },
+    /**
      * Performs updating of the game view logic.
      *
      * @param {GameTime} gameTime Time of the game.

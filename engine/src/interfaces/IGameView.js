@@ -58,9 +58,19 @@ IGameView.prototype =
      */
     vOnAttach: notImplemented,
     /**
-     * Called when the renderer for the view was created.
+     * Called when the rendering device was lost.
      */
-    vOnRendererCreated: notImplemented,
+    vOnDeviceLost: notImplemented,
+    /**
+     * Called when the rendering device was restored.
+     */
+    vOnDeviceRestored: notImplemented,
+    /**
+     * Called when the game requested this view to be rendered.
+     *
+     * @param {GameTime} gameTime Time of the game at the time of rendering.
+     */
+    vOnRender: notImplemented,
     /**
      * Performs updating of the game view logic.
      *

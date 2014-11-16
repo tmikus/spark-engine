@@ -20,6 +20,7 @@ module.exports =
     'src/network/*.js',
     'src/processes/*.js',
     'src/resources/*.js',
+    'src/scene/*.js',
     'src/scripting/*.js',
     'src/views/*.js',
     'src/Engine.js'

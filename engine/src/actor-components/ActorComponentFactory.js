@@ -8,6 +8,8 @@ function ActorComponentFactory()
 {
     this.m_componentsMap = {};
 
+    // TODO: For release purposes please replace this with something quicker
+    this.register(ActorComponent.GetIdFromName(SphereRenderComponent.s_name), SphereRenderComponent);
     this.register(ActorComponent.GetIdFromName(TransformComponent.s_name), TransformComponent);
 }
 
