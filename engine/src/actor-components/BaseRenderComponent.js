@@ -97,7 +97,7 @@ BaseRenderComponent.prototype = Class.extend(ActorComponent,
         var rotation = this.m_transformComponent.m_rotation;
         var scale = this.m_transformComponent.m_scale;
 
-        var sceneObject = this._vGetSceneObject();
+        var sceneObject = this.m_sceneObject;
         sceneObject.position.x = position.x;
         sceneObject.position.y = position.y;
         sceneObject.position.z = position.z;

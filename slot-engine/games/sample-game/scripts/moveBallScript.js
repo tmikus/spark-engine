@@ -35,7 +35,7 @@ MoveBallActorScript.prototype = Class.extend(BaseActorScript,
      */
     vOnUpdate: function vOnUpdate(gameTime)
     {
-        if (Math.abs(this.m_transformComponent.m_position.x) > 200)
+        if (this.m_transformComponent.m_position.x > 200 || this.m_transformComponent.m_position.x < -200)
         {
             this.m_direction *= -1;
         }

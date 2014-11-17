@@ -68,18 +68,6 @@ SceneManager.prototype =
     {
         SE_INFO("Modifying actor's scene objects.");
     },
-    ///**
-    // * Called when the actor was moved.
-    // * Moves the render part.
-    // *
-    // * @param {EventData_MoveActor} data Event data.
-    // * @private
-    // */
-    //_onMoveActor: function _onMoveActor(data)
-    //{
-    //    var sceneObject = this.m_actorMap[data.m_actorId];
-    //    sceneObject.applyMatrix(data.m_matrix);
-    //},
     /**
      * Called when the new render component was created.
      * Adds the component to the scene.
