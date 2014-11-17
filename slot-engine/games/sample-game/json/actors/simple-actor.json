@@ -10,7 +10,9 @@
         },
         {
             "type": "SphereRenderComponent",
-            "radius": 10
+            "radius": 20,
+            "segments": 50,
+            "wireframe": true
         },
         {
             "type": "ScriptComponent",

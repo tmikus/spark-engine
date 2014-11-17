@@ -24,6 +24,11 @@ SphereRenderComponent.prototype = Class.extend(BaseRenderComponent,
      */
     m_segments: null,
     /**
+     * Should the sphere be rendered using wireframe?
+     * @type {boolean}
+     */
+    m_wireframe: false,
+    /**
      * Creates the scene object for the render component.
      *
      * @returns {THREE.Object3D}
@@ -32,7 +37,7 @@ SphereRenderComponent.prototype = Class.extend(BaseRenderComponent,
     _vCreateSceneObject: function _vCreateSceneObject()
     {
         var geometry = new THREE.SphereGeometry(this.m_radius, this.m_segments, this.m_segments);
-        var material = new THREE.MeshBasicMaterial({ color: this.m_colour });
+        var material = new THREE.MeshBasicMaterial({ color: this.m_colour, wireframe: this.m_wireframe });
         return new THREE.Mesh(geometry, material);
     },
     /**
@@ -52,6 +57,11 @@ SphereRenderComponent.prototype = Class.extend(BaseRenderComponent,
         if (data.segments)
         {
             this.m_segments = data.segments;
+        }
+
+        if (data.wireframe)
+        {
+            this.m_wireframe = data.wireframe;
         }
 
         return Promise.resolve();
