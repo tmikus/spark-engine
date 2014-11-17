@@ -9,6 +9,7 @@ function ActorComponentFactory()
     this.m_componentsMap = {};
 
     // TODO: For release purposes please replace this with something quicker
+    this.register(ActorComponent.GetIdFromName(PlaneRenderComponent.s_name), PlaneRenderComponent);
     this.register(ActorComponent.GetIdFromName(ScriptComponent.s_name), ScriptComponent);
     this.register(ActorComponent.GetIdFromName(SphereRenderComponent.s_name), SphereRenderComponent);
     this.register(ActorComponent.GetIdFromName(TransformComponent.s_name), TransformComponent);

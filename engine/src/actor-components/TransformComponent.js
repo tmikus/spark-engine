@@ -53,7 +53,7 @@ TransformComponent.prototype = Class.extend(ActorComponent,
         var scale = data.scale;
 
         this.m_position = new THREE.Vector3(position[0], position[1], position[2]);
-        this.m_rotation = new THREE.Vector3(rotation[0], rotation[1], rotation[2]);
+        this.m_rotation = new THREE.Vector3(rotation[0] * DEGREES_TO_RADIANS, rotation[1] * DEGREES_TO_RADIANS, rotation[2] * DEGREES_TO_RADIANS);
         this.m_scale = new THREE.Vector3(scale[0], scale[1], scale[2]);
 
         return Promise.resolve();

@@ -40,3 +40,17 @@ const INVALID_ACTOR_ID = 0;
  * @type {number}
  */
 const INVALID_GAME_VIEW_ID = 0;
+
+/**
+ * Constant for converting from degrees to radians.
+ * Just multiply by it and you'll get a value.
+ * @type {number}
+ */
+const DEGREES_TO_RADIANS = Math.PI / 180;
+
+/**
+ * Constant for converting from radians to degrees.
+ * Just multiply by it and you'll get a value.
+ * @type {number}
+ */
+const RADIANS_TO_DEGREES = 180 / Math.PI;

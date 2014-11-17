@@ -1,7 +1,12 @@
 {
-    "actors/simple-actor":
+    "actors/plane-actor":
     {
-        "path": "json/actors/simple-actor.json",
+        "path": "json/actors/plane-actor.json",
+        "type": "JSON"
+    },
+    "actors/sphere-actor":
+    {
+        "path": "json/actors/sphere-actor.json",
         "type": "JSON"
     },
     "levels":

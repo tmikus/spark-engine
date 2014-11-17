@@ -6,6 +6,7 @@
     },
     "staticActors":
     [
-        { "resourceName": "actors/simple-actor" }
+        { "resourceName": "actors/sphere-actor" },
+        { "resourceName": "actors/plane-actor" }
     ]
 }

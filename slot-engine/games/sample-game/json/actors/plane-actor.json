@@ -1,0 +1,18 @@
+{
+    "type": "PlaneActorType",
+    "components":
+    [
+        {
+            "type": "TransformComponent",
+            "position": [0, -10, 0],
+            "rotation": [90, 0, 0],
+            "scale": [1, 1, 1]
+        },
+        {
+            "type": "PlaneRenderComponent",
+            "height": 200,
+            "width": 200,
+            "wireframe": true
+        }
+    ]
+}
