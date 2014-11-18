@@ -1,4 +1,9 @@
 {
+    "actors/mesh-actor":
+    {
+        "path": "json/actors/mesh-actor.json",
+        "type": "JSON"
+    },
     "actors/plane-actor":
     {
         "path": "json/actors/plane-actor.json",
@@ -17,6 +22,11 @@
     "levels/loading":
     {
         "path": "json/levels/loading.json",
+        "type": "JSON"
+    },
+    "meshes/icecream":
+    {
+        "path": "meshes/icecream.json",
         "type": "JSON"
     },
     "options":

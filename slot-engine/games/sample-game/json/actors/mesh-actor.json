@@ -1,0 +1,17 @@
+{
+    "type": "MeshActorType",
+    "components":
+    [
+        {
+            "type": "TransformComponent",
+            "position": [0, 0, 0],
+            "rotation": [0, 0, 0],
+            "scale": [50, 50, 50]
+        },
+        {
+            "type": "MeshRenderComponent",
+            "meshName": "meshes/icecream",
+            "meshTexturesPath": "textures/"
+        }
+    ]
+}

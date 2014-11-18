@@ -11,8 +11,7 @@
         {
             "type": "SphereRenderComponent",
             "radius": 20,
-            "segments": 50,
-            "wireframe": true
+            "segments": 50
         },
         {
             "type": "ScriptComponent",

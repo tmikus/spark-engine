@@ -37,7 +37,7 @@ SphereRenderComponent.prototype = Class.extend(BaseRenderComponent,
     _vCreateSceneObject: function _vCreateSceneObject()
     {
         var geometry = new THREE.SphereGeometry(this.m_radius, this.m_segments, this.m_segments);
-        var material = new THREE.MeshBasicMaterial({ color: this.m_colour, wireframe: this.m_wireframe });
+        var material = new THREE.MeshPhongMaterial({ color: this.m_colour, wireframe: this.m_wireframe });
         return new THREE.Mesh(geometry, material);
     },
     /**
