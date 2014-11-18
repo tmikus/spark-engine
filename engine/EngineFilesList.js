@@ -7,6 +7,7 @@ module.exports =
 [
     'src/polyfills/*.js',
     'libs/es6-promise/es6-promise.js',
+    'libs/es6-promise/promise-polyfill.js',
     'bower_components/three.js/build/three.js',
     'src/utils/*.js',
     'src/core/*.js',
