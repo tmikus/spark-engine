@@ -49,6 +49,11 @@
         "path": "scripts/moveBallScript.js",
         "type": "JavaScript"
     },
+    "scripts/rotateIceCreamScript":
+    {
+        "path": "scripts/rotateIceCreamScript.js",
+        "type": "JavaScript"
+    },
     "test":
     {
         "path": "json/test.json",
