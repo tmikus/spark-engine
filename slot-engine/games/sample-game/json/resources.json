@@ -1,4 +1,9 @@
 {
+    "actors/ambient-light-actor":
+    {
+        "path": "json/actors/ambient-light-actor.json",
+        "type": "JSON"
+    },
     "actors/mesh-actor":
     {
         "path": "json/actors/mesh-actor.json",

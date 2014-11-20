@@ -8,6 +8,7 @@
     [
         { "resourceName": "actors/sphere-actor" },
         { "resourceName": "actors/plane-actor" },
-        { "resourceName": "actors/mesh-actor" }
+        { "resourceName": "actors/mesh-actor" },
+        { "resourceName": "actors/ambient-light-actor" }
     ]
 }

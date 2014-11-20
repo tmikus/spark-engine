@@ -120,11 +120,6 @@ Renderer.prototype =
 
         // Initialising the scene
         this.m_scene = new THREE.Scene();
-        var light = new THREE.PointLight(0xFFFFFF);
-        light.position.set( 200, 100, 150 );
-        this.m_scene.add( light );
-        this.m_scene.add(new THREE.PointLightHelper(light, 30));
-        this.m_scene.add(new THREE.GridHelper( 200, 10 ));
 
         // Initialising the scene manager
         this.m_sceneManager = new SceneManager(this, this.m_scene);

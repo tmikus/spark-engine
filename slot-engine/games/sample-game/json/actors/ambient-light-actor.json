@@ -1,0 +1,16 @@
+{
+    "type": "AmbientLight",
+    "components":
+    [
+        {
+            "type": "TransformComponent",
+            "position": [0, 0, 40],
+            "rotation": [0, 0, 0],
+            "scale": [1, 1, 1]
+        },
+        {
+            "type": "AmbientLightRenderComponent",
+            "colour": 16777215
+        }
+    ]
+}
