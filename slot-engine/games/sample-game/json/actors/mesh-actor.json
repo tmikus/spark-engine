@@ -15,7 +15,7 @@
         },
         {
             "type": "ScriptComponent",
-            "scriptName": "scripts/rotateIceCreamScript"
+            "scriptName": "scripts/rotateMeshScript"
         }
     ]
 }
