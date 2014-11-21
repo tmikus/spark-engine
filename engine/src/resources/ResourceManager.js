@@ -96,11 +96,8 @@ ResourceManager.prototype =
             case "Image/PNG":
                 preProcessedData = this._preProcessImage(data);
                 break;
-            case "JSON":
+            case "Text/JSON":
                 preProcessedData = JSON.parse(data);
-                break;
-            case "Text/JavaScript":
-                preProcessedData = (window.URL || window.webkitURL).createObjectURL(data);
                 break;
             default:
                 preProcessedData = data;
@@ -164,17 +161,15 @@ ResourceManager.prototype =
                 case "Audio/OGG":
                     responseType = "arraybuffer";
                     break;
-                case "HTML":
-                case "JSON":
+                case "Text/HTML":
+                case "Text/JSON":
+                case "Text/JavaScript":
                     responseType = "text";
                     break;
                 case "Image/JPEG":
                 case "Image/PNG":
                     responseType = "blob";
                     break;
-                    break;
-                case "Text/JavaScript":
-                    responseType = "blob";
                     break;
             }
 

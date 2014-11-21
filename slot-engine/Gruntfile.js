@@ -17,6 +17,24 @@ module.exports = function (grunt)
                 src: engineFiles,
                 dest: 'dist/slot-engine.js'
             }
+        },
+
+        "index-resources":
+        {
+            game:
+            {
+                cwd: 'games/<%= grunt.task.current.args[0] %>/',
+                src:
+                [
+                    '**',
+                    '!index.html'
+                ],
+                dest: 'games/<%= grunt.task.current.args[0] %>/json/resources.json',
+                replacements:
+                [
+                    { "what": /^json\//i, "with": "" }
+                ]
+            }
         }
     });
 
@@ -26,5 +44,7 @@ module.exports = function (grunt)
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-contrib-uglify');
 
-    grunt.registerTask('build', ['concat:engine']);
+    grunt.loadTasks("grunt-tasks");
+
+    grunt.registerTask('build', ['concat:engine', 'index-resources:game:sample-game']);
 };
