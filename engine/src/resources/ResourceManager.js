@@ -97,14 +97,7 @@ ResourceManager.prototype =
                 preProcessedData = this._preProcessImage(data);
                 break;
             case "JSON":
-                if (typeof data == "string")
-                {
-                    preProcessedData = JSON.parse(data);
-                }
-                else
-                {
-                    preProcessedData = data;
-                }
+                preProcessedData = JSON.parse(data);
                 break;
             case "Text/JavaScript":
                 preProcessedData = (window.URL || window.webkitURL).createObjectURL(data);
@@ -172,14 +165,13 @@ ResourceManager.prototype =
                     responseType = "arraybuffer";
                     break;
                 case "HTML":
+                case "JSON":
                     responseType = "text";
                     break;
                 case "Image/JPEG":
                 case "Image/PNG":
                     responseType = "blob";
                     break;
-                case "JSON":
-                    responseType = "json";
                     break;
                 case "Text/JavaScript":
                     responseType = "blob";
