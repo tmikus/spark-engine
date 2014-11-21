@@ -73,10 +73,5 @@
     {
         "path": "sprites/elf-sprite.png",
         "type": "Image/PNG"
-    },
-    "test":
-    {
-        "path": "json/test.json",
-        "type": "JSON"
     }
 }
