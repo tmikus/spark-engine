@@ -58,6 +58,13 @@ IGameLogic.prototype =
      */
     vGetActor: notImplemented,
     /**
+     * Gets actors with the specified type name.
+     *
+     * @param {string} type Name of the type.
+     * @returns {Actor[]}
+     */
+    vGetActorsByType: notImplemented,
+    /**
      * Initialises the game logic.
      *
      * @returns {Promise} Promise of initialising the game logic.

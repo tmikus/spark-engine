@@ -45,7 +45,17 @@ BaseActorScript.prototype =
      */
     destroyActor: function destroyActor(actorId)
     {
-        this.m_actor.m_game.m_gameLogic.vDestroyActor(actorId);
+        this.queueEvent(new EventData_RequestDestroyingActor(actorId));
+    },
+    /**
+     * Gets actors with the specified type name.
+     *
+     * @param {string} type Name of the type.
+     * @returns {Actor[]}
+     */
+    getActorsByType: function getActorsByType(type)
+    {
+        return this.m_actor.m_game.m_gameLogic.vGetActorsByType(type);
     },
     /**
      * Gets the component with specified name.

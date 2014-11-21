@@ -16,6 +16,7 @@ function BaseGameLogic(game)
     this.m_humanViews = [];
 
     this.m_environmentLoadedBinding = this._vOnEnvironmentLoaded.bind(this);
+    this.m_requestDestroyingActorBinding = this._vOnRequestDestroyingActor.bind(this);
 }
 
 BaseGameLogic.prototype =
@@ -301,6 +302,16 @@ BaseGameLogic.prototype =
             });
     },
     /**
+     * Called when the game requested the actor to be destroyed.
+     *
+     * @param {EventData_RequestDestroyingActor} data Event data.
+     * @protected
+     */
+    _vOnRequestDestroyingActor: function _vOnRequestDestroyingActor(data)
+    {
+        this.vDestroyActor(data.m_actorId);
+    },
+    /**
      * Adds a view to the game logic class.
      *
      * @param {IGameView} gameView Instance of the view to add.
@@ -424,6 +435,28 @@ BaseGameLogic.prototype =
         return this.m_actorsMap[actorId] || null;
     },
     /**
+     * Gets actors with the specified type name.
+     *
+     * @param {string} type Name of the type.
+     * @returns {Actor[]}
+     */
+    vGetActorsByType: function vGetActorsByType(type)
+    {
+        var actors = [];
+        var allActors = this.m_actors;
+        var allActorsLength = allActors.length;
+
+        for (var actorIndex = 0; actorIndex < allActorsLength; actorIndex++)
+        {
+            if (allActors[actorIndex].m_type === type)
+            {
+                actors.push(allActors[actorIndex]);
+            }
+        }
+
+        return actors;
+    },
+    /**
      * Initialises the game logic.
      *
      * @returns {Promise} Promise of initialising the game logic.
@@ -431,6 +464,7 @@ BaseGameLogic.prototype =
     vInitialise: function vInitialise()
     {
         this.m_game.m_eventService.addEventListener(EventData_EnvironmentLoaded.s_type, this.m_environmentLoadedBinding);
+        this.m_game.m_eventService.addEventListener(EventData_RequestDestroyingActor.s_type, this.m_requestDestroyingActorBinding);
 
         return Promise.resolve()
             .then(this._initialiseActorFactory.bind(this))

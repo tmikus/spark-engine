@@ -15,9 +15,9 @@ BallFactoryActorScript.prototype = Class.extend(BaseActorScript,
 {
     m_balls: [],
 
-    m_ballSpawnInterval: 3,
+    m_ballSpawnInterval: 1,
 
-    m_maxBalls: 10,
+    m_maxBalls: 5,
 
     m_timeFromLastBallCreation: 0,
     /**
@@ -27,11 +27,22 @@ BallFactoryActorScript.prototype = Class.extend(BaseActorScript,
      */
     vOnUpdate: function vOnUpdate(gameTime)
     {
-        // TODO: Remove balls after some time...
-        if (this.m_balls.length == this.m_maxBalls)
-            return;
-
         this.m_timeFromLastBallCreation += gameTime.m_deltaTime;
+
+        if (this.m_balls.length == this.m_maxBalls)
+        {
+            if (this.m_timeFromLastBallCreation >= this.m_ballSpawnInterval)
+            {
+                for (var ballIndex = 0; ballIndex < this.m_balls.length; ballIndex++)
+                {
+                    this.destroyActor(this.m_balls[ballIndex]);
+                }
+
+                this.m_balls = [];
+            }
+
+            return;
+        }
 
         if (this.m_timeFromLastBallCreation >= this.m_ballSpawnInterval)
         {
