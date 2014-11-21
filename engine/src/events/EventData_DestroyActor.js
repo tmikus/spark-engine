@@ -15,7 +15,7 @@ function EventData_DestroyActor(actorId)
     this.m_type = EventData_DestroyActor.s_type;
 }
 
-EventData_DestroyActor.s_type = 0xdda1c1ec;
+EventData_DestroyActor.s_type = 0x32b73a97;
 
 EventData_DestroyActor.prototype = Class.extend(BaseEventData,
 {

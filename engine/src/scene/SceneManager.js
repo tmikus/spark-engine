@@ -52,7 +52,6 @@ SceneManager.prototype =
     _onDestroyActor: function _onDestroyActor(data)
     {
         SE_INFO("Destroying actor's scene objects.");
-
         var sceneObject = this.m_actorMap[data.m_actorId];
         this.m_scene.remove(sceneObject);
         delete this.m_actorMap[data.m_actorId];
