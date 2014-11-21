@@ -12,3 +12,4 @@ slot-engine/dist/
 slot-engine/examples/test/dist/
 slot-engine/node_modules/
 slot-engine/coverage/
+slot-engine/games/sample-game/json/resources.json
