@@ -14,6 +14,11 @@
         "path": "json/actors/plane-actor.json",
         "type": "JSON"
     },
+    "actors/point-light-actor":
+    {
+        "path": "json/actors/point-light-actor.json",
+        "type": "JSON"
+    },
     "actors/sphere-actor":
     {
         "path": "json/actors/sphere-actor.json",

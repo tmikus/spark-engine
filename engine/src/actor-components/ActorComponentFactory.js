@@ -10,8 +10,11 @@ function ActorComponentFactory()
 
     // TODO: For release purposes please replace this with something quicker
     this.register(ActorComponent.GetIdFromName(AmbientLightRenderComponent.s_name), AmbientLightRenderComponent);
+    this.register(ActorComponent.GetIdFromName(DirectionalLightRenderComponent.s_name), DirectionalLightRenderComponent);
+    this.register(ActorComponent.GetIdFromName(HemisphereLightRenderComponent.s_name), HemisphereLightRenderComponent);
     this.register(ActorComponent.GetIdFromName(MeshRenderComponent.s_name), MeshRenderComponent);
     this.register(ActorComponent.GetIdFromName(PlaneRenderComponent.s_name), PlaneRenderComponent);
+    this.register(ActorComponent.GetIdFromName(PointLightRenderComponent.s_name), PointLightRenderComponent);
     this.register(ActorComponent.GetIdFromName(ScriptComponent.s_name), ScriptComponent);
     this.register(ActorComponent.GetIdFromName(SphereRenderComponent.s_name), SphereRenderComponent);
     this.register(ActorComponent.GetIdFromName(TransformComponent.s_name), TransformComponent);

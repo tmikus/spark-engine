@@ -1,0 +1,16 @@
+{
+    "type": "PointLight",
+    "components":
+    [
+        {
+            "type": "TransformComponent",
+            "position": [0, 100, 50],
+            "rotation": [0, 0, 0],
+            "scale": [1, 1, 1]
+        },
+        {
+            "type": "PointLightRenderComponent",
+            "colour": 16777215
+        }
+    ]
+}
