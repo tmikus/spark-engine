@@ -11,6 +11,10 @@
         {
             "type": "SpriteRenderComponent",
             "textureName": "sprites/elf-sprite"
+        },
+        {
+            "type": "ScriptComponent",
+            "scriptName": "scripts/moveBallScript"
         }
     ]
 }

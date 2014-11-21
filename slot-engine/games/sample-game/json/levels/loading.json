@@ -6,7 +6,7 @@
     },
     "staticActors":
     [
-        { "resourceName": "actors/sphere-actor" },
+        { "resourceName": "actors/sphere-factory-actor" },
         { "resourceName": "actors/plane-actor" },
         { "resourceName": "actors/mesh-actor" },
         { "resourceName": "actors/sprite-actor" },
