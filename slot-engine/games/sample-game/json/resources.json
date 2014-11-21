@@ -24,6 +24,11 @@
         "path": "json/actors/sphere-actor.json",
         "type": "JSON"
     },
+    "actors/sprite-actor":
+    {
+        "path": "json/actors/sprite-actor.json",
+        "type": "JSON"
+    },
     "levels":
     {
         "path": "json/levels.json",
@@ -63,6 +68,11 @@
     {
         "path": "scripts/rotateIceCreamScript.js",
         "type": "JavaScript"
+    },
+    "sprites/elf-sprite":
+    {
+        "path": "sprites/elf-sprite.png",
+        "type": "Image/PNG"
     },
     "test":
     {

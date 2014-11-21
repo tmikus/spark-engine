@@ -17,6 +17,7 @@ function ActorComponentFactory()
     this.register(ActorComponent.GetIdFromName(PointLightRenderComponent.s_name), PointLightRenderComponent);
     this.register(ActorComponent.GetIdFromName(ScriptComponent.s_name), ScriptComponent);
     this.register(ActorComponent.GetIdFromName(SphereRenderComponent.s_name), SphereRenderComponent);
+    this.register(ActorComponent.GetIdFromName(SpriteRenderComponent.s_name), SpriteRenderComponent);
     this.register(ActorComponent.GetIdFromName(TransformComponent.s_name), TransformComponent);
 }
 

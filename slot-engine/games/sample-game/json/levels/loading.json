@@ -9,6 +9,7 @@
         { "resourceName": "actors/sphere-actor" },
         { "resourceName": "actors/plane-actor" },
         { "resourceName": "actors/mesh-actor" },
+        { "resourceName": "actors/sprite-actor" },
         { "resourceName": "actors/point-light-actor" }
     ]
 }
