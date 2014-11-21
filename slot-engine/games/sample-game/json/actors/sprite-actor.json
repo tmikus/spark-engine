@@ -4,7 +4,7 @@
     [
         {
             "type": "TransformComponent",
-            "position": [5, 30, 40],
+            "position": [0, 35, 40],
             "rotation": [0, 0, 0],
             "scale": [100, 100, 1]
         },

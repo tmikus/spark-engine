@@ -46,7 +46,7 @@ PlaneRenderComponent.prototype = Class.extend(BaseRenderComponent,
      */
     _vCreateSceneObject: function _vCreateSceneObject()
     {
-        var geometry = new THREE.PlaneGeometry(this.m_width, this.m_height, this.m_widthSegments, this.m_heightSegments);
+        var geometry = new THREE.PlaneBufferGeometry(this.m_width, this.m_height, this.m_widthSegments, this.m_heightSegments);
         var material = new THREE.MeshPhongMaterial({ color: this.m_colour, wireframe: this.m_wireframe });
         return new THREE.Mesh(geometry, material);
     },
