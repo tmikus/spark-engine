@@ -1,6 +1,7 @@
 /**
  * Initialises the resource manager with specified resource index file URL.
  *
+ * @param {SparkEngineApp} game Instance of the game using this resource manager.
  * @param {string} resourceIndexUrl URL to the resource index file.
  * @constructor
  * @class
@@ -9,7 +10,7 @@
 function ResourceManager(game, resourceIndexUrl)
 {
     this.m_game = game;
-    this.m_resourceCache = {};
+    this.m_resourceLoaders = {};
     this.m_resourcesMap = {};
     this.m_resourceIndexUrl = resourceIndexUrl;
 }
@@ -22,13 +23,13 @@ ResourceManager.prototype =
      */
     m_game: null,
     /**
-     * Cache object of the resources.
-     * @type {*}
+     * Map of resource loaders and types for the files.
+     * @type {Object.<string, IResourceLoader>}
      */
-    m_resourceCache: null,
+    m_resourceLoaders: null,
     /**
      * Resources map - maps the name and its path.
-     * @type {*}
+     * @type {Object.<string, IResourceDescriptor>}
      */
     m_resourcesMap: null,
     /**
@@ -138,56 +139,74 @@ ResourceManager.prototype =
      */
     getResource: function getResource(name)
     {
-        // Try to find the resource from cache.
-        var resource = this.m_resourceCache[name];
-
-        // If the resource was not found
-        if (resource === undefined)
-        {
-            // Try to find the descriptor of resource.
-            var resourceDescriptor = this.m_resourcesMap[name];
-            if (!resourceDescriptor)
-            {
-                SE_ERROR("Could not find resource with that name: " + name);
-                return new Promise(function (resolve, reject) { reject(); });
-            }
-
-            // Find the response type (if suitable)
-            var responseType = null;
-            switch (resourceDescriptor.type)
-            {
-                case "Audio/AAC":
-                case "Audio/MP4":
-                case "Audio/OGG":
-                    responseType = "arraybuffer";
-                    break;
-                case "Text/HTML":
-                case "Text/JSON":
-                case "Text/JavaScript":
-                    responseType = "text";
-                    break;
-                case "Image/JPEG":
-                case "Image/PNG":
-                    responseType = "blob";
-                    break;
-                    break;
-            }
+        //// Try to find the resource from cache.
+        //var resource = this.m_resourceCache[name];
+        //
+        //// If the resource was not found
+        //if (resource === undefined)
+        //{
+        //    // Try to find the descriptor of resource.
+        //    var resourceDescriptor = this.m_resourcesMap[name];
+        //    if (!resourceDescriptor)
+        //    {
+        //        SE_ERROR("Could not find resource with that name: " + name);
+        //        return new Promise(function (resolve, reject) { reject(); });
+        //    }
+        //
+        //    // Find the response type (if suitable)
+        //    var responseType = null;
+        //    switch (resourceDescriptor.type)
+        //    {
+        //        case "Audio/AAC":
+        //        case "Audio/MP4":
+        //        case "Audio/OGG":
+        //            responseType = "arraybuffer";
+        //            break;
+        //        case "Text/HTML":
+        //        case "Text/JSON":
+        //        case "Text/JavaScript":
+        //            responseType = "text";
+        //            break;
+        //        case "Image/JPEG":
+        //        case "Image/PNG":
+        //            responseType = "blob";
+        //            break;
+        //            break;
+        //    }
 
             // Try to get the resource from the URL.
-            return Http.get(resourceDescriptor.path, null, responseType)
-                .then(this._preProcessResource.bind(this, name, resourceDescriptor))
-                .then(this._storeResourceInCache.bind(this, name, resourceDescriptor))
-                ["catch"](function ()
-                {
-                    SE_ERROR("Could not process resource: ", name);
-                })
+            //return Http.get(resourceDescriptor.path, null, responseType)
+            //    .then(this._preProcessResource.bind(this, name, resourceDescriptor))
+            //    .then(this._storeResourceInCache.bind(this, name, resourceDescriptor))
+            //    ["catch"](function ()
+            //    {
+            //        SE_ERROR("Could not process resource: ", name);
+            //    })
+        //}
+        //
+        //// Return the promise just to satisfy the interface requirements.
+        //return new Promise(function (resolve)
+        //{
+        //    resolve(resource)
+        //});
+
+        // Try to find the descriptor of resource.
+        var resourceDescriptor = this.m_resourcesMap[name];
+        if (!resourceDescriptor)
+        {
+            SE_ERROR("Could not find resource with that name: " + name);
+            return Promise.reject();
         }
 
-        // Return the promise just to satisfy the interface requirements.
-        return new Promise(function (resolve)
+        // Try to find resource loader.
+        var resourceLoader = this.m_resourceLoaders[resourceDescriptor.type];
+        if (!resourceLoader)
         {
-            resolve(resource)
-        });
+            SE_ERROR("Could not load resource with type: " + resourceDescriptor.type + ". No loader found for that type.");
+            return Promise.reject();
+        }
+
+        return resourceLoader.vLoadResource(name, resourceDescriptor);
     },
     /**
      * Initialises the resource manager.
@@ -196,7 +215,25 @@ ResourceManager.prototype =
      */
     initialise: function initialise()
     {
-        return Http.get(this.m_resourceIndexUrl)
-            .then(this._onResourcesDescriptorLoaded.bind(this));
+        return Http.get(this.m_resourceIndexUrl).then(this._onResourcesDescriptorLoaded.bind(this));
+    },
+    /**
+     * Registers the resource loader.
+     *
+     * @param {function(new:IResourceLoader, IResourceManager)} loaderClass Resource loader class to register.
+     * @returns {boolean} True if registered successfully; otherwise false.
+     */
+    registerLoader: function registerLoader(loaderClass)
+    {
+        var loader = new loaderClass(this);
+
+        if (this.m_resourceLoaders[loader.m_type])
+        {
+            SE_WARNING("Trying to register resource loader twice with the same type: " + loader.m_type);
+            return false;
+        }
+
+        this.m_resourceLoaders[loader.m_type] = loader;
+        return true;
     }
 };

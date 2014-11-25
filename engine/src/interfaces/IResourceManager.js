@@ -22,5 +22,12 @@ IResourceManager.prototype =
      *
      * @returns {Promise} Promise of the initialisation.
      */
-    initialise: notImplemented
+    initialise: notImplemented,
+    /**
+     * Registers the resource loader.
+     *
+     * @param {function(new:IResourceLoader, IResourceManager)} loaderClass Resource loader class to register.
+     * @returns {boolean} True if registered successfully; otherwise false.
+     */
+    registerLoader: notImplemented
 };

@@ -7,6 +7,9 @@
 function SpriteRenderComponent()
 {
     BaseRenderComponent.apply(this);
+
+    this.m_uvOffset = new THREE.Vector2(0, 0);
+    this.m_uvScale = new THREE.Vector2(1, 1);
 }
 
 SpriteRenderComponent.s_name = "SpriteRenderComponent";
@@ -23,6 +26,16 @@ SpriteRenderComponent.prototype = Class.extend(BaseRenderComponent,
      * @type {string}
      */
     m_textureName: null,
+    /**
+     * UV offset for the material.
+     * @type {THREE.Vector2}
+     */
+    m_uvOffset: null,
+    /**
+     * UV scale for the material.
+     * @type {THREE.Vector2}
+     */
+    m_uvScale: null,
     /**
      * Should the sphere be rendered using wireframe?
      * @type {boolean}
@@ -47,6 +60,9 @@ SpriteRenderComponent.prototype = Class.extend(BaseRenderComponent,
     _vCreateSceneObject: function _vCreateSceneObject()
     {
         var material = new THREE.SpriteMaterial({ map: this.m_texture, color: this.m_colour });
+        material.uvOffset = this.m_uvOffset;
+        material.uvScale = this.m_uvScale;
+        material.wireframe = this.m_wireframe;
         return new THREE.Sprite(material);
     },
     /**
@@ -58,13 +74,19 @@ SpriteRenderComponent.prototype = Class.extend(BaseRenderComponent,
      */
     _vDelegateInitialise: function _vDelegateInitialise(data)
     {
-        if (data.textureName)
-        {
-            this.m_textureName = data.textureName;
-        }
-        else
-        {
+        if (!data.textureName)
             return Promise.reject();
+
+        this.m_textureName = data.textureName;
+
+        if (data.uvOffset)
+        {
+            this.m_uvOffset = new THREE.Vector2(data.uvOffset[0], data.uvOffset[1]);
+        }
+
+        if (data.uvScale)
+        {
+            this.m_uvScale = new THREE.Vector2(data.uvScale[0], data.uvScale[1]);
         }
 
         if (data.wireframe)
