@@ -27,6 +27,7 @@ IResourceManager.prototype =
      * Registers the resource loader.
      *
      * @param {function(new:IResourceLoader, IResourceManager)} loaderClass Resource loader class to register.
+     * @param {*} [loaderArgs] Additional arguments to the loader.
      * @returns {boolean} True if registered successfully; otherwise false.
      */
     registerLoader: notImplemented

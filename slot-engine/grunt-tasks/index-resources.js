@@ -3,9 +3,11 @@ var path = require("path");
 
 var extensionToTypeMap =
 {
+    ".dae": "Mesh/DAE",
     ".html": "Text/HTML",
     ".jpg": "Image/JPEG",
     ".js": "Text/JavaScript",
+    ".jsm": "Mesh/JSON",
     ".json": "Text/JSON",
     ".png": "Image/PNG"
 };

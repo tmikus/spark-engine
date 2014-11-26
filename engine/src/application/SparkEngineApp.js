@@ -194,8 +194,10 @@ SparkEngineApp.prototype =
             SE_INFO("Initialising Game Resource Manager.");
             this.m_resourceManager = new ResourceManager(this, this._vGetResourceUrl());
 
+            this.m_resourceManager.registerLoader(ColladaMeshLoader);
             this.m_resourceManager.registerLoader(JavaScriptLoader);
             this.m_resourceManager.registerLoader(JsonLoader);
+            this.m_resourceManager.registerLoader(JsonMeshLoader);
             this.m_resourceManager.registerLoader(PngLoader);
 
             return this.m_resourceManager.initialise();

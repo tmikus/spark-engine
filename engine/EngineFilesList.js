@@ -9,6 +9,7 @@ module.exports =
     'libs/es6-promise/es6-promise.js',
     'libs/es6-promise/promise-polyfill.js',
     'bower_components/three.js/build/three.js',
+    'libs/three.js/loaders/ColladaLoader.js',
     'libs/three.js/renderers/Projector.js',
     'libs/three.js/renderers/CanvasRenderer.js',
     'src/utils/*.js',

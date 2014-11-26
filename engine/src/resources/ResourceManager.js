@@ -48,148 +48,16 @@ ResourceManager.prototype =
         this.m_resourcesMap = JSON.parse(data);
     },
     /**
-     * Does the pre-processing of the image.
-     *
-     * @param data Data loaded from the server.
-     * @returns {Promise} Promise for processing of the image.
-     * @private
-     */
-    _preProcessImage: function _preProcessImage(data)
-    {
-        return new Promise(function (resolve, reject)
-            {
-                var image = new Image();
-                image.onerror = function ()
-                {
-                    reject();
-                };
-                image.onload = function ()
-                {
-                    resolve(image);
-                };
-                image.src = (window.URL || window.webkitURL).createObjectURL(data);
-            })
-            .then(function (image)
-            {
-                var texture = new THREE.Texture(image);
-                texture.needsUpdate = true;
-                return texture;
-            });
-    },
-    /**
-     * Pre-processes the resource before passing it into the object waiting for it.
-     *
-     * @param {string} name Name of the resource.
-     * @param {*} resourceDescriptor Descriptor of the resource,
-     * @param data Data loaded from the server.
-     * @returns {Promise|*} Pre-processed data.
-     * @private
-     */
-    _preProcessResource: function _preProcessResource(name, resourceDescriptor, data)
-    {
-        var preProcessedData;
-
-        // Try pre-processing the resource
-        switch (resourceDescriptor.type)
-        {
-            // In case there is any processing required - do it here
-            case "Image/JPEG":
-            case "Image/PNG":
-                preProcessedData = this._preProcessImage(data);
-                break;
-            case "Text/JSON":
-                preProcessedData = JSON.parse(data);
-                break;
-            default:
-                preProcessedData = data;
-                break;
-        }
-
-        // Return the data
-        return preProcessedData;
-    },
-    /**
-     * Stores the resource in resource cache.
-     * This speeds up the running time of the application
-     * because it doesn't have to do XHR requests and pre-process data.
-     *
-     * @param {string} name Name of the loaded resource.
-     * @param {*} resourceDescriptor Descriptor of the resource.
-     * @param {*} data Data loaded from the server (and pre-processed).
-     * @returns {*} The same 'data'.
-     * @private
-     */
-    _storeResourceInCache: function _storeResourceInCache(name, resourceDescriptor, data)
-    {
-        // Store the resource in the cache.
-        if (resourceDescriptor.cache === undefined || resourceDescriptor.cache)
-        {
-            this.m_resourceCache[name] = data;
-        }
-
-        return data;
-    },
-    /**
      * Gets the resource with specified name.
      * First it checks if the resource is in the cache.
      * If is not - then it makes a request to get it.
      *
      * @param {string} name Name of the resource to load.
+     * @param {*} [loaderArgs] Additional arguments to the loader.
      * @returns {Promise} Get resource promise.
      */
-    getResource: function getResource(name)
+    getResource: function getResource(name, loaderArgs)
     {
-        //// Try to find the resource from cache.
-        //var resource = this.m_resourceCache[name];
-        //
-        //// If the resource was not found
-        //if (resource === undefined)
-        //{
-        //    // Try to find the descriptor of resource.
-        //    var resourceDescriptor = this.m_resourcesMap[name];
-        //    if (!resourceDescriptor)
-        //    {
-        //        SE_ERROR("Could not find resource with that name: " + name);
-        //        return new Promise(function (resolve, reject) { reject(); });
-        //    }
-        //
-        //    // Find the response type (if suitable)
-        //    var responseType = null;
-        //    switch (resourceDescriptor.type)
-        //    {
-        //        case "Audio/AAC":
-        //        case "Audio/MP4":
-        //        case "Audio/OGG":
-        //            responseType = "arraybuffer";
-        //            break;
-        //        case "Text/HTML":
-        //        case "Text/JSON":
-        //        case "Text/JavaScript":
-        //            responseType = "text";
-        //            break;
-        //        case "Image/JPEG":
-        //        case "Image/PNG":
-        //            responseType = "blob";
-        //            break;
-        //            break;
-        //    }
-
-            // Try to get the resource from the URL.
-            //return Http.get(resourceDescriptor.path, null, responseType)
-            //    .then(this._preProcessResource.bind(this, name, resourceDescriptor))
-            //    .then(this._storeResourceInCache.bind(this, name, resourceDescriptor))
-            //    ["catch"](function ()
-            //    {
-            //        SE_ERROR("Could not process resource: ", name);
-            //    })
-        //}
-        //
-        //// Return the promise just to satisfy the interface requirements.
-        //return new Promise(function (resolve)
-        //{
-        //    resolve(resource)
-        //});
-
         // Try to find the descriptor of resource.
         var resourceDescriptor = this.m_resourcesMap[name];
         if (!resourceDescriptor)
@@ -206,7 +74,7 @@ ResourceManager.prototype =
             return Promise.reject();
         }
 
-        return resourceLoader.vLoadResource(name, resourceDescriptor);
+        return resourceLoader.vLoadResource(name, resourceDescriptor, loaderArgs);
     },
     /**
      * Initialises the resource manager.

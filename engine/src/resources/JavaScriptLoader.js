@@ -49,9 +49,10 @@ JavaScriptLoader.prototype =
      *
      * @param {string} resourceName Name of the resource to load.
      * @param {IResourceDescriptor} resource Descriptor of the resource.
+     * @param {*} [args] Additional arguments to the loader.
      * @returns {Promise} Promise of loading resource.
      */
-    vLoadResource: function vLoadResource(resourceName, resource)
+    vLoadResource: function vLoadResource(resourceName, resource, args)
     {
         if (this.m_cache[resourceName])
         {

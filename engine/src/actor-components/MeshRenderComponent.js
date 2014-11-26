@@ -36,13 +36,12 @@ MeshRenderComponent.prototype = Class.extend(BaseRenderComponent,
     /**
      * Called after the mesh resource has been loaded.
      *
-     * @param {*} meshResource Mesh resource object.
+     * @param {THREE.Mesh} mesh Mesh resource object.
      * @private
      */
-    _onMeshResourceLoaded: function _onMeshResourceLoaded(meshResource)
+    _onMeshResourceLoaded: function _onMeshResourceLoaded(mesh)
     {
-        var loadedMesh = this.m_jsonMeshLoader.parse(meshResource, this.m_meshTexturesPath);
-        this.m_mesh = new THREE.Mesh(loadedMesh.geometry, new THREE.MeshFaceMaterial(loadedMesh.materials));
+        this.m_mesh = mesh;
     },
     /**
      * Creates the scene object for the render component.
@@ -75,7 +74,7 @@ MeshRenderComponent.prototype = Class.extend(BaseRenderComponent,
             this.m_meshTexturesPath = data.meshTexturesPath;
         }
 
-        return this.m_owner.m_game.m_resourceManager.getResource(this.m_meshName)
+        return this.m_owner.m_game.m_resourceManager.getResource(this.m_meshName, { texturesPath: this.m_meshTexturesPath })
             .then(this._onMeshResourceLoaded.bind(this))
             .catch(function ()
             {

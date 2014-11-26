@@ -25,6 +25,7 @@ IResourceLoader.prototype =
      *
      * @param {string} resourceName Name of the resource to load.
      * @param {IResourceDescriptor} resource Descriptor of the resource.
+     * @param {*} [args] Additional arguments to the loader.
      * @returns {Promise} Promise of loading resource.
      */
     vLoadResource: notImplemented
