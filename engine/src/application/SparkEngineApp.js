@@ -422,11 +422,7 @@ SparkEngineApp.prototype =
     vLoadGame: function vLoadGame()
     {
         SE_INFO("Starting loading the game.");
-        this.m_gameLogic.vLoadGame(this.m_gameLogic.m_levelManager.getCurrentLevelName())
-            .then(function ()
-            {
-                this.vChangeState(BaseGameState.WaitingForPlayersToLoadEnvironment);
-            }.bind(this));
+        this.m_gameLogic.vLoadGame(this.m_gameLogic.m_levelManager.getCurrentLevelName());
     },
     /**
      * Called after the initialisation is done.
