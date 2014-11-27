@@ -33,7 +33,8 @@ module.exports = function (grunt)
                 replacements:
                 [
                     { "what": /^json\//i, "with": "" }
-                ]
+                ],
+                minify: false
             }
         }
     });

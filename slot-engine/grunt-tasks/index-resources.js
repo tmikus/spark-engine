@@ -56,7 +56,18 @@ module.exports = function (grunt)
             resourcesMap[resource.name] = resource.entry;
         }
 
-        fs.writeFileSync(this.data.dest, JSON.stringify(resourcesMap), { encoding: "utf8" });
+        var content = null;
+
+        if (this.data.minify)
+        {
+            content = JSON.stringify(resourcesMap);
+        }
+        else
+        {
+            content = JSON.stringify(resourcesMap, null, '\t');
+        }
+
+        fs.writeFileSync(this.data.dest, content, { encoding: "utf8" });
 
         grunt.log.writeln("Game resources indexed successfully.");
     });
