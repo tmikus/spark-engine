@@ -37,6 +37,24 @@ Actor.prototype =
      */
     m_id: INVALID_ACTOR_ID,
     /**
+     * Light component assigned to this actor.
+     * Null if none assigned.
+     * @type {BaseLightComponent}
+     */
+    m_light: null,
+    /**
+     * Render component assigned to this actor.
+     * Null if none assigned.
+     * @type {BaseRenderComponent}
+     */
+    m_renderer: null,
+    /**
+     * Transform component assigned to this actor.
+     * Null if none assigned.
+     * @type {TransformComponent}
+     */
+    m_transform: null,
+    /**
      * Type of the actor.
      * @type {string}
      */

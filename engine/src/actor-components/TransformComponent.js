@@ -33,6 +33,16 @@ TransformComponent.prototype = Class.extend(ActorComponent,
      */
     m_scale: null,
     /**
+     * Destroys the actor component.
+     */
+    vDestroy: function vDestroy()
+    {
+        if (this.m_owner.m_transform === this)
+        {
+            this.m_owner.m_transform = null;
+        }
+    },
+    /**
      * Gets the name of the component.
      * @returns {string} Name of the component.
      */
@@ -48,6 +58,14 @@ TransformComponent.prototype = Class.extend(ActorComponent,
      */
     vInitialise: function vInitialise(data)
     {
+        if (this.m_owner.m_transform)
+        {
+            SE_ERROR("Cannot add more than one transform components to one actor. Actor ID: " + this.m_owner.m_id);
+            return Promise.reject();
+        }
+
+        this.m_owner.m_transform = this;
+
         var position = data.position;
         var rotation = data.rotation;
         var scale = data.scale;

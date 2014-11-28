@@ -1,37 +1,48 @@
 /**
- * Render component used for lighting the scene using point light.
+ * Light component used for lighting the scene using area light.
  * @constructor
  * @class
  * @extends BaseRenderComponent
  */
-function PointLightRenderComponent()
+function AreaLightComponent()
 {
     BaseRenderComponent.apply(this);
 }
 
-PointLightRenderComponent.s_name = "PointLightRenderComponent";
+AreaLightComponent.s_name = "AreaLightComponent";
 
-PointLightRenderComponent.prototype = Class.extend(BaseRenderComponent,
+AreaLightComponent.prototype = Class.extend(BaseLightComponent,
 {
     /**
-     * If non-zero, light will attenuate linearly from maximum intensity at light position down to zero at distance.
+     * Height of the light area.
      * @type {number}
      */
-    m_distance: 0,
+    m_height: 1,
     /**
      * Intensity of the light.
      * @type {number}
      */
     m_intensity: 1,
     /**
+     * Width of the light area.
+     * @type {number}
+     */
+    m_width: 1,
+    /**
      * Creates the scene object for the render component.
      *
-     * @returns {THREE.Object3D}
+     * @returns {THREE.Light}
      * @protected
      */
-    _vCreateSceneObject: function _vCreateSceneObject()
+    _vCreateLightObject: function _vCreateLightObject()
     {
-        return new THREE.PointLight(this.m_colour, this.m_intensity, this.m_distance);
+        var light = new THREE.AreaLight(this.m_colour, this.m_intensity);
+        light.height = this.m_height;
+        light.width = this.m_width;
+
+        // TODO: Set other light settings
+
+        return light;
     },
     /**
      * Delegates the initialization to the child class.
@@ -42,15 +53,17 @@ PointLightRenderComponent.prototype = Class.extend(BaseRenderComponent,
      */
     _vDelegateInitialise: function _vDelegateInitialise(data)
     {
-        if (data.distance)
+        if (data.height)
         {
-            this.m_distance = data.distance;
+            this.m_height = data.height;
         }
 
-        if (data.intensity)
+        if (data.width)
         {
-            this.m_intensity = data.intensity;
+            this.m_width = data.width;
         }
+
+        // TODO: Load other light settings.
 
         return Promise.resolve();
     },
@@ -61,6 +74,6 @@ PointLightRenderComponent.prototype = Class.extend(BaseRenderComponent,
      */
     vGetName: function vGetName()
     {
-        return PointLightRenderComponent.s_name;
+        return AreaLightComponent.s_name;
     }
 });

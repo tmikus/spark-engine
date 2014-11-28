@@ -9,7 +9,7 @@
             "scale": [1, 1, 1]
         },
         {
-            "type": "AmbientLightRenderComponent",
+            "type": "AmbientLightComponent",
             "colour": 16777215
         }
     ]

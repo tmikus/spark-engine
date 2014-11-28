@@ -1,25 +1,25 @@
 /**
- * Render component used for lighting the scene using ambient light.
+ * Light component used for lighting the scene using ambient light.
  * @constructor
  * @class
  * @extends BaseRenderComponent
  */
-function AmbientLightRenderComponent()
+function AmbientLightComponent()
 {
     BaseRenderComponent.apply(this);
 }
 
-AmbientLightRenderComponent.s_name = "AmbientLightRenderComponent";
+AmbientLightComponent.s_name = "AmbientLightComponent";
 
-AmbientLightRenderComponent.prototype = Class.extend(BaseRenderComponent,
+AmbientLightComponent.prototype = Class.extend(BaseLightComponent,
 {
     /**
      * Creates the scene object for the render component.
      *
-     * @returns {THREE.Object3D}
+     * @returns {THREE.Light}
      * @protected
      */
-    _vCreateSceneObject: function _vCreateSceneObject()
+    _vCreateLightObject: function _vCreateLightObject()
     {
         return new THREE.AmbientLight(this.m_colour);
     },
@@ -41,6 +41,6 @@ AmbientLightRenderComponent.prototype = Class.extend(BaseRenderComponent,
      */
     vGetName: function vGetName()
     {
-        return AmbientLightRenderComponent.s_name;
+        return AmbientLightComponent.s_name;
     }
 });

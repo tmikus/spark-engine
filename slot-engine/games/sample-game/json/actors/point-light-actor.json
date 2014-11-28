@@ -9,7 +9,7 @@
             "scale": [1, 1, 1]
         },
         {
-            "type": "PointLightRenderComponent",
+            "type": "PointLightComponent",
             "colour": 16777215
         }
     ]

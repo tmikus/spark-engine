@@ -1,23 +1,23 @@
 /**
- * Render component used for lighting the scene using hemisphere light.
+ * Light component used for lighting the scene using point light.
  * @constructor
  * @class
  * @extends BaseRenderComponent
  */
-function HemisphereLightRenderComponent()
+function PointLightComponent()
 {
     BaseRenderComponent.apply(this);
 }
 
-HemisphereLightRenderComponent.s_name = "HemisphereLightRenderComponent";
+PointLightComponent.s_name = "PointLightComponent";
 
-HemisphereLightRenderComponent.prototype = Class.extend(BaseRenderComponent,
+PointLightComponent.prototype = Class.extend(BaseLightComponent,
 {
     /**
-     * Light's ground color.
+     * If non-zero, light will attenuate linearly from maximum intensity at light position down to zero at distance.
      * @type {number}
      */
-    m_groundColour: 0x000000,
+    m_distance: 0,
     /**
      * Intensity of the light.
      * @type {number}
@@ -29,9 +29,9 @@ HemisphereLightRenderComponent.prototype = Class.extend(BaseRenderComponent,
      * @returns {THREE.Object3D}
      * @protected
      */
-    _vCreateSceneObject: function _vCreateSceneObject()
+    _vCreateLightObject: function _vCreateLightObject()
     {
-        return new THREE.HemisphereLight(this.m_colour, this.m_groundColour, this.m_intensity);
+        return new THREE.PointLight(this.m_colour, this.m_intensity, this.m_distance);
     },
     /**
      * Delegates the initialization to the child class.
@@ -42,9 +42,9 @@ HemisphereLightRenderComponent.prototype = Class.extend(BaseRenderComponent,
      */
     _vDelegateInitialise: function _vDelegateInitialise(data)
     {
-        if (data.groundColour)
+        if (data.distance)
         {
-            this.m_groundColour = data.groundColour;
+            this.m_distance = data.distance;
         }
 
         if (data.intensity)
@@ -61,6 +61,6 @@ HemisphereLightRenderComponent.prototype = Class.extend(BaseRenderComponent,
      */
     vGetName: function vGetName()
     {
-        return HemisphereLightRenderComponent.s_name;
+        return PointLightComponent.s_name;
     }
 });

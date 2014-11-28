@@ -1,48 +1,37 @@
 /**
- * Render component used for lighting the scene using area light.
+ * Render component used for lighting the scene using hemisphere light.
  * @constructor
  * @class
  * @extends BaseRenderComponent
  */
-function AreaLightRenderComponent()
+function HemisphereLightComponent()
 {
     BaseRenderComponent.apply(this);
 }
 
-AreaLightRenderComponent.s_name = "AreaLightRenderComponent";
+HemisphereLightComponent.s_name = "HemisphereLightComponent";
 
-AreaLightRenderComponent.prototype = Class.extend(BaseRenderComponent,
+HemisphereLightComponent.prototype = Class.extend(BaseLightComponent,
 {
     /**
-     * Height of the light area.
+     * Light's ground color.
      * @type {number}
      */
-    m_height: 1,
+    m_groundColour: 0x000000,
     /**
      * Intensity of the light.
      * @type {number}
      */
     m_intensity: 1,
     /**
-     * Width of the light area.
-     * @type {number}
-     */
-    m_width: 1,
-    /**
      * Creates the scene object for the render component.
      *
      * @returns {THREE.Object3D}
      * @protected
      */
-    _vCreateSceneObject: function _vCreateSceneObject()
+    _vCreateLightObject: function _vCreateLightObject()
     {
-        var light = new THREE.AreaLight(this.m_colour, this.m_intensity);
-        light.height = this.m_height;
-        light.width = this.m_width;
-
-        // TODO: Set other light settings
-
-        return light;
+        return new THREE.HemisphereLight(this.m_colour, this.m_groundColour, this.m_intensity);
     },
     /**
      * Delegates the initialization to the child class.
@@ -53,17 +42,15 @@ AreaLightRenderComponent.prototype = Class.extend(BaseRenderComponent,
      */
     _vDelegateInitialise: function _vDelegateInitialise(data)
     {
-        if (data.height)
+        if (data.groundColour)
         {
-            this.m_height = data.height;
+            this.m_groundColour = data.groundColour;
         }
 
-        if (data.width)
+        if (data.intensity)
         {
-            this.m_width = data.width;
+            this.m_intensity = data.intensity;
         }
-
-        // TODO: Load other light settings.
 
         return Promise.resolve();
     },
@@ -74,6 +61,6 @@ AreaLightRenderComponent.prototype = Class.extend(BaseRenderComponent,
      */
     vGetName: function vGetName()
     {
-        return AreaLightRenderComponent.s_name;
+        return HemisphereLightComponent.s_name;
     }
 });

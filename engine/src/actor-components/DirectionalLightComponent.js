@@ -1,17 +1,17 @@
 /**
- * Render component used for lighting the scene using directional light.
+ * Light component used for lighting the scene using directional light.
  * @constructor
  * @class
  * @extends BaseRenderComponent
  */
-function DirectionalLightRenderComponent()
+function DirectionalLightComponent()
 {
     BaseRenderComponent.apply(this);
 }
 
-DirectionalLightRenderComponent.s_name = "DirectionalLightRenderComponent";
+DirectionalLightComponent.s_name = "DirectionalLightComponent";
 
-DirectionalLightRenderComponent.prototype = Class.extend(BaseRenderComponent,
+DirectionalLightComponent.prototype = Class.extend(BaseLightComponent,
 {
     /**
      * Intensity of the light.
@@ -84,7 +84,7 @@ DirectionalLightRenderComponent.prototype = Class.extend(BaseRenderComponent,
      * @returns {THREE.Object3D}
      * @protected
      */
-    _vCreateSceneObject: function _vCreateSceneObject()
+    _vCreateLightObject: function _vCreateLightObject()
     {
         var light = new THREE.DirectionalLight(this.m_colour, this.m_intensity);
         light.intensity = this.m_intensity;
@@ -186,6 +186,6 @@ DirectionalLightRenderComponent.prototype = Class.extend(BaseRenderComponent,
      */
     vGetName: function vGetName()
     {
-        return DirectionalLightRenderComponent.s_name;
+        return DirectionalLightComponent.s_name;
     }
 });

@@ -1,51 +1,51 @@
 /**
- * Render component used for presenting actor on the screen.
+ * Light component used for adding light to the scene.
  * @constructor
  * @class
  * @abstract
  * @extends ActorComponent
  */
-function BaseRenderComponent()
+function BaseLightComponent()
 {
     ActorComponent.apply(this);
 
     this.m_colour = new THREE.Color("rgb(255, 255, 0)");
 }
 
-BaseRenderComponent.prototype = Class.extend(ActorComponent,
+BaseLightComponent.prototype = Class.extend(ActorComponent,
 {
     /**
-     * Colour of the render component.
+     * Colour of the light component.
      * @type {THREE.Color}
      */
     m_colour: null,
     /**
-     * Scene object used for presenting the render component.
-     * @type {THREE.Object3D}
+     * Scene object used for presenting the light component.
+     * @type {THREE.Light}
      */
-    m_sceneObject: null,
+    m_lightObject: null,
     /**
-     * Creates the scene object for the render component.
+     * Creates the light object for the light component.
      *
-     * @returns {THREE.Object3D}
+     * @returns {THREE.Light}
      * @protected
      */
-    _vCreateSceneObject: notImplemented,
+    _vCreateLightObject: notImplemented,
     /**
      * Gets the scene object.
      *
-     * @returns {THREE.Object3D} Scene object.
+     * @returns {THREE.Light} Scene object.
      * @protected
      */
-    _vGetSceneObject: function _vGetSceneObject()
+    _vGetLightObject: function _vGetLightObject()
     {
-        if (!this.m_sceneObject)
+        if (!this.m_lightObject)
         {
-            this.m_sceneObject = this._vCreateSceneObject();
-            this.m_sceneObject.matrixAutoUpdate = false;
+            this.m_lightObject = this._vCreateLightObject();
+            this.m_lightObject.matrixAutoUpdate = false;
         }
 
-        return this.m_sceneObject;
+        return this.m_lightObject;
     },
     /**
      * Delegates the initialization to the child class.
@@ -63,9 +63,9 @@ BaseRenderComponent.prototype = Class.extend(ActorComponent,
      */
     vDestroy: function vDestroy()
     {
-        if (this.m_owner.m_renderer === this)
+        if (this.m_owner.m_light === this)
         {
-            this.m_owner.m_renderer = null;
+            this.m_owner.m_light = null;
         }
     },
     /**
@@ -76,13 +76,13 @@ BaseRenderComponent.prototype = Class.extend(ActorComponent,
      */
     vInitialise: function vInitialise(data)
     {
-        if (this.m_owner.m_renderer)
+        if (this.m_owner.m_light)
         {
-            SE_ERROR("Cannot add more than one render components to one actor. Actor ID: " + this.m_owner.m_id);
+            SE_ERROR("Cannot add more than one light components to one actor. Actor ID: " + this.m_owner.m_id);
             return Promise.reject();
         }
 
-        this.m_owner.m_renderer = this;
+        this.m_owner.m_light = this;
 
         if (data.colour)
         {
@@ -96,7 +96,7 @@ BaseRenderComponent.prototype = Class.extend(ActorComponent,
      */
     vOnChanged: function vOnChanged()
     {
-        var eventData = new EventData_ModifiedRenderComponent(this.m_owner.m_id);
+        var eventData = new EventData_ModifiedLightComponent(this.m_owner.m_id);
         this.m_owner.m_game.m_eventService.triggerEvent(eventData);
     },
     /**
@@ -110,27 +110,27 @@ BaseRenderComponent.prototype = Class.extend(ActorComponent,
         var rotation = this.m_owner.m_transform.m_rotation;
         var scale = this.m_owner.m_transform.m_scale;
 
-        var sceneObject = this.m_sceneObject;
-        sceneObject.position.x = position.x;
-        sceneObject.position.y = position.y;
-        sceneObject.position.z = position.z;
+        var lightObject = this.m_lightObject;
+        lightObject.position.x = position.x;
+        lightObject.position.y = position.y;
+        lightObject.position.z = position.z;
 
-        sceneObject.rotation.x = rotation.x;
-        sceneObject.rotation.y = rotation.y;
-        sceneObject.rotation.z = rotation.z;
+        lightObject.rotation.x = rotation.x;
+        lightObject.rotation.y = rotation.y;
+        lightObject.rotation.z = rotation.z;
 
-        sceneObject.scale.x = scale.x;
-        sceneObject.scale.y = scale.y;
-        sceneObject.scale.z = scale.z;
+        lightObject.scale.x = scale.x;
+        lightObject.scale.y = scale.y;
+        lightObject.scale.z = scale.z;
 
-        sceneObject.updateMatrix();
+        lightObject.updateMatrix();
     },
     /**
      * Called after the initialization has been completed.
      */
     vPostInitialise: function vPostInitialise()
     {
-        var eventData = new EventData_NewRenderComponent(this.m_owner.m_id, this._vGetSceneObject());
+        var eventData = new EventData_NewLightComponent(this.m_owner.m_id, this._vGetLightObject());
         this.m_owner.m_game.m_eventService.triggerEvent(eventData);
     }
 });
