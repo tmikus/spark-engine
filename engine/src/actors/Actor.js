@@ -27,6 +27,11 @@ Actor.prototype =
      */
     m_componentsMap: null,
     /**
+     * Is the actor enabled?
+     * @type {boolean}
+     */
+    m_enabled: true,
+    /**
      * Game to which this actor belongs.
      * @type {SparkEngineApp}
      */

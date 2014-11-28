@@ -558,7 +558,11 @@ BaseGameLogic.prototype =
         var actorsLength = actors.length;
         for (var actorIndex = 0; actorIndex < actorsLength; actorIndex++)
         {
-            actors[actorIndex].onUpdate(gameTime);
+            var actor = actors[actorIndex];
+            if (actor.m_enabled)
+            {
+                actor.onUpdate(gameTime);
+            }
         }
     },
     /**
