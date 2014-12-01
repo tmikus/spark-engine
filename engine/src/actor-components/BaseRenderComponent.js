@@ -106,9 +106,10 @@ BaseRenderComponent.prototype = Class.extend(ActorComponent,
      */
     vOnUpdate: function vOnUpdate(gameTime)
     {
-        var position = this.m_owner.m_transform.m_position;
-        var rotation = this.m_owner.m_transform.m_rotation;
-        var scale = this.m_owner.m_transform.m_scale;
+        // TODO: Get the global position, rotation and scale
+        var position = this.m_owner.m_transform.m_localPosition;
+        var rotation = this.m_owner.m_transform.m_localRotation;
+        var scale = this.m_owner.m_transform.m_localScale;
 
         var sceneObject = this.m_sceneObject;
         sceneObject.position.x = position.x;

@@ -25,7 +25,7 @@ RotateIceCreamActorScript.prototype = Class.extend(BaseActorScript,
      */
     vOnUpdate: function vOnUpdate(gameTime)
     {
-        this.m_actor.m_transform.m_rotation.y += gameTime.m_deltaTime * this.m_speed * DEGREES_TO_RADIANS;
+        this.m_actor.m_transform.m_localRotation.y += gameTime.m_deltaTime * this.m_speed * DEGREES_TO_RADIANS;
     },
     /**
      * Called after the script was initialised.

@@ -8,9 +8,13 @@ function TransformComponent()
 {
     ActorComponent.apply(this);
 
-    this.m_position = new THREE.Vector3();
-    this.m_rotation = new THREE.Vector3();
-    this.m_scale = new THREE.Vector3();
+    this.m_children = [];
+    this.m_cachedPosition = new THREE.Vector3();
+    this.m_cachedRotation = new THREE.Vector3();
+    this.m_cachedScale = new THREE.Vector3();
+    this.m_localPosition = new THREE.Vector3();
+    this.m_localRotation = new THREE.Vector3();
+    this.m_localScale = new THREE.Vector3();
 }
 
 TransformComponent.s_name = "TransformComponent";
@@ -21,17 +25,47 @@ TransformComponent.prototype = Class.extend(ActorComponent,
      * Position vector of the actor.
      * @type {THREE.Vector3}
      */
-    m_position: null,
+    m_cachedPosition: null,
     /**
      * Rotation vector of the actor.
      * @type {THREE.Vector3}
      */
-    m_rotation: null,
+    m_cachedRotation: null,
     /**
      * Scale vector of the actor.
      * @type {THREE.Vector3}
      */
-    m_scale: null,
+    m_cachedScale: null,
+    /**
+     * Array of children added to this transform component.
+     * @type {TransformComponent[]}
+     */
+    m_children: null,
+    /**
+     * Has the transform component been modified since last time flag has been set to false?
+     * @type {boolean}
+     */
+    m_hasChanged: false,
+    /**
+     * Local position relative to the parent.
+     * @type {THREE.Vector3}
+     */
+    m_localPosition: null,
+    /**
+     * Local rotation relative to the parent.
+     * @type {THREE.Vector3}
+     */
+    m_localRotation: null,
+    /**
+     * Local scale relative to the parent.
+     * @type {THREE.Vector3}
+     */
+    m_localScale: null,
+    /**
+     * Parent of this transform component.
+     * @type {TransformComponent[]}
+     */
+    m_parent: null,
     /**
      * Destroys the actor component.
      */
@@ -70,10 +104,24 @@ TransformComponent.prototype = Class.extend(ActorComponent,
         var rotation = data.rotation;
         var scale = data.scale;
 
-        this.m_position = new THREE.Vector3(position[0], position[1], position[2]);
-        this.m_rotation = new THREE.Vector3(rotation[0] * DEGREES_TO_RADIANS, rotation[1] * DEGREES_TO_RADIANS, rotation[2] * DEGREES_TO_RADIANS);
-        this.m_scale = new THREE.Vector3(scale[0], scale[1], scale[2]);
+        this.m_localPosition = new THREE.Vector3(position[0], position[1], position[2]);
+        this.m_localRotation = new THREE.Vector3(rotation[0] * DEGREES_TO_RADIANS, rotation[1] * DEGREES_TO_RADIANS, rotation[2] * DEGREES_TO_RADIANS);
+        this.m_localScale = new THREE.Vector3(scale[0], scale[1], scale[2]);
 
         return Promise.resolve();
+    }
+});
+
+Object.defineProperties(TransformComponent.prototype,
+{
+    /**
+     * Gets or sets the world position of the actor.
+     */
+    m_position:
+    {
+        get: function ()
+        {
+
+        }
     }
 });

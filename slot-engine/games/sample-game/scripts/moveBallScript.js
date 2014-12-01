@@ -30,12 +30,12 @@ MoveBallActorScript.prototype = Class.extend(BaseActorScript,
      */
     vOnUpdate: function vOnUpdate(gameTime)
     {
-        if (this.m_actor.m_transform.m_position.x > 200 || this.m_actor.m_transform.m_position.x < -200)
+        if (this.m_actor.m_transform.m_localPosition.x > 200 || this.m_actor.m_transform.m_localPosition.x < -200)
         {
             this.m_direction *= -1;
         }
 
-        this.m_actor.m_transform.m_position.x += gameTime.m_deltaTime * this.m_speed * this.m_direction;
+        this.m_actor.m_transform.m_localPosition.x += gameTime.m_deltaTime * this.m_speed * this.m_direction;
     },
     /**
      * Called after the script was initialised.
