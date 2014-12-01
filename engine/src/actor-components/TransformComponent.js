@@ -9,9 +9,6 @@ function TransformComponent()
     ActorComponent.apply(this);
 
     this.m_children = [];
-    this.m_cachedPosition = new THREE.Vector3();
-    this.m_cachedRotation = new THREE.Vector3();
-    this.m_cachedScale = new THREE.Vector3();
     this.m_localPosition = new THREE.Vector3();
     this.m_localRotation = new THREE.Vector3();
     this.m_localScale = new THREE.Vector3();
@@ -22,30 +19,10 @@ TransformComponent.s_name = "TransformComponent";
 TransformComponent.prototype = Class.extend(ActorComponent,
 {
     /**
-     * Position vector of the actor.
-     * @type {THREE.Vector3}
-     */
-    m_cachedPosition: null,
-    /**
-     * Rotation vector of the actor.
-     * @type {THREE.Vector3}
-     */
-    m_cachedRotation: null,
-    /**
-     * Scale vector of the actor.
-     * @type {THREE.Vector3}
-     */
-    m_cachedScale: null,
-    /**
      * Array of children added to this transform component.
      * @type {TransformComponent[]}
      */
     m_children: null,
-    /**
-     * Has the transform component been modified since last time flag has been set to false?
-     * @type {boolean}
-     */
-    m_hasChanged: false,
     /**
      * Local position relative to the parent.
      * @type {THREE.Vector3}
@@ -121,7 +98,81 @@ Object.defineProperties(TransformComponent.prototype,
     {
         get: function ()
         {
-
+            if (this.m_parent)
+            {
+                return new THREE.Vector3().addVectors(this.m_parent.m_position, this.m_localPosition);
+            }
+            else
+            {
+                return new THREE.Vector3(this.m_localPosition.x, this.m_localPosition.y, this.m_localPosition.z);
+            }
+        },
+        set: function (value)
+        {
+            if (this.m_parent)
+            {
+                this.m_localPosition.subVectors(value, this.m_parent.m_position);
+            }
+            else
+            {
+                this.m_localPosition.copy(value);
+            }
+        }
+    },
+    /**
+     * Gets or sets the world rotation of the actor.
+     */
+    m_rotation:
+    {
+        get: function ()
+        {
+            if (this.m_parent)
+            {
+                return new THREE.Vector3().addVectors(this.m_parent.m_rotation, this.m_localRotation);
+            }
+            else
+            {
+                return new THREE.Vector3(this.m_localRotation.x, this.m_localRotation.y, this.m_localRotation.z);
+            }
+        },
+        set: function (value)
+        {
+            if (this.m_parent)
+            {
+                this.m_localRotation.subVectors(value, this.m_parent.m_rotation);
+            }
+            else
+            {
+                this.m_localRotation.copy(value);
+            }
+        }
+    },
+    /**
+     * Gets or sets the world scale of the actor.
+     */
+    m_scale:
+    {
+        get: function ()
+        {
+            if (this.m_parent)
+            {
+                return new THREE.Vector3().addVectors(this.m_parent.m_scale, this.m_localScale);
+            }
+            else
+            {
+                return new THREE.Vector3(this.m_localScale.x, this.m_localScale.y, this.m_localScale.z);
+            }
+        },
+        set: function (value)
+        {
+            if (this.m_parent)
+            {
+                this.m_localScale.subVectors(value, this.m_parent.m_scale);
+            }
+            else
+            {
+                this.m_localScale.copy(value);
+            }
         }
     }
 });
