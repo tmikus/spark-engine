@@ -176,7 +176,23 @@ BaseGameLogic.prototype =
         this.m_actors.push(actor);
         this.m_actorsMap[actor.m_id] = actor;
 
+        if (parentActorId)
+        {
+            var parent = this.m_actorsMap[parentActorId];
+            if (!parent)
+            {
+                SE_ERROR("Could not find parent actor with id: " + parentActorId);
+            }
+            else
+            {
+                actor.m_transform.m_parent = parent.m_transform;
+                parent.m_transform.m_children.push(actor.m_transform);
+            }
+        }
+
         this.m_game.m_eventService.triggerEvent(new EventData_CreateActor(actor.m_id, parentActorId));
+
+        
 
         // TODO: Spawning event informing other clients that the actor was created.
         // Only for the game server.
@@ -421,7 +437,24 @@ BaseGameLogic.prototype =
         // Does the actor exists?
         if (actor)
         {
+            // Destroy its children
+            var children = actor.m_transform.m_children;
+            var childrenLength = children.length;
+            for (var childIndex = 0; childIndex < childrenLength; childIndex++)
+            {
+                this.vDestroyActor(children[0].m_owner.m_id);
+            }
+
+            // Remove actor from parent's children list.
+            actor.m_transform.m_parent.m_children.splice(actor.m_transform.m_parent.m_children.indexOf(actor.m_transform), 1);
+
+            // Remove pointer to the parent
+            actor.m_transform.m_parent = null;
+
+            // Destroy actor
             actor.destroy();
+
+            // Remove actor from actors list
             this.m_actors.splice(this.m_actors.indexOf(actor), 1);
             delete this.m_actorsMap[actorId];
         }
