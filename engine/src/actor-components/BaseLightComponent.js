@@ -100,33 +100,6 @@ BaseLightComponent.prototype = Class.extend(ActorComponent,
         this.m_owner.m_game.m_eventService.triggerEvent(eventData);
     },
     /**
-     * Called when the component is requested to update.
-     *
-     * @param {GameTime} gameTime Instance of the game time.
-     */
-    vOnUpdate: function vOnUpdate(gameTime)
-    {
-        // TODO: Get the global position, rotation and scale
-        var position = this.m_owner.m_transform.m_localPosition;
-        var rotation = this.m_owner.m_transform.m_localRotation;
-        var scale = this.m_owner.m_transform.m_localScale;
-
-        var lightObject = this.m_lightObject;
-        lightObject.position.x = position.x;
-        lightObject.position.y = position.y;
-        lightObject.position.z = position.z;
-
-        lightObject.rotation.x = rotation.x;
-        lightObject.rotation.y = rotation.y;
-        lightObject.rotation.z = rotation.z;
-
-        lightObject.scale.x = scale.x;
-        lightObject.scale.y = scale.y;
-        lightObject.scale.z = scale.z;
-
-        lightObject.updateMatrix();
-    },
-    /**
      * Called after the initialization has been completed.
      */
     vPostInitialise: function vPostInitialise()

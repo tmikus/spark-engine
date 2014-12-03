@@ -40,7 +40,7 @@ TransformComponent.prototype = Class.extend(ActorComponent,
     m_localScale: null,
     /**
      * Parent of this transform component.
-     * @type {TransformComponent[]}
+     * @type {TransformComponent}
      */
     m_parent: null,
     /**

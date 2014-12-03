@@ -1,13 +1,13 @@
 /**
- * Creates instance of an event telling game to create a new scene object.
+ * Creates instance of an event telling game to create a new scene node.
  *
  * @param {number} actorId ID of the actor.
- * @param {THREE.Object3D} sceneObject Instance of the created scene object.
+ * @param {THREE.Object3D} sceneNode Instance of the created scene node.
  * @constructor
  * @class
  * @extends {BaseEventData}
  */
-function EventData_NewRenderComponent(actorId, sceneObject)
+function EventData_NewRenderComponent(actorId, sceneNode)
 {
     BaseEventData.apply(this, []);
 
@@ -15,11 +15,7 @@ function EventData_NewRenderComponent(actorId, sceneObject)
     this.m_type = EventData_NewRenderComponent.s_type;
 
     this.m_actorId = actorId ? actorId : INVALID_ACTOR_ID;
-
-    if (sceneObject)
-    {
-        this.m_sceneObject = sceneObject;
-    }
+    this.m_sceneNode = sceneNode;
 }
 
 EventData_NewRenderComponent.s_type = 0x633e5ee6;
@@ -35,14 +31,14 @@ EventData_NewRenderComponent.prototype = Class.extend(BaseEventData,
      * Instance of the scene node.
      * @type {THREE.Object3D}
      */
-    m_sceneObject: null,
+    m_sceneNode: null,
     /**
      * Copies the event data object onto a new object.
      * @returns {BaseEventData} New event data object.
      */
     vCopy: function vCopy()
     {
-        return new EventData_NewRenderComponent(this.m_actorId, this.m_sceneObject);
+        return new EventData_NewRenderComponent(this.m_actorId, this.m_sceneNode);
     },
     /**
      * Deserializes the event data from the data object.

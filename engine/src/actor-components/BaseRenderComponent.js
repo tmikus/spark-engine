@@ -100,33 +100,6 @@ BaseRenderComponent.prototype = Class.extend(ActorComponent,
         this.m_owner.m_game.m_eventService.triggerEvent(eventData);
     },
     /**
-     * Called when the component is requested to update.
-     *
-     * @param {GameTime} gameTime Instance of the game time.
-     */
-    vOnUpdate: function vOnUpdate(gameTime)
-    {
-        // TODO: Get the global position, rotation and scale
-        var position = this.m_owner.m_transform.m_localPosition;
-        var rotation = this.m_owner.m_transform.m_localRotation;
-        var scale = this.m_owner.m_transform.m_localScale;
-
-        var sceneObject = this.m_sceneObject;
-        sceneObject.position.x = position.x;
-        sceneObject.position.y = position.y;
-        sceneObject.position.z = position.z;
-
-        sceneObject.rotation.x = rotation.x;
-        sceneObject.rotation.y = rotation.y;
-        sceneObject.rotation.z = rotation.z;
-
-        sceneObject.scale.x = scale.x;
-        sceneObject.scale.y = scale.y;
-        sceneObject.scale.z = scale.z;
-
-        sceneObject.updateMatrix();
-    },
-    /**
      * Called after the initialization has been completed.
      */
     vPostInitialise: function vPostInitialise()

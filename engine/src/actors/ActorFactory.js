@@ -82,6 +82,29 @@ ActorFactory.prototype =
 
         // Create initialization promise
         var actorPromise = Promise.all(componentPromises)
+            .then(function ()
+            {
+                if (actor.m_transform)
+                    return;
+
+                var transformComponentDefinition =
+                {
+                    type: "TransformComponent",
+                    position: [0, 0, 0],
+                    rotation: [0, 0, 0],
+                    scale: [1, 1, 1]
+                };
+
+                return this._createComponent(actor, transformComponentDefinition)
+                    .then(function (component)
+                    {
+                        actor.addComponent(component);
+                    })
+                    ["catch"](function ()
+                    {
+                        SE_ERROR("Initialisation of the actor component has failed. Actor resource: " + actorResourceName);
+                    });
+            }.bind(this))
             ["catch"](function ()
             {
                 SE_ERROR("Initialization of actor has failed.");

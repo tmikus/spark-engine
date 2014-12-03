@@ -177,6 +177,7 @@ Renderer.prototype =
      */
     preRender: function preRender()
     {
+        this.m_sceneManager.onPreRender();
     },
     /**
      * Called after rendering was done.
@@ -184,5 +185,6 @@ Renderer.prototype =
     postRender: function postRender()
     {
         this.m_renderer.render(this.m_scene, this.m_camera);
+        this.m_sceneManager.onPostRender();
     }
 };

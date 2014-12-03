@@ -2,12 +2,12 @@
  * Creates instance of an event telling game to create a new light object.
  *
  * @param {number} actorId ID of the actor.
- * @param {THREE.Light} lightObject Instance of the created light object.
+ * @param {THREE.Object3D} sceneNode Instance of the created light object.
  * @constructor
  * @class
  * @extends {BaseEventData}
  */
-function EventData_NewLightComponent(actorId, lightObject)
+function EventData_NewLightComponent(actorId, sceneNode)
 {
     BaseEventData.apply(this, []);
 
@@ -15,11 +15,7 @@ function EventData_NewLightComponent(actorId, lightObject)
     this.m_type = EventData_NewLightComponent.s_type;
 
     this.m_actorId = actorId ? actorId : INVALID_ACTOR_ID;
-
-    if (lightObject)
-    {
-        this.m_lightObject = lightObject;
-    }
+    this.m_sceneNode = sceneNode;
 }
 
 EventData_NewLightComponent.s_type = 0xe1f4d8e7;
@@ -33,16 +29,16 @@ EventData_NewLightComponent.prototype = Class.extend(BaseEventData,
     m_actorId: null,
     /**
      * Instance of the scene node.
-     * @type {THREE.Light}
+     * @type {THREE.Object3D}
      */
-    m_lightObject: null,
+    m_sceneNode: null,
     /**
      * Copies the event data object onto a new object.
      * @returns {BaseEventData} New event data object.
      */
     vCopy: function vCopy()
     {
-        return new EventData_NewLightComponent(this.m_actorId, this.m_lightObject);
+        return new EventData_NewLightComponent(this.m_actorId, this.m_sceneNode);
     },
     /**
      * Deserializes the event data from the data object.

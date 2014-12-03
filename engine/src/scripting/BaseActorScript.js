@@ -32,11 +32,12 @@ BaseActorScript.prototype =
      * Creates a new actor and adds him to the scene.
      *
      * @param {string} actorResource Name of the actor's resource.
+     * @param {number} [parentActorId] ID of the parent actor.
      * @returns {Promise} Promise of actor's creation.
      */
-    createActor: function createActor(actorResource)
+    createActor: function createActor(actorResource, parentActorId)
     {
-        return this.m_actor.m_game.m_gameLogic.vCreateActor(actorResource)
+        return this.m_actor.m_game.m_gameLogic.vCreateActor(actorResource, parentActorId)
     },
     /**
      * Destroys actor with specified ID.

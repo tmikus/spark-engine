@@ -165,15 +165,18 @@ BaseGameLogic.prototype =
      * Called when the actor instance was created.
      *
      * @param {string} actorResource Name of the resource used for creating an actor.
+     * @param {number} parentActorId ID of the parent actor.
      * @param {Actor} actor Instance of the actor.
      * @private
      */
-    _onActorCreated: function _onActorCreated(actorResource, actor)
+    _onActorCreated: function _onActorCreated(actorResource, parentActorId, actor)
     {
         SE_INFO("Actor has been created: " + actorResource);
 
         this.m_actors.push(actor);
         this.m_actorsMap[actor.m_id] = actor;
+
+        this.m_game.m_eventService.triggerEvent(new EventData_CreateActor(actor.m_id, parentActorId));
 
         // TODO: Spawning event informing other clients that the actor was created.
         // Only for the game server.
@@ -258,6 +261,7 @@ BaseGameLogic.prototype =
             var staticActor = staticActors[actorIndex];
             actorCreationPromises[actorIndex] = this.vCreateActor(
                 staticActor.resourceName,
+                null,
                 staticActor.overrides,
                 staticActor.initialTransform
             );
@@ -384,16 +388,18 @@ BaseGameLogic.prototype =
      * Creates the actor from specified resource.
      *
      * @param {string} actorResource Name of the actor resource.
+     * @param {number} [parentActorId] ID of the parent actor.
      * @param {*} [overrides] Overrides for the actor.
      * @param {THREE.Matrix4} [initialTransform] Initial transform for the actor.
      * @param {number} [serverActorId] ID of the actor from the server.
      * @returns {Promise} Promise of creation of the actor.
      */
-    vCreateActor: function vCreateActor(actorResource, overrides, initialTransform, serverActorId)
+    vCreateActor: function vCreateActor(actorResource, parentActorId, overrides, initialTransform, serverActorId)
     {
         SE_INFO("Creating actor from resource: " + actorResource);
+
         return this.m_actorFactory.createActor(actorResource, overrides, initialTransform, serverActorId)
-            .then(this._onActorCreated.bind(this, actorResource))
+            .then(this._onActorCreated.bind(this, actorResource, parentActorId))
             ["catch"](function ()
             {
                 SE_ERROR("Could not create actor from resource: " + actorResource);

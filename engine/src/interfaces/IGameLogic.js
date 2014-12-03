@@ -38,6 +38,7 @@ IGameLogic.prototype =
      * Creates the actor from specified resource.
      *
      * @param {string} actorResource Name of the actor resource.
+     * @param {number} [parentActorId] ID of the parent actor.
      * @param {*} [overrides] Overrides for the actor.
      * @param {THREE.Matrix4} [initialTransform] Initial transform for the actor.
      * @param {number} [serverActorId] ID of the actor from the server.

@@ -50,7 +50,7 @@ BallFactoryActorScript.prototype = Class.extend(BaseActorScript,
 
             this.m_timeFromLastBallCreation = 0;
 
-            this.createActor("actors/sphere-actor")
+            this.createActor("actors/sphere-actor", this.m_actor.m_id)
                 .then(function (actor)
                 {
                     this.m_balls.push(actor.m_id);
