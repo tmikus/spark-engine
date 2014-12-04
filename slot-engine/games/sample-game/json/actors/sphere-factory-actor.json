@@ -3,22 +3,31 @@
     "components":
     [
         {
+            "type": "Transform",
+            "position": [0, 100, 0],
+            "rotation": [0, 0, 0],
+            "scale": [1, 1, 1]
+        },
+        {
             "type": "Script",
             "scriptName": "scripts/ballFactoryScript"
         }
     ],
     "children":
     [
-        { "resourceName": "actors/sprite-actor" },
         {
             "type": "SomeNewActor",
             "components":
             [
                 {
                     "type": "Transform",
-                    "position": [0, 0, 0],
+                    "position": [-20, 0, 0],
                     "rotation": [0, 0, 0],
-                    "scale": [1, 1, 1]
+                    "scale": [100, 100, 1]
+                },
+                {
+                    "type": "SpriteRender",
+                    "textureName": "sprites/elf-sprite"
                 }
             ]
         }

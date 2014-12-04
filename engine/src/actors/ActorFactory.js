@@ -54,7 +54,7 @@ ActorFactory.prototype =
 
         // Are there components?
         var components = data.components;
-        var componentPromises = [];
+        var componentPromises = new Array(components ? components.length : 0);
         if (components)
         {
             // Iterate over them and create components.
@@ -105,11 +105,41 @@ ActorFactory.prototype =
                         SE_ERROR("Initialisation of the actor component has failed. Actor resource: " + actorResourceName);
                     });
             }.bind(this))
-            ["catch"](function ()
+            .then(function ()
             {
-                SE_ERROR("Initialization of actor has failed.");
-                actor.destroy();
-            });
+                function addActorToParent(childActor)
+                {
+                    childActor.m_transform.m_parent = actor.m_transform;
+                    actor.m_transform.m_children.push(childActor.m_transform);
+                }
+
+                // Does this actor has children?
+                var children = data.children;
+                var childrenPromises = new Array(children ? children.length : 0);
+                if (children)
+                {
+                    // Iterate over children, create them add add them to this actor.
+                    var childPromise;
+                    var childrenLength = children.length;
+                    for (var childIndex = 0; childIndex < childrenLength; childIndex++)
+                    {
+                        var child = children[childIndex];
+                        if (child.resourceName)
+                        {
+                            childPromise = this.createActor(child.resourceName, child.overrides).then(addActorToParent);
+                        }
+                        else
+                        {
+                            childPromise = this._createActorFromResource(actorResourceName, null, null, null, child).then(addActorToParent);
+                        }
+
+                        childrenPromises[childIndex] = childPromise;
+                    }
+                }
+
+                // Wait for all children to be created.
+                return Promise.all(childrenPromises);
+            }.bind(this));
 
         // Are there any overrides for the actor?
         if (overrides)
@@ -121,11 +151,16 @@ ActorFactory.prototype =
 
         // Trigger post initialise
         return actorPromise.then(function ()
-        {
-            actor.postInitialise();
-            return actor;
-        });
-    },
+            {
+                actor.postInitialise();
+                return actor;
+            })
+            ["catch"](function ()
+            {
+                SE_ERROR("Initialization of actor has failed.");
+                actor.destroy();
+            });
+        },
     /**
      * Creates a new component based on the specified component data.
      *

@@ -173,12 +173,14 @@ BaseGameLogic.prototype =
     {
         SE_INFO("Actor has been created: " + actorResource);
 
-        this.m_actors.push(actor);
-        this.m_actorsMap[actor.m_id] = actor;
+        var actors = this.m_actors;
+        var actorsMap = this.m_actorsMap;
+        var eventService = this.m_game.m_eventService;
 
         if (parentActorId)
         {
             var parent = this.m_actorsMap[parentActorId];
+
             if (!parent)
             {
                 SE_ERROR("Could not find parent actor with id: " + parentActorId);
@@ -190,9 +192,22 @@ BaseGameLogic.prototype =
             }
         }
 
-        this.m_game.m_eventService.triggerEvent(new EventData_CreateActor(actor.m_id, parentActorId));
+        function processActorAndHisChildren(actor, parentActorId)
+        {
+            actors.push(actor);
+            actorsMap[actor.m_id] = actor;
 
-        
+            eventService.triggerEvent(new EventData_CreateActor(actor.m_id, parentActorId));
+
+            var children = actor.m_transform.m_children;
+            var childrenLength = children.length;
+            for (var childIndex = 0; childIndex < childrenLength; childIndex++)
+            {
+                processActorAndHisChildren(children[childIndex].m_owner, actor.m_id);
+            }
+        }
+
+        processActorAndHisChildren(actor, parentActorId);
 
         // TODO: Spawning event informing other clients that the actor was created.
         // Only for the game server.
