@@ -3,18 +3,18 @@
     "components":
     [
         {
-            "type": "TransformComponent",
+            "type": "Transform",
             "position": [-20, 50, 0],
             "rotation": [0, 0, 0],
             "scale": [300, 300, 300]
         },
         {
-            "type": "MeshRenderComponent",
+            "type": "MeshRender",
             "meshName": "meshes/test",
             "meshTexturesPath": "textures/"
         },
         {
-            "type": "ScriptComponent",
+            "type": "Script",
             "scriptName": "scripts/rotateMeshScript"
         }
     ]

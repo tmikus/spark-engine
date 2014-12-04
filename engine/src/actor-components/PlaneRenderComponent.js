@@ -9,7 +9,7 @@ function PlaneRenderComponent()
     BaseRenderComponent.apply(this);
 }
 
-PlaneRenderComponent.s_name = "PlaneRenderComponent";
+PlaneRenderComponent.s_name = "PlaneRender";
 
 PlaneRenderComponent.prototype = Class.extend(BaseRenderComponent,
 {

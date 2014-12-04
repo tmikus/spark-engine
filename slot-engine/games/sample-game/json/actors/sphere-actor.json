@@ -3,18 +3,18 @@
     "components":
     [
         {
-            "type": "TransformComponent",
+            "type": "Transform",
             "position": [0, 10, 50],
             "rotation": [0, 0, 0],
             "scale": [1, 1, 1]
         },
         {
-            "type": "SphereRenderComponent",
+            "type": "SphereRender",
             "radius": 20,
             "segments": 10
         },
         {
-            "type": "ScriptComponent",
+            "type": "Script",
             "scriptName": "scripts/moveBallScript"
         }
     ]

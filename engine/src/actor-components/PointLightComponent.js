@@ -9,7 +9,7 @@ function PointLightComponent()
     BaseRenderComponent.apply(this);
 }
 
-PointLightComponent.s_name = "PointLightComponent";
+PointLightComponent.s_name = "PointLight";
 
 PointLightComponent.prototype = Class.extend(BaseLightComponent,
 {

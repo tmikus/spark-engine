@@ -9,7 +9,7 @@ function MeshRenderComponent()
     BaseRenderComponent.apply(this);
 }
 
-MeshRenderComponent.s_name = "MeshRenderComponent";
+MeshRenderComponent.s_name = "MeshRender";
 
 MeshRenderComponent.prototype = Class.extend(BaseRenderComponent,
 {

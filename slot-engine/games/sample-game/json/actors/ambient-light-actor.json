@@ -3,13 +3,13 @@
     "components":
     [
         {
-            "type": "TransformComponent",
+            "type": "Transform",
             "position": [0, 0, 40],
             "rotation": [0, 0, 0],
             "scale": [1, 1, 1]
         },
         {
-            "type": "AmbientLightComponent",
+            "type": "AmbientLight",
             "colour": 16777215
         }
     ]

@@ -9,7 +9,7 @@ function AmbientLightComponent()
     BaseRenderComponent.apply(this);
 }
 
-AmbientLightComponent.s_name = "AmbientLightComponent";
+AmbientLightComponent.s_name = "AmbientLight";
 
 AmbientLightComponent.prototype = Class.extend(BaseLightComponent,
 {

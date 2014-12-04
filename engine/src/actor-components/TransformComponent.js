@@ -14,7 +14,7 @@ function TransformComponent()
     this.m_localScale = new THREE.Vector3();
 }
 
-TransformComponent.s_name = "TransformComponent";
+TransformComponent.s_name = "Transform";
 
 TransformComponent.prototype = Class.extend(ActorComponent,
 {

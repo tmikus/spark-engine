@@ -89,7 +89,7 @@ ActorFactory.prototype =
 
                 var transformComponentDefinition =
                 {
-                    type: "TransformComponent",
+                    type: "Transform",
                     position: [0, 0, 0],
                     rotation: [0, 0, 0],
                     scale: [1, 1, 1]

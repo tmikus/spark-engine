@@ -3,17 +3,17 @@
     "components":
     [
         {
-            "type": "TransformComponent",
+            "type": "Transform",
             "position": [0, 35, 40],
             "rotation": [0, 0, 0],
             "scale": [100, 100, 1]
         },
         {
-            "type": "SpriteRenderComponent",
+            "type": "SpriteRender",
             "textureName": "sprites/elf-sprite"
         },
         {
-            "type": "ScriptComponent",
+            "type": "Script",
             "scriptName": "scripts/moveBallScript"
         }
     ]

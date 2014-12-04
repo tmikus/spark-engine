@@ -9,7 +9,7 @@ function SphereRenderComponent()
     BaseRenderComponent.apply(this);
 }
 
-SphereRenderComponent.s_name = "SphereRenderComponent";
+SphereRenderComponent.s_name = "SphereRender";
 
 SphereRenderComponent.prototype = Class.extend(BaseRenderComponent,
 {

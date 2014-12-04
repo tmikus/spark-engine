@@ -3,8 +3,24 @@
     "components":
     [
         {
-            "type": "ScriptComponent",
+            "type": "Script",
             "scriptName": "scripts/ballFactoryScript"
+        }
+    ],
+    "children":
+    [
+        { "resourceName": "actors/sprite-actor" },
+        {
+            "type": "SomeNewActor",
+            "components":
+            [
+                {
+                    "type": "Transform",
+                    "position": [0, 0, 0],
+                    "rotation": [0, 0, 0],
+                    "scale": [1, 1, 1]
+                }
+            ]
         }
     ]
 }

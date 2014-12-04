@@ -9,7 +9,7 @@ function ScriptComponent()
     ActorComponent.apply(this);
 }
 
-ScriptComponent.s_name = "ScriptComponent";
+ScriptComponent.s_name = "Script";
 
 ScriptComponent.prototype = Class.extend(ActorComponent,
 {

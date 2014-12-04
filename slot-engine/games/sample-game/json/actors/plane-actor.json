@@ -3,13 +3,13 @@
     "components":
     [
         {
-            "type": "TransformComponent",
+            "type": "Transform",
             "position": [0, -10, 0],
             "rotation": [-90, 0, 0],
             "scale": [1, 1, 1]
         },
         {
-            "type": "PlaneRenderComponent",
+            "type": "PlaneRender",
             "height": 200,
             "width": 200
         }

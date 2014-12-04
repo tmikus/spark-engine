@@ -9,7 +9,7 @@ function AreaLightComponent()
     BaseRenderComponent.apply(this);
 }
 
-AreaLightComponent.s_name = "AreaLightComponent";
+AreaLightComponent.s_name = "AreaLight";
 
 AreaLightComponent.prototype = Class.extend(BaseLightComponent,
 {

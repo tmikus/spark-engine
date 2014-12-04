@@ -12,7 +12,7 @@ function SpriteRenderComponent()
     this.m_uvScale = new THREE.Vector2(1, 1);
 }
 
-SpriteRenderComponent.s_name = "SpriteRenderComponent";
+SpriteRenderComponent.s_name = "SpriteRender";
 
 SpriteRenderComponent.prototype = Class.extend(BaseRenderComponent,
 {

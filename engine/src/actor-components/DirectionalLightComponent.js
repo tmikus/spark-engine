@@ -9,7 +9,7 @@ function DirectionalLightComponent()
     BaseRenderComponent.apply(this);
 }
 
-DirectionalLightComponent.s_name = "DirectionalLightComponent";
+DirectionalLightComponent.s_name = "DirectionalLight";
 
 DirectionalLightComponent.prototype = Class.extend(BaseLightComponent,
 {

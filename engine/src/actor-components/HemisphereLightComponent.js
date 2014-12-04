@@ -9,7 +9,7 @@ function HemisphereLightComponent()
     BaseRenderComponent.apply(this);
 }
 
-HemisphereLightComponent.s_name = "HemisphereLightComponent";
+HemisphereLightComponent.s_name = "HemisphereLight";
 
 HemisphereLightComponent.prototype = Class.extend(BaseLightComponent,
 {
