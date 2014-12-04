@@ -13,6 +13,8 @@ module.exports =
     'libs/three.js/renderers/Projector.js',
     'libs/three.js/renderers/CanvasRenderer.js',
     'src/utils/*.js',
+    'src/core/Browser.js',
+    'src/core/Os.js',
     'src/core/*.js',
     'src/debugging/*.js',
     'src/actor-components/ActorComponent.js',

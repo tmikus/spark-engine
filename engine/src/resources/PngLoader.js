@@ -29,6 +29,40 @@ PngLoader.prototype =
      */
     m_resourceManager: null,
     /**
+     * Loads resource old way for iOS 6.
+     *
+     * @param {string} resourceName Name of the resource.
+     * @param {string} resourcePath Path to the resource.
+     * @returns {Promise} Promise of loading resource.
+     * @private
+     */
+    _loadResourceForIOs6: function _loadResourceForIOs6(resourceName, resourcePath)
+    {
+        return new Promise(function (resolve, reject)
+            {
+                var image = new Image();
+                image.onerror = function ()
+                {
+                    reject();
+                };
+                image.onload = function ()
+                {
+                    resolve(image);
+                };
+                image.src = resourcePath;
+            })
+            .then(function (image)
+            {
+                var texture = new THREE.Texture(image);
+                texture.needsUpdate = true;
+
+                // Storing in the cache.
+                this.m_cache[resourceName] = texture;
+
+                return texture;
+            }.bind(this));
+    },
+    /**
      * Called when the request to get resource has finished.
      * Parses the JSON and stores it in the cache.
      *
@@ -76,6 +110,12 @@ PngLoader.prototype =
         if (this.m_cache[resourceName])
         {
             return Promise.resolve(this.m_cache[resourceName]);
+        }
+
+        var deviceInfo = DeviceInfo.get();
+        if (deviceInfo.m_os.m_type == Os.iOs && deviceInfo.m_os.m_version.equals(6))
+        {
+            return this._loadResourceForIOs6(resourceName, resource.path);
         }
 
         return Http.get(resource.path, null, "blob")

@@ -352,17 +352,9 @@ THREE.Projector = function () {
                     _object.id = object.id;
                     _object.object = object;
 
-                    if ( object.renderDepth !== null ) {
-
-                        _object.z = object.renderDepth;
-
-                    } else {
-
-                        _vector3.setFromMatrixPosition( object.matrixWorld );
-                        _vector3.applyProjection( _viewProjectionMatrix );
-                        _object.z = _vector3.z;
-
-                    }
+                    _vector3.setFromMatrixPosition( object.matrixWorld );
+                    _vector3.applyProjection( _viewProjectionMatrix );
+                    _object.z = _vector3.z;
 
                     _renderData.objects.push( _object );
 
@@ -378,6 +370,10 @@ THREE.Projector = function () {
 
         }
 
+
+        var spritePosition = new THREE.Vector3();
+        var spriteRotation = new THREE.Quaternion();
+        var spriteScale = new THREE.Vector3();
         //
 
         for ( var o = 0, ol = _renderData.objects.length; o < ol; o ++ ) {
@@ -735,8 +731,10 @@ THREE.Projector = function () {
 
                     _sprite.rotation = object.rotation;
 
-                    _sprite.scale.x = object.scale.x * Math.abs( _sprite.x - ( _vector4.x + camera.projectionMatrix.elements[ 0 ] ) / ( _vector4.w + camera.projectionMatrix.elements[ 12 ] ) );
-                    _sprite.scale.y = object.scale.y * Math.abs( _sprite.y - ( _vector4.y + camera.projectionMatrix.elements[ 5 ] ) / ( _vector4.w + camera.projectionMatrix.elements[ 13 ] ) );
+                    object.matrixWorld.decompose(spritePosition, spriteRotation, spriteScale);
+
+                    _sprite.scale.x = spriteScale.x * Math.abs( _sprite.x - ( _vector4.x + camera.projectionMatrix.elements[ 0 ] ) / ( _vector4.w + camera.projectionMatrix.elements[ 12 ] ) );
+                    _sprite.scale.y = spriteScale.y * Math.abs( _sprite.y - ( _vector4.y + camera.projectionMatrix.elements[ 5 ] ) / ( _vector4.w + camera.projectionMatrix.elements[ 13 ] ) );
 
                     _sprite.material = object.material;
 
