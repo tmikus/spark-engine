@@ -28,6 +28,7 @@ module.exports =
     'src/graphics/*.js',
     'src/logic/*.js',
     'src/network/*.js',
+    'src/processes/Process.js',
     'src/processes/*.js',
     'src/resources/*.js',
     'src/scene/*.js',

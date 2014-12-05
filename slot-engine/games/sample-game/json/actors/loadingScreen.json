@@ -10,6 +10,22 @@
     "children":
     [
         {
+            "type": "PointLight",
+            "components":
+            [
+                {
+                    "type": "Transform",
+                    "position": [0, 100, 100],
+                    "rotation": [0, 0, 0],
+                    "scale": [1, 1, 1]
+                },
+                {
+                    "type": "PointLight",
+                    "colour": "#FFFFFF"
+                }
+            ]
+        },
+        {
             "type": "GameLogo",
             "components":
             [
@@ -23,11 +39,7 @@
                     "type": "SpriteRender",
                     "textureName": "sprites/gameLogo",
                     "colour": "#FFFFFF",
-                    "opacity": 1
-                },
-                {
-                    "type": "Script",
-                    "scriptName": "scripts/logoScript"
+                    "opacity": 0
                 }
             ]
         }

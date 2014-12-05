@@ -370,8 +370,25 @@ BaseGameLogic.prototype =
             this.m_humanViews.push(gameView);
         }
 
-        gameView.vOnAttach(gameViewId, actorId);
-        gameView.vInitialise();
+        try
+        {
+            gameView.vOnAttach(gameViewId, actorId);
+        }
+        catch (ex)
+        {
+            SE_ERROR("Could not attach a game view!", ex);
+            throw ex;
+        }
+
+        try
+        {
+            gameView.vInitialise();
+        }
+        catch (ex)
+        {
+            SE_ERROR("Could not initialise the game view!", ex);
+            throw ex;
+        }
 
         // Increasing numbers of players for specific types of views
         switch (gameView.m_type)

@@ -97,6 +97,9 @@ ProcessManager.prototype =
             // If process is dead - do some magic :P
             if (process.isDead())
             {
+                // Remove the process from the list.
+                processes.splice(processIndex, 1);
+
                 switch (process.m_state)
                 {
                     case ProcessState.Aborted:
@@ -126,9 +129,6 @@ ProcessManager.prototype =
 
                 // Dispose the process.
                 process.vDestroy();
-
-                // Remove the process from the list.
-                processes.splice(processIndex, 1);
             }
         }
 
