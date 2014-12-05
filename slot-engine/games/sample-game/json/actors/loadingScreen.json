@@ -1,0 +1,35 @@
+{
+    "type": "LoadingScreenRoot",
+    "components":
+    [
+        {
+            "type": "Script",
+            "scriptName": "scripts/levels/loading"
+        }
+    ],
+    "children":
+    [
+        {
+            "type": "GameLogo",
+            "components":
+            [
+                {
+                    "type": "Transform",
+                    "position": [0, 100, 0],
+                    "rotation": [0, 0, 0],
+                    "scale": [100, 100, 1]
+                },
+                {
+                    "type": "SpriteRender",
+                    "textureName": "sprites/gameLogo",
+                    "colour": "#FFFFFF",
+                    "opacity": 1
+                },
+                {
+                    "type": "Script",
+                    "scriptName": "scripts/logoScript"
+                }
+            ]
+        }
+    ]
+}

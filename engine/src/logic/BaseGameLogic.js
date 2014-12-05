@@ -4,6 +4,7 @@
  * @param {SparkEngineApp} game Instance of the game.
  * @constructor
  * @class
+ * @implements IGameLogic
  * @abstract
  */
 function BaseGameLogic(game)
@@ -535,7 +536,7 @@ BaseGameLogic.prototype =
     {
         SE_INFO("Loading game level: " + levelResource);
 
-        // TODO: Destroying previous level...
+        this.vUnloadGame();
 
         return this.m_levelManager.loadLevel(levelResource)
             .then(this._vOnLevelResourceLoaded.bind(this))
@@ -639,6 +640,17 @@ BaseGameLogic.prototype =
             }
 
             this.m_gameViews.splice(gameViewIndex, 1);
+        }
+    },
+    /**
+     * Unloads the current game with all actors in it.
+     */
+    vUnloadGame: function vUnloadGame()
+    {
+        var actors = this.m_actors;
+        while (actors.length > 0)
+        {
+            this.vDestroyActor(actors[0].m_id);
         }
     }
 };

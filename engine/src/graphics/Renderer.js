@@ -169,7 +169,7 @@ Renderer.prototype =
 
         // Creating new game camera
         this.m_camera = new THREE.PerspectiveCamera(RendererCameraFOV, width / height, RendererCameraNearPlane, RendererCameraFarPlane);
-        this.m_camera.position.y = 100;
+        this.m_camera.position.y = 0;
         this.m_camera.position.z = 300;
     },
     /**

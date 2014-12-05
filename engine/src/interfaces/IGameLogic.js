@@ -105,5 +105,9 @@ IGameLogic.prototype =
      *
      * @param {IGameView} gameView Instance of the game view to remove.
      */
-    vRemoveView: notImplemented
+    vRemoveView: notImplemented,
+    /**
+     * Unloads the current game with all actors in it.
+     */
+    vUnloadGame: notImplemented
 };

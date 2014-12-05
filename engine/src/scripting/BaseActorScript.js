@@ -69,6 +69,16 @@ BaseActorScript.prototype =
         return this.m_actor.getComponentByName(name);
     },
     /**
+     * Loads the game from specified level.
+     *
+     * @param {string} levelName Name of the level to load.
+     * @returns {Promise} Promise of loading a game.
+     */
+    loadGame: function loadGame(levelName)
+    {
+        return this.m_actor.m_game.m_gameLogic.vLoadGame(levelName);
+    },
+    /**
      * Queues the event.
      *
      * @param {BaseEventData} eventData Event to queue.

@@ -17,6 +17,10 @@ SpriteRenderComponent.s_name = "SpriteRender";
 SpriteRenderComponent.prototype = Class.extend(BaseRenderComponent,
 {
     /**
+     * Opacity of the sprite.
+     */
+    m_opacity: 1.0,
+    /**
      * Texture to use on the sprite.
      * @type {THREE.Texture}
      */
@@ -60,6 +64,8 @@ SpriteRenderComponent.prototype = Class.extend(BaseRenderComponent,
     _vCreateSceneObject: function _vCreateSceneObject()
     {
         var material = new THREE.SpriteMaterial({ map: this.m_texture, color: this.m_colour });
+        material.opacity = this.m_opacity;
+        material.transparent = true;
         material.uvOffset = this.m_uvOffset;
         material.uvScale = this.m_uvScale;
         material.wireframe = this.m_wireframe;
@@ -78,6 +84,11 @@ SpriteRenderComponent.prototype = Class.extend(BaseRenderComponent,
             return Promise.reject();
 
         this.m_textureName = data.textureName;
+
+        if (data.opacity != undefined)
+        {
+            this.m_opacity = data.opacity;
+        }
 
         if (data.uvOffset)
         {
@@ -105,5 +116,19 @@ SpriteRenderComponent.prototype = Class.extend(BaseRenderComponent,
     vGetName: function vGetName()
     {
         return SpriteRenderComponent.s_name;
+    },
+    /**
+     * Called when the component is requested to update.
+     *
+     * @param {GameTime} gameTime Instance of the game time.
+     */
+    vOnUpdate: function vOnUpdate(gameTime)
+    {
+        var sceneObject = this._vGetSceneObject();
+        var material = sceneObject.material;
+        material.opacity = this.m_opacity;
+        material.uvOffset = this.m_uvOffset;
+        material.uvScale = this.m_uvScale;
+        material.wireframe = this.m_wireframe;
     }
 });

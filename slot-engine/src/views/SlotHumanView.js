@@ -29,7 +29,7 @@ SlotHumanView.prototype = Class.extend(HumanView,
 
         if (sceneObject)
         {
-            // TODO: Doing some magic with this actor.
+            this.m_gameLogic.m_game.m_eventService.triggerEvent(new EventData_ActorClicked(sceneObject.object.userData.actorId));
         }
     }
 });
