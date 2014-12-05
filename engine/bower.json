@@ -16,6 +16,7 @@
     "tests"
   ],
   "dependencies": {
+    "hammer.js": "https://github.com/hammerjs/hammer.js.git",
     "three.js": "https://github.com/mrdoob/three.js.git#dev"
   }
 }

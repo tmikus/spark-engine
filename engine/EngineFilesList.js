@@ -8,6 +8,7 @@ module.exports =
     'src/polyfills/*.js',
     'libs/es6-promise/es6-promise.js',
     'libs/es6-promise/promise-polyfill.js',
+    'bower_components/hammer.js/hammer.js',
     'bower_components/three.js/build/three.js',
     'libs/three.js/loaders/ColladaLoader.js',
     'libs/three.js/renderers/Projector.js',

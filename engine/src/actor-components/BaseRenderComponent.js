@@ -42,6 +42,7 @@ BaseRenderComponent.prototype = Class.extend(ActorComponent,
         if (!this.m_sceneObject)
         {
             this.m_sceneObject = this._vCreateSceneObject();
+            this.m_sceneObject.userData.actorId = this.m_owner.m_id;
             this.m_sceneObject.matrixAutoUpdate = false;
         }
 

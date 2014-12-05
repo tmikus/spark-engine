@@ -50,6 +50,11 @@ SceneManager.prototype =
      */
     m_bindings: null,
     /**
+     * Helper used for ray casting into the scene.
+     * @type {THREE.Raycaster}
+     */
+    m_rayCaster: null,
+    /**
      * Renderer used to render scene.
      * @type {Renderer}
      */
@@ -209,6 +214,8 @@ SceneManager.prototype =
         eventService.removeEventListener(EventData_ModifiedRenderComponent.s_type, this.m_bindings.onModifiedRenderComponent);
         eventService.removeEventListener(EventData_NewLightComponent.s_type, this.m_bindings.onNewLightComponent);
         eventService.removeEventListener(EventData_NewRenderComponent.s_type, this.m_bindings.onNewRenderComponent);
+
+        this.m_rayCaster = null;
     },
     /**
      * Initialises the scene manager.
@@ -217,6 +224,8 @@ SceneManager.prototype =
      */
     initialise: function initialise()
     {
+        this.m_rayCaster = new THREE.Raycaster();
+
         var eventService = this.m_renderer.m_game.m_eventService;
 
         eventService.addEventListener(EventData_CreateActor.s_type, this.m_bindings.onCreateActor);
@@ -253,5 +262,29 @@ SceneManager.prototype =
         {
             sceneNodes[sceneNodeIndex].onPreRender();
         }
+    },
+    /**
+     * Picks the object from the scene using ray cast.
+     *
+     * @param {THREE.Vector3} origin Origin of the ray cast.
+     * @param {THREE.Vector3} direction Direction of the ray cast.
+     * @returns {{ distance: number, point: THREE.Vector3, face: *, faceIndex: number, object: THREE.Object3D}} Closest object or null.
+     */
+    pickSceneObject: function pickSceneObject(origin, direction)
+    {
+        this.m_rayCaster.set(origin, direction);
+        return this.m_rayCaster.intersectObject(this.m_scene, true)[0] || null;
+    },
+    /**
+     * Picks the objects from the scene using ray cast.
+     *
+     * @param {THREE.Vector3} origin Origin of the ray cast.
+     * @param {THREE.Vector3} direction Direction of the ray cast.
+     * @returns {{ distance: number, point: THREE.Vector3, face: *, faceIndex: number, object: THREE.Object3D}[]} Closest object or empty array.
+     */
+    pickSceneObjects: function pickSceneObject(origin, direction)
+    {
+        this.m_rayCaster.set(origin, direction);
+        return this.m_rayCaster.intersectObject(this.m_scene, true) || [];
     }
 };

@@ -24,6 +24,11 @@ HumanView.prototype =
      */
     m_gameLogic: null,
     /**
+     * Handler to the Hammer.js.
+     * @type {Manager}
+     */
+    m_hammer: null,
+    /**
      * ID of the game view.
      * @type {number}
      */
@@ -34,10 +39,99 @@ HumanView.prototype =
      */
     m_type: null,
     /**
+     * Called when the user ended panning.
+     * For info about events see section "Event object" of http://hammerjs.github.io/api/
+     *
+     * @param e Event arguments.
+     * @private
+     * @virtual
+     */
+    _vOnPanEnd: function _vOnPanEnd(e)
+    {
+    },
+    /**
+     * Called when the user moved the finger when panning.
+     * For info about events see section "Event object" of http://hammerjs.github.io/api/
+     *
+     * @param e Event arguments.
+     * @private
+     * @virtual
+     */
+    _vOnPanMove: function _vOnPanMove(e)
+    {
+    },
+    /**
+     * Called when the user started panning.
+     * For info about events see section "Event object" of http://hammerjs.github.io/api/
+     *
+     * @param e Event arguments.
+     * @private
+     * @virtual
+     */
+    _vOnPanStart: function _vOnPanStart(e)
+    {
+    },
+    /**
+     * Called when the user ended pinching.
+     * For info about events see section "Event object" of http://hammerjs.github.io/api/
+     *
+     * @param e Event arguments.
+     * @private
+     * @virtual
+     */
+    _vOnPinchEnd: function _vOnPinchEnd(e)
+    {
+    },
+    /**
+     * Called when the user moved the finger when pinching.
+     * For info about events see section "Event object" of http://hammerjs.github.io/api/
+     *
+     * @param e Event arguments.
+     * @private
+     * @virtual
+     */
+    _vOnPinchMove: function _vOnPinchMove(e)
+    {
+    },
+    /**
+     * Called when the user started pinching.
+     * For info about events see section "Event object" of http://hammerjs.github.io/api/
+     *
+     * @param e Event arguments.
+     * @private
+     * @virtual
+     */
+    _vOnPinchStart: function _vOnPinchStart(e)
+    {
+    },
+    /**
+     * Called when the screen was pressed for a certain amount of time.
+     * For info about events see section "Event object" of http://hammerjs.github.io/api/
+     *
+     * @param e Event arguments.
+     * @private
+     * @virtual
+     */
+    _vOnPress: function _vOnPress(e)
+    {
+    },
+    /**
+     * Called when the screen was tapped.
+     * For info about events see section "Event object" of http://hammerjs.github.io/api/
+     *
+     * @param e Event arguments.
+     * @protected
+     * @virtual
+     */
+    _vOnTap: function _vOnTap(e)
+    {
+    },
+    /**
      * Destroys the game view and all its resources.
      */
     vDestroy: function vDestroy()
     {
+        this.m_hammer.destroy();
     },
     /**
      * Initialises the game view.
@@ -46,6 +140,18 @@ HumanView.prototype =
      */
     vInitialise: function vInitialise()
     {
+        this.m_hammer = new Hammer(document.documentElement)
+            .on("panend", this._vOnPanEnd.bind(this))
+            .on("panmove", this._vOnPanMove.bind(this))
+            .on("panstart", this._vOnPanStart.bind(this))
+            .on("pinchend", this._vOnPinchEnd.bind(this))
+            .on("pinchmove", this._vOnPinchMove.bind(this))
+            .on("pinchstart", this._vOnPinchStart.bind(this))
+            .on("press", this._vOnPress.bind(this))
+            .on("tap", this._vOnTap.bind(this));
+
+        // TODO: Enable pinching - it is not enabled by default!
+
         return Promise.resolve();
     },
     /**
