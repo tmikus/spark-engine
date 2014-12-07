@@ -37,14 +37,6 @@ ShowLogoProcess.prototype = Class.extend(Process,
         this.m_targetPosition = new THREE.Vector3(0, 50, 0);
     },
     /**
-     * Called when the process has succeeded.
-     * @protected
-     * @virtual
-     */
-    _vOnSuccess: function _vOnSuccess()
-    {
-    },
-    /**
      * Called when the process was requested to update.
      *
      * @param {GameTime} gameTime Time of the game at the time of updating.
@@ -65,14 +57,6 @@ ShowLogoProcess.prototype = Class.extend(Process,
             gameLogo.m_renderer.m_opacity = 1;
             this.succeed();
         }
-    },
-    /**
-     * Destroys the instance of the process.
-     * Here you should add disposing of the resources.
-     * @virtual
-     */
-    vDestroy: function vDestroy()
-    {
     }
 });
 
