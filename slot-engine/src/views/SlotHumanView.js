@@ -24,12 +24,16 @@ SlotHumanView.prototype = Class.extend(HumanView,
     _vOnTap: function _vOnTap(e)
     {
         var renderer = this.m_gameLogic.m_game.m_renderer;
-        var mouseVector = new THREE.Vector3((e.center.x / window.innerWidth) * 2 - 1, -(e.center.y / window.innerHeight) * 2 + 1, 0.1).unproject(renderer.m_camera);
-        var sceneObject = renderer.m_sceneManager.pickSceneObject(renderer.m_camera.position, mouseVector.sub(renderer.m_camera.position).normalize());
 
-        if (sceneObject)
+        if (renderer.m_cameraObject)
         {
-            this.m_gameLogic.m_game.m_eventService.triggerEvent(new EventData_ActorClicked(sceneObject.object.userData.actorId));
+            var mouseVector = new THREE.Vector3((e.center.x / window.innerWidth) * 2 - 1, -(e.center.y / window.innerHeight) * 2 + 1, 0.1).unproject(renderer.m_cameraObject);
+            var sceneObject = renderer.m_sceneManager.pickSceneObject(renderer.m_cameraObject.position, mouseVector.sub(renderer.m_cameraObject.position).normalize());
+
+            if (sceneObject)
+            {
+                this.m_gameLogic.m_game.m_eventService.triggerEvent(new EventData_ActorClicked(sceneObject.object.userData.actorId));
+            }
         }
     }
 });
