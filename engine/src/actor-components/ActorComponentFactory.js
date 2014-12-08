@@ -13,6 +13,8 @@ function ActorComponentFactory()
     this.register(ActorComponent.GetIdFromName(DirectionalLightComponent.s_name), DirectionalLightComponent);
     this.register(ActorComponent.GetIdFromName(HemisphereLightComponent.s_name), HemisphereLightComponent);
     this.register(ActorComponent.GetIdFromName(MeshRenderComponent.s_name), MeshRenderComponent);
+    this.register(ActorComponent.GetIdFromName(OrtographicCameraComponent.s_name), OrtographicCameraComponent);
+    this.register(ActorComponent.GetIdFromName(PerspectiveCameraComponent.s_name), PerspectiveCameraComponent);
     this.register(ActorComponent.GetIdFromName(PlaneRenderComponent.s_name), PlaneRenderComponent);
     this.register(ActorComponent.GetIdFromName(PointLightComponent.s_name), PointLightComponent);
     this.register(ActorComponent.GetIdFromName(ScriptComponent.s_name), ScriptComponent);

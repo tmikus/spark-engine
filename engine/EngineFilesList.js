@@ -19,6 +19,7 @@ module.exports =
     'src/core/*.js',
     'src/debugging/*.js',
     'src/actor-components/ActorComponent.js',
+    'src/actor-components/BaseCameraComponent.js',
     'src/actor-components/BaseLightComponent.js',
     'src/actor-components/BaseRenderComponent.js',
     'src/actor-components/*.js',

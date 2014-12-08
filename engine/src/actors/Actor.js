@@ -17,6 +17,12 @@ function Actor(game, id)
 Actor.prototype =
 {
     /**
+     * Camera component assigned to this actor.
+     * Null if none assigned.
+     * @type {BaseCameraComponent}
+     */
+    m_camera: null,
+    /**
      * Array of components added to this actor.
      * @type {ActorComponent[]}
      */

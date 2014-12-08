@@ -1,7 +1,3 @@
-const RendererCameraFarPlane = 1000;
-const RendererCameraFOV = 65;
-const RendererCameraNearPlane = 0.1;
-
 /**
  * Rendering engine used for rendering game on the screen.
  *
@@ -17,10 +13,16 @@ function Renderer(game)
 Renderer.prototype =
 {
     /**
-     * Camera used for rendering the scene.
-     * @type {THREE.PerspectiveCamera}
+     * Camera component used for rendering the scene.
+     * @type {BaseCameraComponent}
      */
     m_camera: null,
+    /**
+     * Camera object used for rendering the scene.
+     * This is actual THREE.js object.
+     * @type {THREE.Camera}
+     */
+    m_cameraObject: null,
     /**
      * Instance of the game which created this renderer.
      * @type {SparkEngineApp}
@@ -36,6 +38,16 @@ Renderer.prototype =
      * @type {THREE.WebGLRenderer|THREE.CanvasRenderer}
      */
     m_renderer: null,
+    /**
+     * Height of the renderer.
+     * @type {number}
+     */
+    m_rendererHeight: 0,
+    /**
+     * Width of the renderer.
+     * @type {number}
+     */
+    m_rendererWidth: 0,
     /**
      * Instance of the scene used for rendering.
      * @type {THREE.Scene}
@@ -59,6 +71,13 @@ Renderer.prototype =
         {
             this.m_sceneManager.destroy();
             this.m_sceneManager = null;
+        }
+
+        // Disposing the camera
+        if (this.m_camera)
+        {
+            this.m_cameraObject = null;
+            this.m_camera = null;
         }
 
         // Disposing the scene
@@ -133,10 +152,11 @@ Renderer.prototype =
      */
     onDeviceLost: function onDeviceLost()
     {
-        // Disposing camera. It depends on the screen size so is invalid.
+        // If camera is assigned then let it know that device was lost.
         if (this.m_camera)
         {
-            this.m_camera = null;
+            this.m_cameraObject = null;
+            this.m_camera.vOnDeviceLost();
         }
 
         // If the game canvas is hosted outside the document (for example game editor?)
@@ -166,11 +186,15 @@ Renderer.prototype =
 
         // Setting renderer size
         this.m_renderer.setSize(width, height);
+        this.m_rendererHeight = height;
+        this.m_rendererWidth = width;
 
-        // Creating new game camera
-        this.m_camera = new THREE.PerspectiveCamera(RendererCameraFOV, width / height, RendererCameraNearPlane, RendererCameraFarPlane);
-        this.m_camera.position.y = 0;
-        this.m_camera.position.z = 300;
+        // If camera is assigned then let it know that device was restored.
+        if (this.m_camera)
+        {
+            this.m_camera.vOnDeviceRestored();
+            this.m_cameraObject = this.m_camera.vGetCameraObject();
+        }
     },
     /**
      * Called before rendering has started.
@@ -184,7 +208,36 @@ Renderer.prototype =
      */
     postRender: function postRender()
     {
-        this.m_renderer.render(this.m_scene, this.m_camera);
+        if (this.m_cameraObject)
+        {
+            this.m_camera.updateMatrix();
+            this.m_renderer.render(this.m_scene, this.m_cameraObject);
+        }
+
         this.m_sceneManager.onPostRender();
+    },
+    /**
+     * Sets the active camera to specified instance of Camera component.
+     *
+     * @param {BaseCameraComponent} camera Camera component.
+     */
+    setActiveCamera: function setActiveCamera(camera)
+    {
+        if (this.m_camera)
+        {
+            this.m_camera.vOnDeviceLost();
+        }
+
+        this.m_camera = camera;
+
+        if (camera)
+        {
+            this.m_camera.vOnDeviceRestored();
+            this.m_cameraObject = camera.vGetCameraObject();
+        }
+        else
+        {
+            this.m_cameraObject = null;
+        }
     }
 };
