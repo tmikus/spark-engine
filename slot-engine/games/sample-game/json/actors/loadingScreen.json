@@ -42,6 +42,27 @@
             ]
         },
         {
+            "type": "Elephant",
+            "components":
+            [
+                {
+                    "type": "Transform",
+                    "position": [0, 0,60],
+                    "rotation": [0, 0, 0],
+                    "scale": [3, 3, 3]
+                },
+                {
+                    "type": "MeshRender",
+                    "meshName": "meshes/elephant",
+                    "meshTexturesPath": "textures/"
+                },
+                {
+                    "type": "Script",
+                    "scriptName": "scripts/rotateMesh"
+                }
+            ]
+        },
+        {
             "type": "GameLogo",
             "components":
             [

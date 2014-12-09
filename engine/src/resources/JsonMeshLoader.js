@@ -10,7 +10,7 @@ function JsonMeshLoader(resourceManager)
     this.m_type = "Mesh/JSON";
     this.m_resourceManager = resourceManager;
 
-    this.m_meshLoader = new THREE.JSONLoader();
+    this.m_meshLoader = new THREE.SceneLoader();
 }
 
 JsonMeshLoader.prototype =
@@ -22,7 +22,7 @@ JsonMeshLoader.prototype =
     m_cache: null,
     /**
      * Loader used for loading JSON file.
-     * @type {THREE.JSONLoader}
+     * @type {THREE.SceneLoader}
      */
     m_meshLoader: null,
     /**
@@ -64,13 +64,39 @@ JsonMeshLoader.prototype =
      *
      * @param {string} resourceName Name of the resource.
      * @param {*} args Arguments to the loader.
-     * @returns {THREE.Mesh} Promise of loading the JSON mesh.
+     * @returns {Promise} Promise of loading the JSON mesh.
      * @private
      */
     _processMesh: function _processMesh(resourceName, args)
     {
-        var loadedMesh = this.m_meshLoader.parse(this.m_cache[resourceName], args.texturesPath);
-        return new THREE.Mesh(loadedMesh.geometry, new THREE.MeshFaceMaterial(loadedMesh.materials))
+        try
+        {
+            return new Promise(function (resolve, reject)
+            {
+                this.m_meshLoader.parse(this.m_cache[resourceName], function (fbx)
+                {
+                    var sceneMesh = fbx.scene;
+
+                    sceneMesh.traverse(function (child)
+                    {
+                        if (child instanceof THREE.Mesh)
+                        {
+                            child.geometry.computeFaceNormals();
+                            child.material.shading = THREE.FlatShading;
+                        }
+                    });
+
+                    sceneMesh.updateMatrix();
+
+                    resolve(sceneMesh);
+                }, args.texturesPath);
+            }.bind(this));
+        }
+        catch (ex)
+        {
+            SE_ERROR("Could not process mesh '" + resourceName + "'.", ex);
+            throw ex;
+        }
     },
     /**
      * Loads resource with specified resource descriptor.

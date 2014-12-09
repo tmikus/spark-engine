@@ -11,6 +11,7 @@ module.exports =
     'bower_components/hammer.js/hammer.js',
     'bower_components/three.js/build/three.js',
     'libs/three.js/loaders/ColladaLoader.js',
+    'libs/three.js/loaders/SceneLoader.js',
     'libs/three.js/renderers/Projector.js',
     'libs/three.js/renderers/CanvasRenderer.js',
     'src/utils/*.js',

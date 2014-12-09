@@ -73,7 +73,6 @@ ColladaMeshLoader.prototype =
     {
         return new Promise(function (resolve, reject)
         {
-            /* TODO: Set the resources path */
             this.m_meshLoader.parse(this.m_cache[resourceName], function (collada)
             {
                 var sceneMesh = collada.scene;
