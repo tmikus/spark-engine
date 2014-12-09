@@ -8,6 +8,8 @@
 function BaseCameraComponent()
 {
     ActorComponent.apply(this);
+
+    this.m_lookAt = new THREE.Vector3();
 }
 
 BaseCameraComponent.prototype = Class.extend(ActorComponent,
@@ -24,6 +26,17 @@ BaseCameraComponent.prototype = Class.extend(ActorComponent,
      * @type {boolean}
      */
     m_default: false,
+    /**
+     * Is the camera modified?
+     * This will indicate to renderer that scene rotation and position must be changed.
+     * @type {boolean}
+     */
+    m_isModified: false,
+    /**
+     * Position at which camera is looking.
+     * @type {THREE.Vector3}
+     */
+    m_lookAt: null,
     /**
      * Creates the camera object.
      *
@@ -63,26 +76,7 @@ BaseCameraComponent.prototype = Class.extend(ActorComponent,
      */
     updateMatrix: function updateMatrix()
     {
-        var cameraObject = this.vGetCameraObject();
-        var transform = this.m_owner.m_transform;
-
-        var position = transform.m_localPosition;
-        var rotation = transform.m_localRotation;
-        var scale = transform.m_localScale;
-
-        cameraObject.position.x = position.x;
-        cameraObject.position.y = position.y;
-        cameraObject.position.z = position.z;
-
-        cameraObject.rotation.x = rotation.x;
-        cameraObject.rotation.y = rotation.y;
-        cameraObject.rotation.z = rotation.z;
-
-        cameraObject.scale.x = scale.x;
-        cameraObject.scale.y = scale.y;
-        cameraObject.scale.z = scale.z;
-
-        cameraObject.updateMatrix();
+        this.m_isModified = true;
     },
     /**
      * Destroys the actor component.

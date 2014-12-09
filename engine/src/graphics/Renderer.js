@@ -201,6 +201,25 @@ Renderer.prototype =
      */
     preRender: function preRender()
     {
+        if (this.m_camera && this.m_camera.m_isModified)
+        {
+            var transform = this.m_camera.m_owner.m_transform;
+            var position = transform.m_localPosition;
+            var rotation = transform.m_localRotation;
+
+            this.m_scene.position.x = -position.x;
+            this.m_scene.position.y = -position.y;
+            this.m_scene.position.z = -position.z;
+
+            this.m_scene.rotation.x = rotation.x;
+            this.m_scene.rotation.y = rotation.y;
+            this.m_scene.rotation.z = rotation.z;
+
+            this.m_scene.updateMatrix();
+
+            this.m_camera.m_isModified = false;
+        }
+
         this.m_sceneManager.onPreRender();
     },
     /**
@@ -210,7 +229,6 @@ Renderer.prototype =
     {
         if (this.m_cameraObject)
         {
-            this.m_camera.updateMatrix();
             this.m_renderer.render(this.m_scene, this.m_cameraObject);
         }
 

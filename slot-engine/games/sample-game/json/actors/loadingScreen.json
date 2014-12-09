@@ -21,7 +21,8 @@
                 },
                 {
                     "type": "PerspectiveCamera",
-                    "default": true
+                    "default": true,
+                    "lookAt": [0, 0, 0]
                 }
             ]
         },
